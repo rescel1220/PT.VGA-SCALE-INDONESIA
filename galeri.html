@@ -1,0 +1,82 @@
+    <!-- ISI -->
+  
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./script/script.js"></script>
+<link rel="stylesheet" href="./style.css">
+    <div class="container">
+
+        <h1>Galeri Foto / Video</h1>
+
+
+        <!-- TOMBOL TAMBAH -->
+        <div class="tambah-area">
+
+            <button class="btn-tambah" onclick="tampilkanForm()">
+                + Tambah Foto/Video
+            </button>
+
+        </div>
+
+
+        <!-- FORM UPLOAD -->
+        <div id="uploadForm">
+
+            <h2>Tambah Foto / Video</h2>
+
+            <label>Judul</label>
+            <input
+                type="text"
+                id="judul"
+                placeholder="Masukkan judul"
+            >
+
+            <label>Pilih Foto / Video</label>
+            <input
+                type="file"
+                id="fileInput"
+                accept="image/*,video/*"
+            >
+
+            <button onclick="tambahGaleri()">
+                Tambahkan
+            </button>
+
+        </div>
+
+
+        <!-- GALERI -->
+        <div class="galeri" id="galeri">
+
+            <!-- CONTOH FOTO -->
+            <div class="item">
+
+                <img src="./images/foto1.jpg" alt="Foto Produk">
+
+                <h3>Foto Produk 1</h3>
+
+                <p>Contoh foto produk VGA HUB CENTER</p>
+
+            </div>
+
+
+            <!-- CONTOH VIDEO -->
+            <div class="item">
+
+                <video controls>
+                    <source src="./videos/video1.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung video.
+                </video>
+
+                <h3>Video Produk 1</h3>
+
+                <p>Contoh video produk VGA HUB CENTER</p>
+
+            </div>
+
+        </div>
+
+    </div>
