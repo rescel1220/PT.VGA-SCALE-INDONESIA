@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    display: flex;
+    /* background: url('/logo') no-repeat center center fixed;
+    background-size: cover; */
+    background-color: #ccc;
+    /* color: white; */
+}
+
+/* LOGIN */
+.login-box {
+    width: 320px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-box input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+/* APP */
+#mainApp {
+    display: none;
+}
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    width: 100%;
+}
+
+.menu {
+    flex: 1;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    color: white;
+    background: none;
+    border: none;
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sidebar button:hover {
+    background-color: #575757;
+}
+
+.content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+#status {
+    color: #a9ebf0;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+}
+</style>
+
+<script src="script/script.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+<!-- MAIN APP -->
+<div id="mainApp">
+    <img src="/logo" class="logo">
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">VGA HUB DOCUMENTATION</div>
+
+        <ul>
+            <li><a href="produk3.html">Home</a></li>
+            <li><a href="#about3">Manual Book</a></li>
+            <li><a href="#services3">Foto/vidio</a></li>
+            <li><a href="#contact3">Kontak</a></li>
+        </ul>
+    </nav>
+
+<!-- <div class="sidebar">
+    <img src="/logo" class="logo">
+
+    <div class="menu">
+        <button onclick="kirimCmd('timbang')">Weighing</button>
+        <button onclick="kirimCmd('setup')">Setup</button>
+        <button onclick="kirimCmd('baud_rate')">Baud Rate</button>
+        <button onclick="kirimCmd('operator')">Operator</button>
+        <button onclick="kirimCmd('produk')">Produk</button>
+        <button onclick="kirimCmd('record')">Record</button>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <p id="status">created by RCL</p>
+</div> -->
+
+<div class="content">
+    <h2>VGA HUB</h2>
+</div>
+
+</div>
+
+</body>
+</html>
