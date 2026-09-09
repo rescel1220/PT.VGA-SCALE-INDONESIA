@@ -4,87 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-/* =========================
-   NAVBAR
-   ========================= */
 
-.navbar {
-    width: 100%;
-    height: 70px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 40px;
-    box-sizing: border-box;
-
-    background-color: white;
-
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-
-/* LOGO NAVBAR */
-
-.navbar-logo {
-    display: flex;
-    align-items: center;
-}
-
-.navbar-logo img {
-    width: 100px;
-    height: auto;
-    display: block;
-}
-
-
-/* MENU */
-
-.navbar-menu {
-    display: flex;
-    align-items: center;
-
-    list-style: none;
-
-    margin: 0;
-    padding: 0;
-
-    gap: 35px;
-}
-   
-.logo-container span {
-    font-size: 35px;
-    font-weight: bold;
-}
-
-/* LINK */
-
-.navbar-menu li a {
-    text-decoration: none;
-
-    color: #333;
-
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-
-    padding: 25px 0;
-}
-
-
-/* SAAT MOUSE DIARAHKAN */
-
-.navbar-menu li a:hover {
-    color: #1675d1;
-}
-
-</style>
 
   <nav class="navbar">
 
@@ -96,11 +16,15 @@
 
     <!-- MENU -->
     <ul class="navbar-menu">
-        <li><a href="index.html">Home</a></li>
+        <li>
+           <a href="index.html">Home</a>
+        </li>
 
         <!-- MENU PRODUK -->
         <li class="dropdown">
-            <a href="javascript:void(0)">Produk ▾</a>
+            <a href="#" onclick="toggleProduk(event)">
+                Produk ▼
+            </a>
 
             <ul class="dropdown-menu">
                 <li><a href="produk1.html">Mono Chrome</a></li>
@@ -109,8 +33,12 @@
             </ul>
         </li>
 
-        <li><a href="manual.html">Manual Book</a></li>
-        <li><a href="foto.html">Foto/Video</a></li>
+        <li>
+           <a href="manual.html">Manual Book</a>
+        </li>
+        <li>
+           <a href="foto.html">Foto/Video</a>
+        </li>
         <!-- <li><a href="kontak.html">Kontak</a></li> -->
     </ul>
 
