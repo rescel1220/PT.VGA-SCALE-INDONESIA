@@ -541,7 +541,7 @@ function tampilkanFileGaleri(file) {
         );
 
 
-    p.textContent = "VGA HUB CENTER f ";
+    p.textContent = "VGA xxx f ";
 
 
     item.appendChild( p );
