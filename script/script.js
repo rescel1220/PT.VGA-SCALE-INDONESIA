@@ -1,4 +1,4 @@
-```javascript
+
 // =====================================================
 // URL BACKEND VERCEL
 // =====================================================
@@ -469,4 +469,4 @@ function tampilkanItemBaru(
     galeri.appendChild(item);
 
 }
-```
+
