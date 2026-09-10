@@ -541,13 +541,10 @@ function tampilkanFileGaleri(file) {
         );
 
 
-    p.textContent =
-        "VGA HUB CENTER";
+    p.textContent = "VGA HUB CENTER f ";
 
 
-    item.appendChild(
-        p
-    );
+    item.appendChild( p );
 
 
 
