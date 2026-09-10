@@ -5,7 +5,7 @@
 
 // GANTI dengan domain Vercel Anda
 const VERCEL_API =
-    "https://URL_VERCEL_ANDA.vercel.app/api/upload";
+    "https://apivga.vercel.app/api/upload";
 
 
 // =====================================================
