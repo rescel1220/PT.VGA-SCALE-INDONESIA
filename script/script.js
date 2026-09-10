@@ -541,7 +541,7 @@ function tampilkanFileGaleri(file) {
         );
 
 
-    p.textContent = "VGA xxx f ";
+    p.textContent = "";
 
 
     item.appendChild( p );
