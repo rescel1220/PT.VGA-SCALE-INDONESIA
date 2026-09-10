@@ -9,7 +9,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>Galeri Foto / Video - VGA HUB CENTER</title>
+    <title>Foto/Video - VGA HUB CENTER</title>
 
     <link rel="stylesheet" href="./style.css">
 
@@ -18,127 +18,262 @@
 
 <body>
 
-    <div class="container">
 
-        <h1>Galeri Foto / Video</h1>
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
 
+<nav class="navbar">
 
-        <!-- TOMBOL TAMBAH -->
-        <div class="tambah-area">
+    <!-- LOGO KECIL -->
+    <div class="navbar-logo">
 
-            <button
-                class="btn-tambah"
-                onclick="tampilkanForm()">
+        <img src="./logo1.png"
+             alt="RCL">
 
-                + Tambah Foto/Video
-
-            </button>
-
-        </div>
-
-
-        <!-- FORM UPLOAD -->
-        <div id="uploadForm">
-
-            <h2>Tambah Foto / Video</h2>
-
-
-            <!-- JUDUL -->
-            <label for="judul">
-                Judul
-            </label>
-
-            <input
-                type="text"
-                id="judul"
-                placeholder="Masukkan judul">
-
-
-            <!-- FILE -->
-            <label for="fileInput">
-                Pilih Foto / Video
-            </label>
-
-            <input
-                type="file"
-                id="fileInput"
-                accept="image/*,video/*">
-
-
-            <!-- PREVIEW -->
-            <div id="preview"></div>
-
-
-            <!-- UPLOAD -->
-            <button
-                onclick="tambahGaleri()">
-
-                Upload
-
-            </button>
-
-
-            <!-- STATUS -->
-            <div id="uploadStatus"></div>
-
-        </div>
-
-
-        <!-- GALERI -->
-        <div
-            class="galeri"
-            id="galeri">
-
-
-            <!-- CONTOH FOTO -->
-            <div class="item">
-
-                <img
-                    src="./images/foto1.jpg"
-                    alt="Foto Produk">
-
-                <h3>
-                    Foto Produk 1
-                </h3>
-
-                <p>
-                    Contoh foto produk VGA HUB CENTER
-                </p>
-
-            </div>
-
-
-            <!-- CONTOH VIDEO -->
-            <div class="item">
-
-                <video controls>
-
-                    <source
-                        src="./videos/video1.mp4"
-                        type="video/mp4">
-
-                    Browser Anda tidak mendukung video.
-
-                </video>
-
-                <h3>
-                    Video Produk 1
-                </h3>
-
-                <p>
-                    Contoh video produk VGA HUB CENTER
-                </p>
-
-            </div>
-
-
-        </div>
+        <span>VGA HUB CENTER</span>
 
     </div>
 
 
-    <!-- JAVASCRIPT -->
-    <script src="./script/script.js"></script>
+    <!-- MENU -->
+    <ul class="navbar-menu">
+
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
+
+
+        <!-- PRODUK -->
+        <li class="dropdown">
+
+            <a href="#" onclick="toggleDropdown(event)">
+
+                Produk ▾
+
+            </a>
+
+
+            <ul class="dropdown-menu"
+                id="produkDropdown">
+
+                <li>
+                    <a href="produk1.html">
+                        Converter
+                    </a>
+                </li>
+
+                <li>
+                    <a href="produk2.html">
+                        MonoChrome
+                    </a>
+                </li>
+
+                <li>
+                    <a href="produk3.html">
+                        Hmi
+                    </a>
+                </li>
+
+            </ul>
+
+        </li>
+
+
+        <!-- MANUAL -->
+        <li>
+
+            <a href="manual.html">
+                Manual Book
+            </a>
+
+        </li>
+
+
+        <!-- GALERI -->
+        <li>
+
+            <a href="galeri.html">
+                Foto/Video
+            </a>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+
+
+<!-- =====================================================
+     ISI GALERI
+     ===================================================== -->
+
+<main class="galeri-container">
+
+
+    <h1>
+        Galeri Foto / Video
+    </h1>
+
+
+    <!-- =================================================
+         TOMBOL TAMBAH
+         ================================================= -->
+
+    <div class="tambah-area">
+
+        <button
+            class="btn-tambah"
+            onclick="tampilkanForm()">
+
+            + Tambah Foto/Video
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FORM UPLOAD
+         ================================================= -->
+
+    <div id="uploadForm">
+
+
+        <h2>
+            Tambah Foto / Video
+        </h2>
+
+
+        <!-- JUDUL -->
+
+        <label for="judul">
+            Judul
+        </label>
+
+
+        <input
+            type="text"
+            id="judul"
+            placeholder="Masukkan judul">
+
+
+
+        <!-- FILE -->
+
+        <label for="fileInput">
+            Pilih Foto / Video
+        </label>
+
+
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/*,video/*">
+
+
+
+        <!-- PREVIEW -->
+
+        <div id="preview"></div>
+
+
+
+        <!-- BUTTON UPLOAD -->
+
+        <button
+            onclick="tambahGaleri()">
+
+            Upload
+
+        </button>
+
+
+
+        <!-- STATUS -->
+
+        <div id="uploadStatus"></div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         GALERI
+         ================================================= -->
+
+    <div
+        class="galeri"
+        id="galeri">
+
+
+        <!-- CONTOH FOTO -->
+
+        <div class="item">
+
+            <img
+                src="./images/foto1.jpg"
+                alt="Foto Produk">
+
+
+            <h3>
+                Foto Produk 1
+            </h3>
+
+
+            <p>
+                Contoh foto produk VGA HUB CENTER
+            </p>
+
+        </div>
+
+
+
+        <!-- CONTOH VIDEO -->
+
+        <div class="item">
+
+            <video controls>
+
+                <source
+                    src="./videos/video1.mp4"
+                    type="video/mp4">
+
+                Browser Anda tidak mendukung video.
+
+            </video>
+
+
+            <h3>
+                Video Produk 1
+            </h3>
+
+
+            <p>
+                Contoh video produk VGA HUB CENTER
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="./script/script.js"></script>
+
 
 </body>
 
