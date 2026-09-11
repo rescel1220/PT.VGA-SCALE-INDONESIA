@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Converter - VGA HUB CENTER</title>
+
+    <link rel="stylesheet"
+          href="./style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <!-- LOGO -->
+    <div class="navbar-logo">
+
+        <img src="./logo1.png"
+             alt="RCL">
+
+        <span>VGA HUB CENTER</span>
+
+    </div>
+
+
+    <!-- MENU -->
+    <ul class="navbar-menu">
+
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="produk1.html">
+                Converter
+            </a>
+        </li>
+
+        <li>
+            <a href="produk2.html">
+                Mono Chrome
+            </a>
+        </li>
+
+        <li>
+            <a href="produk3.html">
+                Hmi
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="content">
+
+    <h1>Converter</h1>
+
+    <p>
+        Upload file Converter
+    </p>
+
+
+    <!-- =================================================
+         TOMBOL TAMBAH FILE
+    ================================================== -->
+
+    <button
+        type="button"
+        onclick="tampilkanFormUpload()">
+
+        + Tambah File
+
+    </button>
+
+
+
+    <!-- =================================================
+         FORM UPLOAD
+    ================================================== -->
+
+    <div
+        id="uploadForm"
+        style="
+            display:none;
+            margin-top:20px;
+        ">
+
+
+        <!-- PILIH FILE -->
+
+        <label for="fileInput">
+
+            Pilih file:
+
+        </label>
+
+
+        <br><br>
+
+
+        <input
+            type="file"
+            id="fileInput"
+            multiple>
+
+
+        <br><br>
+
+
+        <!-- DAFTAR FILE YANG DIPILIH -->
+
+        <div id="fileList">
+
+            <p>
+                Belum ada file dipilih.
+            </p>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- TOMBOL UPLOAD -->
+
+        <button
+            type="button"
+            onclick="uploadSemuaFile()">
+
+            Upload
+
+        </button>
+
+
+        <!-- STATUS -->
+
+        <div
+            id="uploadStatus"
+            style="
+                margin-top:15px;
+            ">
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DAFTAR FILE DI GITHUB
+         AKAN KITA AKTIFKAN PADA TAHAP BERIKUTNYA
+    ================================================== -->
+
+    <section
+        style="
+            margin-top:40px;
+        ">
+
+        <h2>
+            File Converter
+        </h2>
+
+
+        <div id="uploadedFileList">
+
+            <p>
+                Daftar file akan ditampilkan di sini.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="./script/script.js"></script>
+
+
+</body>
+
+</html>
+
