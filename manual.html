@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Manual Book - VGA HUB CENTER</title>
+
+    <link rel="stylesheet"
+          href="./style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<nav class="navbar">
+
+
+    <!-- LOGO KECIL -->
+
+    <div class="navbar-logo">
+
+        <img
+            src="./logo1.png"
+            alt="RCL">
+
+        <span>
+            VGA HUB CENTER
+        </span>
+
+    </div>
+
+
+    <!-- MENU -->
+
+    <ul class="navbar-menu">
+
+
+        <!-- HOME -->
+
+        <li>
+
+            <a href="index.html">
+                Home
+            </a>
+
+        </li>
+
+
+        <!-- =================================================
+             PRODUK
+             ================================================= -->
+
+        <li class="dropdown">
+
+            <a
+                href="#"
+                onclick="toggleDropdown(event)">
+
+                Produk ▾
+
+            </a>
+
+
+            <ul
+                class="dropdown-menu"
+                id="produkDropdown">
+
+
+                <li>
+
+                    <a href="produk1.html">
+                        Converter
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="produk2.html">
+                        MonoChrome
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="produk3.html">
+                        Hmi
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </li>
+
+
+        <!-- =================================================
+             MANUAL BOOK
+             ================================================= -->
+
+        <li>
+
+            <a href="manual.html">
+
+                Manual Book
+
+            </a>
+
+        </li>
+
+
+        <!-- =================================================
+             FOTO / VIDEO
+             ================================================= -->
+
+        <li>
+
+            <a href="galeri.html">
+
+                Foto/Video
+
+            </a>
+
+        </li>
+
+
+    </ul>
+
+</nav>
+
+
+
+<!-- =====================================================
+     ISI MANUAL BOOK
+     ===================================================== -->
+
+<main class="galeri-container">
+
+
+    <h1>
+        Manual Book VGA HUB
+    </h1>
+
+
+    <!-- =================================================
+         TOMBOL TAMBAH
+         ================================================= -->
+
+    <div class="tambah-area">
+
+        <button
+            class="btn-tambah"
+            onclick="tampilkanFormManual()">
+
+            + Tambah Manual Book
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FORM UPLOAD
+         ================================================= -->
+
+    <div id="manualUploadForm">
+
+
+        <h2>
+            Tambah Manual Book
+        </h2>
+
+
+        <!-- =================================================
+             JUDUL
+             ================================================= -->
+
+        <label for="manualJudul">
+
+            Judul Manual Book
+
+        </label>
+
+
+        <input
+            type="text"
+            id="manualJudul"
+            placeholder="Masukkan judul manual book">
+
+
+
+        <!-- =================================================
+             FILE
+             ================================================= -->
+
+        <label for="manualFileInput">
+
+            Pilih File
+
+        </label>
+
+
+        <input
+            type="file"
+            id="manualFileInput"
+            accept=".txt,.pdf,.csv,.docx">
+
+
+
+        <!-- =================================================
+             INFORMASI FILE
+             ================================================= -->
+
+        <p>
+
+            Format yang diperbolehkan:
+
+            <strong>
+                .txt, .pdf, .csv, .docx
+            </strong>
+
+        </p>
+
+
+
+        <!-- =================================================
+             PREVIEW / INFORMASI
+             ================================================= -->
+
+        <div id="manualPreview"></div>
+
+
+
+        <!-- =================================================
+             BUTTON UPLOAD
+             ================================================= -->
+
+        <button
+            onclick="uploadManualBook()">
+
+            Upload
+
+        </button>
+
+
+
+        <!-- =================================================
+             STATUS
+             ================================================= -->
+
+        <div id="manualUploadStatus"></div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         DAFTAR MANUAL BOOK
+         ===================================================== -->
+
+    <div
+        class="galeri"
+        id="manualBookList">
+
+
+        <!-- Data akan dimasukkan oleh JavaScript -->
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="./script/script.js"></script>
+
+
+</body>
+
+</html>
