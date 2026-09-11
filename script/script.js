@@ -802,3 +802,843 @@ function fileToBase64(file) {
 
 }
 
+
+
+
+
+// =====================================================
+// MANUAL BOOK
+// =====================================================
+
+// -----------------------------------------------------
+// TAMPILKAN / SEMBUNYIKAN FORM MANUAL BOOK
+// -----------------------------------------------------
+
+function tampilkanFormManual() {
+
+    const form =
+        document.getElementById(
+            "manualUploadForm"
+        );
+
+    if (!form) {
+        return;
+    }
+
+    if (form.style.display === "block") {
+
+        form.style.display = "none";
+
+    } else {
+
+        form.style.display = "block";
+
+    }
+
+}
+
+
+
+// -----------------------------------------------------
+// PREVIEW / INFORMASI FILE MANUAL BOOK
+// -----------------------------------------------------
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const manualInput =
+            document.getElementById(
+                "manualFileInput"
+            );
+
+
+        if (!manualInput) {
+            return;
+        }
+
+
+        manualInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+
+                const preview =
+                    document.getElementById(
+                        "manualPreview"
+                    );
+
+
+                if (!preview) {
+                    return;
+                }
+
+
+                preview.innerHTML = "";
+
+
+                if (!file) {
+                    return;
+                }
+
+
+                // -----------------------------------------
+                // EXTENSION
+                // -----------------------------------------
+
+                const extension =
+                    file.name
+                        .substring(
+                            file.name.lastIndexOf(".")
+                        )
+                        .toLowerCase();
+
+
+                // -----------------------------------------
+                // FILE YANG DIIZINKAN
+                // -----------------------------------------
+
+                const allowedExtensions = [
+
+                    ".txt",
+                    ".pdf",
+                    ".csv",
+                    ".docx"
+
+                ];
+
+
+                if (
+                    !allowedExtensions.includes(
+                        extension
+                    )
+                ) {
+
+                    preview.innerHTML =
+                        "❌ File tidak diizinkan. " +
+                        "Gunakan .txt, .pdf, .csv atau .docx.";
+
+                    manualInput.value = "";
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // INFORMASI FILE
+                // -----------------------------------------
+
+                const info =
+                    document.createElement(
+                        "p"
+                    );
+
+
+                info.textContent =
+                    "📄 " +
+                    file.name +
+                    " (" +
+                    formatFileSize(file.size) +
+                    ")";
+
+
+                preview.appendChild(
+                    info
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+// -----------------------------------------------------
+// FORMAT UKURAN FILE
+// -----------------------------------------------------
+
+function formatFileSize(bytes) {
+
+    if (bytes < 1024) {
+
+        return bytes + " B";
+
+    }
+
+
+    if (bytes < 1024 * 1024) {
+
+        return (
+            (bytes / 1024).toFixed(1) +
+            " KB"
+        );
+
+    }
+
+
+    return (
+        (bytes / (1024 * 1024)).toFixed(1) +
+        " MB"
+    );
+
+}
+
+
+
+// =====================================================
+// UPLOAD MANUAL BOOK
+// =====================================================
+
+async function uploadManualBook() {
+
+    const judul =
+        document
+            .getElementById(
+                "manualJudul"
+            )
+            .value
+            .trim();
+
+
+    const fileInput =
+        document.getElementById(
+            "manualFileInput"
+        );
+
+
+    const status =
+        document.getElementById(
+            "manualUploadStatus"
+        );
+
+
+    // ---------------------------------------------
+    // CEK JUDUL
+    // ---------------------------------------------
+
+    if (!judul) {
+
+        status.innerHTML =
+            "❌ Judul belum diisi.";
+
+        return;
+
+    }
+
+
+    // ---------------------------------------------
+    // CEK FILE
+    // ---------------------------------------------
+
+    if (
+        !fileInput.files.length
+    ) {
+
+        status.innerHTML =
+            "❌ Silakan pilih file Manual Book.";
+
+        return;
+
+    }
+
+
+    const file =
+        fileInput.files[0];
+
+
+    // ---------------------------------------------
+    // CEK EXTENSION
+    // ---------------------------------------------
+
+    const extension =
+        file.name
+            .substring(
+                file.name.lastIndexOf(".")
+            )
+            .toLowerCase();
+
+
+    const allowedExtensions = [
+
+        ".txt",
+        ".pdf",
+        ".csv",
+        ".docx"
+
+    ];
+
+
+    if (
+        !allowedExtensions.includes(
+            extension
+        )
+    ) {
+
+        status.innerHTML =
+            "❌ File tidak diizinkan. " +
+            "Gunakan .txt, .pdf, .csv atau .docx.";
+
+        return;
+
+    }
+
+
+    // ---------------------------------------------
+    // BATAS UKURAN
+    // ---------------------------------------------
+    //
+    // Untuk sementara kita gunakan 25 MB,
+    // sama seperti Foto/Video.
+    //
+
+    const maxSize =
+        25 * 1024 * 1024;
+
+
+    if (
+        file.size > maxSize
+    ) {
+
+        status.innerHTML =
+            "❌ Ukuran file maksimal 25 MB.";
+
+        return;
+
+    }
+
+
+    // ---------------------------------------------
+    // STATUS
+    // ---------------------------------------------
+
+    status.innerHTML =
+        "⏳ Sedang mengupload...";
+
+
+    try {
+
+
+        // -----------------------------------------
+        // FILE → BASE64
+        // -----------------------------------------
+
+        const base64 =
+            await fileToBase64(
+                file
+            );
+
+
+        // -----------------------------------------
+        // NAMA FILE AMAN
+        // -----------------------------------------
+
+        const safeJudul =
+            judul
+                .replace(
+                    /[^a-zA-Z0-9-_ ]/g,
+                    ""
+                )
+                .replace(
+                    /\s+/g,
+                    "_"
+                );
+
+
+        // -----------------------------------------
+        // TIMESTAMP
+        // -----------------------------------------
+
+        const timestamp =
+            Date.now();
+
+
+        // -----------------------------------------
+        // NAMA FILE
+        // -----------------------------------------
+
+        const filename =
+            safeJudul +
+            "_" +
+            timestamp +
+            extension;
+
+
+        // -----------------------------------------
+        // DATA
+        // -----------------------------------------
+
+        const data = {
+
+            filename:
+                filename,
+
+            content:
+                base64,
+
+            type:
+                "manual"
+
+        };
+
+
+        // -----------------------------------------
+        // KIRIM KE VERCEL
+        // -----------------------------------------
+
+        const response =
+            await fetch(
+                VERCEL_UPLOAD_API,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            data
+                        )
+
+                }
+            );
+
+
+        // -----------------------------------------
+        // RESPONSE
+        // -----------------------------------------
+
+        const result =
+            await response.json();
+
+
+        // -----------------------------------------
+        // CEK RESPONSE
+        // -----------------------------------------
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
+            console.error(
+                result
+            );
+
+
+            throw new Error(
+                result.message ||
+                result.error ||
+                "Upload gagal"
+            );
+
+        }
+
+
+        // -----------------------------------------
+        // BERHASIL
+        // -----------------------------------------
+
+        status.innerHTML =
+            "✅ Manual Book berhasil diupload ke GitHub!";
+
+
+        // -----------------------------------------
+        // RESET
+        // -----------------------------------------
+
+        document
+            .getElementById(
+                "manualJudul"
+            )
+            .value = "";
+
+
+        fileInput.value = "";
+
+
+        const preview =
+            document.getElementById(
+                "manualPreview"
+            );
+
+
+        if (preview) {
+
+            preview.innerHTML =
+                "";
+
+        }
+
+
+        // -----------------------------------------
+        // LOAD ULANG MANUAL BOOK
+        // -----------------------------------------
+
+        await loadManualBook();
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error upload Manual Book:",
+            error
+        );
+
+
+        status.innerHTML =
+            "❌ Upload gagal: " +
+            error.message;
+
+    }
+
+}
+
+
+
+// =====================================================
+// LOAD MANUAL BOOK
+// =====================================================
+
+async function loadManualBook() {
+
+    const list =
+        document.getElementById(
+            "manualBookList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML =
+        "<p>⏳ Memuat Manual Book...</p>";
+
+
+    try {
+
+
+        // -----------------------------------------
+        // REQUEST API LIST
+        // -----------------------------------------
+
+        const response =
+            await fetch(
+                VERCEL_LIST_API +
+                "?type=manual"
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Data Manual Book:",
+            result
+        );
+
+
+        // -----------------------------------------
+        // CEK RESPONSE
+        // -----------------------------------------
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message ||
+                result.error ||
+                "Gagal membaca Manual Book"
+            );
+
+        }
+
+
+        // -----------------------------------------
+        // KOSONG
+        // -----------------------------------------
+
+        list.innerHTML = "";
+
+
+        if (
+            !result.files ||
+            result.files.length === 0
+        ) {
+
+            list.innerHTML =
+                "<p>Belum ada Manual Book.</p>";
+
+            return;
+
+        }
+
+
+        // -----------------------------------------
+        // TAMPILKAN
+        // -----------------------------------------
+
+        result.files.forEach(
+            function (file) {
+
+                tampilkanManualBook(
+                    file
+                );
+
+            }
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error load Manual Book:",
+            error
+        );
+
+
+        list.innerHTML =
+            "<p>❌ Gagal memuat Manual Book: " +
+            error.message +
+            "</p>";
+
+    }
+
+}
+
+
+
+// =====================================================
+// TAMPILKAN SATU MANUAL BOOK
+// =====================================================
+
+function tampilkanManualBook(file) {
+
+    const list =
+        document.getElementById(
+            "manualBookList"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "item";
+
+
+    const namaFile =
+        file.name || "";
+
+
+    // ---------------------------------------------
+    // EXTENSION
+    // ---------------------------------------------
+
+    const extension =
+        namaFile
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    // ---------------------------------------------
+    // ICON
+    // ---------------------------------------------
+
+    const icon =
+        document.createElement(
+            "div"
+        );
+
+
+    icon.style.fontSize =
+        "50px";
+
+
+    if (extension === "pdf") {
+
+        icon.textContent =
+            "📕";
+
+    }
+    else if (extension === "docx") {
+
+        icon.textContent =
+            "📘";
+
+    }
+    else if (extension === "csv") {
+
+        icon.textContent =
+            "📊";
+
+    }
+    else if (extension === "txt") {
+
+        icon.textContent =
+            "📄";
+
+    }
+    else {
+
+        icon.textContent =
+            "📁";
+
+    }
+
+
+    item.appendChild(
+        icon
+    );
+
+
+    // ---------------------------------------------
+    // NAMA FILE
+    // ---------------------------------------------
+
+    const h3 =
+        document.createElement(
+            "h3"
+        );
+
+
+    h3.textContent =
+        namaFile;
+
+
+    item.appendChild(
+        h3
+    );
+
+
+    // ---------------------------------------------
+    // JENIS FILE
+    // ---------------------------------------------
+
+    const p =
+        document.createElement(
+            "p"
+        );
+
+
+    p.textContent =
+        "Manual Book • ." +
+        extension;
+
+
+    item.appendChild(
+        p
+    );
+
+
+    // ---------------------------------------------
+    // LINK BUKA
+    // ---------------------------------------------
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        file.download_url;
+
+
+    link.target =
+        "_blank";
+
+
+    link.textContent =
+        "Buka file";
+
+
+    item.appendChild(
+        link
+    );
+
+
+    // ---------------------------------------------
+    // LINK DOWNLOAD
+    // ---------------------------------------------
+
+    const download =
+        document.createElement(
+            "a"
+        );
+
+
+    download.href =
+        file.download_url;
+
+
+    download.download =
+        namaFile;
+
+
+    download.textContent =
+        "Download";
+
+
+    download.style.marginLeft =
+        "10px";
+
+
+    item.appendChild(
+        download
+    );
+
+
+    // ---------------------------------------------
+    // MASUKKAN KE LIST
+    // ---------------------------------------------
+
+    list.appendChild(
+        item
+    );
+
+}
+
+
+
+// =====================================================
+// LOAD MANUAL BOOK OTOMATIS
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadManualBook();
+
+    }
+);
+
+
+
+
