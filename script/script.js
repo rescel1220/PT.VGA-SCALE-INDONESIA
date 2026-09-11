@@ -245,124 +245,54 @@ function tampilkanFileGaleri(file) {
 // UPLOAD GALERI
 // =====================================================
 async function tambahGaleri() {
-    const judul =
-        document
+    const judul = document
             .getElementById("judul")
             .value
             .trim();
 
-
-    const fileInput =
-        document.getElementById(
-            "fileInput"
-        );
-
-
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
-
-
-
+    const fileInput = document.getElementById("fileInput");
+    const status =document.getElementById("uploadStatus");
     // ---------------------------------------------
     // CEK JUDUL
     // ---------------------------------------------
-
     if (!judul) {
-
-        status.innerHTML =
-            "❌ Judul belum diisi.";
-
+        status.innerHTML = "❌ Judul belum diisi.";
         return;
 
     }
-
-
-
-    // ---------------------------------------------
+    // --------------------------------------------
     // CEK FILE
     // ---------------------------------------------
-
-    if (
-        !fileInput.files.length
-    ) {
-
-        status.innerHTML =
-            "❌ Silakan pilih foto atau video.";
-
+    if (!fileInput.files.length) {
+        status.innerHTML = "❌ Silakan pilih foto atau video.";
         return;
-
     }
-
-
-    const file =
-        fileInput.files[0];
-
-
-
+    const file =fileInput.files[0];
     // ---------------------------------------------
     // BATAS UKURAN
     // ---------------------------------------------
-
-    const maxSize =
-        25 * 1024 * 1024;
-
-
-    if (
-        file.size > maxSize
-    ) {
-
-        status.innerHTML =
-            "❌ Ukuran file maksimal 25 MB.";
-
+    const maxSize =25 * 1024 * 1024;
+    if ( file.size > maxSize) {
+        status.innerHTML = "❌ Ukuran file maksimal 25 MB.";
         return;
-
     }
-
-
-
     // ---------------------------------------------
     // STATUS
     // ---------------------------------------------
-
-    status.innerHTML =
-        "⏳ Sedang mengupload...";
-
-
+    status.innerHTML = "⏳ Sedang mengupload...";
     try {
-
-
         // -----------------------------------------
         // FILE → BASE64
         // -----------------------------------------
-
-        const base64 =
-            await fileToBase64(
-                file
-            );
-
-
-
+        const base64 =await fileToBase64(file );
         // -----------------------------------------
         // EXTENSION
         // -----------------------------------------
-
-        const extension =
-            file.name.includes(".")
-            ? file.name.substring(
-                file.name.lastIndexOf(".")
-              )
-            : "";
-
-
-
+        const extension =file.name.includes(".")? file.name.substring(file.name.lastIndexOf(".")): "";
         // -----------------------------------------
         // NAMA FILE AMAN
         // -----------------------------------------
-
-        const safeJudul =
-            judul
+        const safeJudul = judul
                 .replace(
                     /[^a-zA-Z0-9-_ ]/g,
                     ""
@@ -371,141 +301,63 @@ async function tambahGaleri() {
                     /\s+/g,
                     "_"
                 );
-
-
-
         // -----------------------------------------
         // TIMESTAMP
         // -----------------------------------------
-
-        const timestamp =
-            Date.now();
-
-
-
+        const timestamp = Date.now();
         // -----------------------------------------
         // NAMA FILE
         // -----------------------------------------
-
-        const filename =
-            safeJudul +
-            extension;
-
-
-
+        const filename =safeJudul + extension;
         // -----------------------------------------
         // DATA
         // -----------------------------------------
-
         const data = {
-
-            filename:
-                filename,
-
-            content:
-                base64
-
+            filename:filename,
+            content:base64
         };
-
-
-
         // -----------------------------------------
         // KIRIM KE VERCEL
         // -----------------------------------------
-
         const response =
             await fetch(
                 VERCEL_UPLOAD_API,
                 {
-
                     method: "POST",
-
                     headers: {
-
-                        "Content-Type":
-                            "application/json"
-
+                        "Content-Type":"application/json"
                     },
-
-                    body:
-                        JSON.stringify(
-                            data
-                        )
-
+                    body: JSON.stringify(data)
                 }
             );
-
-
-
         // -----------------------------------------
         // RESPONSE
         // -----------------------------------------
-
-        const result =
-            await response.json();
-
-
-
+        const result =await response.json();
         // -----------------------------------------
         // CEK
         // -----------------------------------------
-
-        if (
-            !response.ok ||
-            !result.success
-        ) {
-
+        if (!response.ok || !result.success) {
             console.error(
                 result
             );
-
-
-            throw new Error(
-                result.message ||
-                "Upload gagal"
-            );
-
+            throw new Error( result.message ||"Upload gagal");
         }
-
-
-
         // -----------------------------------------
         // BERHASIL
         // -----------------------------------------
-
-        status.innerHTML =
-            "✅ File berhasil diupload ke GitHub!";
-
-
-
+        status.innerHTML ="✅ File berhasil diupload ke GitHub!";
         // -----------------------------------------
         // RESET FORM
         // -----------------------------------------
-
         document
             .getElementById("judul")
             .value = "";
-
-
-        fileInput.value =
-            "";
-
-
-        const preview =
-            document.getElementById(
-                "preview"
-            );
-
-
+        fileInput.value ="";
+        const preview =document.getElementById("preview");
         if (preview) {
-
-            preview.innerHTML =
-                "";
-
+            preview.innerHTML = "";
         }
-
-
-
         // -----------------------------------------
         // LOAD ULANG GALERI
         // -----------------------------------------
@@ -550,18 +402,10 @@ function fileToBase64(file) {
             reader.onload =
                 function () {
 
-                    const result =
-                        reader.result;
+                    const result =reader.result;
+                    const base64 =result.split(",")[1];
 
-
-                    const base64 =
-                        result.split(",")[1];
-
-
-                    resolve(
-                        base64
-                    );
-
+                    resolve( base64);
                 };
 
 
@@ -570,9 +414,7 @@ function fileToBase64(file) {
 
                     reject(
 
-                        new Error(
-                            "Gagal membaca file"
-                        )
+                        new Error("Gagal membaca file")
 
                     );
 
@@ -841,15 +683,9 @@ async function uploadManualBook() {
     // CEK EXTENSION
     // ---------------------------------------------
 
-    const extension =
-        file.name
-            .substring(
-                file.name.lastIndexOf(".")
-            )
-            .toLowerCase();
-
-
+    const extension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
     const allowedExtensions = [
+        
 
         ".txt",
         ".pdf",
@@ -859,20 +695,10 @@ async function uploadManualBook() {
     ];
 
 
-    if (
-        !allowedExtensions.includes(
-            extension
-        )
-    ) {
-
-        status.innerHTML =
-            "❌ File tidak diizinkan. " +
-            "Gunakan .txt, .pdf, .csv atau .docx.";
-
+    if (!allowedExtensions.includes(extension)) {
+        status.innerHTML ="❌ File tidak diizinkan. ";
         return;
-
     }
-
 
     // ---------------------------------------------
     // BATAS UKURAN
@@ -902,10 +728,7 @@ async function uploadManualBook() {
     // STATUS
     // ---------------------------------------------
 
-    status.innerHTML =
-        "⏳ Sedang mengupload...";
-
-
+    status.innerHTML ="⏳ Sedang mengupload...";
     try {
 
 
@@ -924,25 +747,13 @@ async function uploadManualBook() {
         // -----------------------------------------
 
         const safeJudul =
-            judul
-                .replace(
-                    /[^a-zA-Z0-9-_ ]/g,
-                    ""
-                )
-                .replace(
-                    /\s+/g,
-                    "_"
-                );
-
-
+            judul.replace(/[^a-zA-Z0-9-_ ]/g, "")
+                .replace(/\s+/g, "_");
         // -----------------------------------------
         // TIMESTAMP
         // -----------------------------------------
 
-        const timestamp =
-            Date.now();
-
-
+        const timestamp =Date.now();
         // -----------------------------------------
         // NAMA FILE
         // -----------------------------------------
@@ -1334,6 +1145,7 @@ function tampilkanManualBook(file) {
         "Manual Book • ." +
         extension;
 
+    
 
     item.appendChild(
         p
