@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded",function () {
                 // -----------------------------------------
                 // FOTO
                 // -----------------------------------------
-
                 if (file.type.startsWith("image/")) {
                     const img =document.createElement("img");
                     img.src =URL.createObjectURL(file);
@@ -81,64 +80,30 @@ document.addEventListener("DOMContentLoaded",function () {
                     img.style.maxHeight ="250px";
                     img.style.marginTop ="10px";
                     preview.appendChild(img);
-
                 }
                 // -----------------------------------------
                 // VIDEO
                 // -----------------------------------------
-
-                else if (
-                    file.type.startsWith("video/")
-                ) {
-
-                    const video =
-                        document.createElement(
-                            "video"
-                        );
-
-
-                    video.src =
-                        URL.createObjectURL(file);
-
-
-                    video.controls =
-                        true;
-
-
-                    video.style.maxWidth =
-                        "300px";
-
-
-                    video.style.maxHeight =
-                        "250px";
-
-
-                    video.style.marginTop =
-                        "10px";
-
-
+                else if (file.type.startsWith("video/")) {
+                    const video =document.createElement("video");
+                    video.src =URL.createObjectURL(file);
+                    video.controls =true;
+                    video.style.maxWidth ="300px";
+                    video.style.maxHeight ="250px";
+                    video.style.marginTop ="10px";
                     preview.appendChild(video);
-
                 }
-
             }
         );
-
-
-
         // =================================================
         // OTOMATIS LOAD GALERI
         // =================================================
         loadGaleri();
     }
 );
-
-
-
 // =====================================================
 // LOAD GALERI DARI GITHUB
 // =====================================================
-
 async function loadGaleri() {
     const galeri =document.getElementById("galeri");
     if (!galeri) {
@@ -147,7 +112,6 @@ async function loadGaleri() {
     // ---------------------------------------------
     // TAMPILKAN STATUS LOADING
     // ---------------------------------------------
-
     galeri.innerHTML ="<p>⏳ Memuat galeri...</p>";
     try {
         // -----------------------------------------
@@ -159,131 +123,60 @@ async function loadGaleri() {
         // -----------------------------------------
         // CEK RESPONSE
         // -----------------------------------------
-
-        if (
-            !response.ok ||
-            !result.success
-        ) {
-
-            throw new Error(
-                result.message ||
-                "Gagal membaca galeri"
-            );
-
+        if ( !response.ok || !result.success) {
+            throw new Error(result.message || "Gagal membaca galeri");
         }
-
-
         // -----------------------------------------
         // KOSONGKAN GALERI
         // -----------------------------------------
-
         galeri.innerHTML = "";
-
-
         // -----------------------------------------
         // JIKA TIDAK ADA FILE
         // -----------------------------------------
-
-        if (
-            !result.files ||
-            result.files.length === 0
-        ) {
-
-            galeri.innerHTML =
-
-                "<p>Belum ada foto atau video.</p>";
-
+        if (!result.files || result.files.length === 0) {
+            galeri.innerHTML ="<p>Belum ada foto atau video.</p>";
             return;
-
         }
-
-
         // -----------------------------------------
         // TAMPILKAN SEMUA FILE
         // -----------------------------------------
-
-        result.files.forEach(
-            function (file) {
-
+        result.files.forEach(function (file) {
                 tampilkanFileGaleri(
                     file
                 );
-
             }
         );
-
-
     } catch (error) {
-
-        console.error(
-            "Error load galeri:",
-            error
-        );
-
-
-        galeri.innerHTML =
-
-            "<p>❌ Gagal memuat galeri: " +
-            error.message +
-            "</p>";
-
+        console.error("Error load galeri:", error);
+        galeri.innerHTML = "<p>❌ Gagal memuat galeri: " + error.message + "</p>";
     }
-
 }
-
-
-
 // =====================================================
 // TAMPILKAN SATU FILE DI GALERI
 // =====================================================
-
 function tampilkanFileGaleri(file) {
-
-    const galeri =
-        document.getElementById("galeri");
-
-
+    const galeri = document.getElementById("galeri");
     if (!galeri) {
         return;
     }
-
-
     // ---------------------------------------------
     // BUAT ITEM
     // ---------------------------------------------
-
-    const item =
-        document.createElement("div");
-
-
-    item.className =
-        "item";
-
-
-
+    const item = document.createElement("div");
+    item.className ="item";
     // ---------------------------------------------
     // NAMA FILE
     // ---------------------------------------------
-
-    const namaFile =
-        file.name || "";
-
-
-
+    const namaFile =file.name || "";
     const extension =
         namaFile
             .split(".")
             .pop()
             .toLowerCase();
-
-
-
     // ---------------------------------------------
     // FOTO
     // ---------------------------------------------
-
     const imageExtensions = [
-
         "jpg",
         "jpeg",
         "png",
@@ -295,42 +188,16 @@ function tampilkanFileGaleri(file) {
     ];
 
 
-    if (
-        imageExtensions.includes(
-            extension
-        )
-    ) {
-
-        const img =
-            document.createElement(
-                "img"
-            );
-
-
-        img.src =
-            file.download_url;
-
-
-        img.alt =
-            namaFile;
-
-
-        img.loading =
-            "lazy";
-
-
-        item.appendChild(
-            img
-        );
-
+    if (imageExtensions.includes(extension)) {
+        const img = document.createElement("img");
+        img.src =file.download_url;
+        img.alt =namaFile;
+        img.loading ="lazy";
+        item.appendChild(img);
     }
-
-
-
     // ---------------------------------------------
     // VIDEO
     // ---------------------------------------------
-
     const videoExtensions = [
 
         "mp4",
@@ -341,122 +208,43 @@ function tampilkanFileGaleri(file) {
     ];
 
 
-    if (
-        videoExtensions.includes(
-            extension
-        )
-    ) {
-
-        const video =
-            document.createElement(
-                "video"
-            );
-
-
-        video.src =
-            file.download_url;
-
-
-        video.controls =
-            true;
-
-
-        video.preload =
-            "metadata";
-
-
-        item.appendChild(
-            video
-        );
-
+    if (videoExtensions.includes(extension)) {
+        const video =document.createElement("video");
+        video.src =file.download_url;
+        video.controls =true;
+        video.preload ="metadata";
+        item.appendChild(video);
     }
-
-
-
     // ---------------------------------------------
     // JUDUL
     // ---------------------------------------------
-
-    const h3 =
-        document.createElement(
-            "h3"
-        );
-
-
+    const h3 =document.createElement("h3");
     // Nama file sebagai judul
-    h3.textContent =
-        namaFile;
-
-
-    item.appendChild(
-        h3
-    );
-
-
-
+    h3.textContent =namaFile;
+    item.appendChild(h3);
     // ---------------------------------------------
     // KETERANGAN
     // ---------------------------------------------
-
-    const p =
-        document.createElement(
-            "p"
-        );
-
-
+    const p = document.createElement("p");
     p.textContent = "";
-
-
     item.appendChild( p );
-
-
-
     // ---------------------------------------------
     // LINK FILE
     // ---------------------------------------------
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        file.download_url;
-
-
-    link.target =
-        "_blank";
-
-
-    link.textContent =
-        "Buka file";
-
-
-    item.appendChild(
-        link
-    );
-
-
-
+    const link =document.createElement("a");
+    link.href =file.download_url;
+    link.target ="_blank";
+    link.textContent = "Buka file";
+    item.appendChild(link);
     // ---------------------------------------------
     // MASUKKAN KE GALERI
     // ---------------------------------------------
-
-    galeri.appendChild(
-        item
-    );
-
+    galeri.appendChild(item);
 }
-
-
-
 // =====================================================
 // UPLOAD GALERI
 // =====================================================
-
 async function tambahGaleri() {
-
     const judul =
         document
             .getElementById("judul")
