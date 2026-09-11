@@ -1,4 +1,8 @@
-
+const VERCEL_BASE_URL ="https://apivga.vercel.app";
+// API UPLOAD
+const VERCEL_UPLOAD_API =VERCEL_BASE_URL + "/api/upload";
+// API LIST
+const VERCEL_LIST_API =VERCEL_BASE_URL + "/api/list";
 // =====================================================
 // MULTI FILE UPLOAD
 // =====================================================
