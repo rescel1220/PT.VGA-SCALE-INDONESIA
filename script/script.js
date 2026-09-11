@@ -951,8 +951,6 @@ async function uploadManualBook() {
 
         const filename =
             safeJudul +
-            "_" +
-            timestamp +
             extension;
 
 
