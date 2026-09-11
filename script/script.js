@@ -389,8 +389,6 @@ async function tambahGaleri() {
 
         const filename =
             safeJudul +
-            "_" +
-            timestamp +
             extension;
 
 
