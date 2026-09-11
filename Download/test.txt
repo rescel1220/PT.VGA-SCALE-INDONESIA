@@ -1,2 +1,0 @@
-TEST VGA HUB CENTER
-Upload dari Vercel ke GitHub berhasil.
