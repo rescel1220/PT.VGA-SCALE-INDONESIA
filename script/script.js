@@ -2,197 +2,87 @@
 // =====================================================
 // KONFIGURASI VERCEL
 // =====================================================
-
 // GANTI dengan domain Vercel Anda
-const VERCEL_BASE_URL =
-    "https://apivga.vercel.app";
-
-
+const VERCEL_BASE_URL ="https://apivga.vercel.app";
 // API UPLOAD
-const VERCEL_UPLOAD_API =
-    VERCEL_BASE_URL + "/api/upload";
-
-
+const VERCEL_UPLOAD_API =VERCEL_BASE_URL + "/api/upload";
 // API LIST
-const VERCEL_LIST_API =
-    VERCEL_BASE_URL + "/api/list";
-
-
-
+const VERCEL_LIST_API =VERCEL_BASE_URL + "/api/list";
 // =====================================================
 // DROPDOWN PRODUK
 // =====================================================
-
 function toggleDropdown(event) {
-
     event.preventDefault();
-
-    const dropdown =
-        document.getElementById("produkDropdown");
-
+    const dropdown =document.getElementById("produkDropdown");
     if (!dropdown) {
         return;
     }
-
-    if (
-        dropdown.style.display === "block"
-    ) {
-
+    if ( dropdown.style.display === "block") {
         dropdown.style.display = "none";
-
     } else {
-
         dropdown.style.display = "block";
-
     }
-
 }
-
-
-
 // =====================================================
 // TUTUP DROPDOWN KETIKA KLIK DI LUAR
 // =====================================================
-
-document.addEventListener(
-    "click",
-    function (event) {
-
-        const dropdown =
-            document.getElementById("produkDropdown");
-
-        const dropdownParent =
-            document.querySelector(".dropdown");
-
+document.addEventListener("click",function (event) {
+        const dropdown =document.getElementById("produkDropdown");
+        const dropdownParent =document.querySelector(".dropdown");
         if (!dropdown || !dropdownParent) {
             return;
         }
-
-
-        if (
-            !dropdownParent.contains(event.target)
-        ) {
-
+        if (!dropdownParent.contains(event.target)) {
             dropdown.style.display = "none";
-
         }
-
     }
 );
-
-
-
 // =====================================================
 // TAMPILKAN / SEMBUNYIKAN FORM
 // =====================================================
 
 function tampilkanForm() {
-
-    const form =
-        document.getElementById("uploadForm");
-
+    const form =document.getElementById("uploadForm");
     if (!form) {
         return;
     }
-
-
-    if (
-        form.style.display === "block"
-    ) {
-
+    if (form.style.display === "block") {
         form.style.display = "none";
-
     } else {
-
         form.style.display = "block";
-
     }
-
 }
-
-
-
 // =====================================================
 // PREVIEW FOTO / VIDEO
 // =====================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const fileInput =
-            document.getElementById("fileInput");
-
-
+document.addEventListener("DOMContentLoaded",function () {
+        const fileInput =document.getElementById("fileInput");
         if (!fileInput) {
             return;
         }
-
-
-        fileInput.addEventListener(
-            "change",
-            function () {
-
-                const file =
-                    this.files[0];
-
-
-                const preview =
-                    document.getElementById(
-                        "preview"
-                    );
-
-
+        fileInput.addEventListener("change",function () {
+                const file =this.files[0];
+                const preview =document.getElementById("preview");
                 if (!preview) {
                     return;
                 }
-
-
                 preview.innerHTML = "";
-
-
                 if (!file) {
                     return;
                 }
-
-
-
                 // -----------------------------------------
                 // FOTO
                 // -----------------------------------------
 
-                if (
-                    file.type.startsWith("image/")
-                ) {
-
-                    const img =
-                        document.createElement(
-                            "img"
-                        );
-
-
-                    img.src =
-                        URL.createObjectURL(file);
-
-
-                    img.style.maxWidth =
-                        "300px";
-
-
-                    img.style.maxHeight =
-                        "250px";
-
-
-                    img.style.marginTop =
-                        "10px";
-
-
+                if (file.type.startsWith("image/")) {
+                    const img =document.createElement("img");
+                    img.src =URL.createObjectURL(file);
+                    img.style.maxWidth ="300px";
+                    img.style.maxHeight ="250px";
+                    img.style.marginTop ="10px";
                     preview.appendChild(img);
 
                 }
-
-
-
                 // -----------------------------------------
                 // VIDEO
                 // -----------------------------------------
@@ -239,9 +129,7 @@ document.addEventListener(
         // =================================================
         // OTOMATIS LOAD GALERI
         // =================================================
-
         loadGaleri();
-
     }
 );
 
@@ -252,47 +140,22 @@ document.addEventListener(
 // =====================================================
 
 async function loadGaleri() {
-
-    const galeri =
-        document.getElementById("galeri");
-
-
+    const galeri =document.getElementById("galeri");
     if (!galeri) {
         return;
     }
-
-
     // ---------------------------------------------
     // TAMPILKAN STATUS LOADING
     // ---------------------------------------------
 
-    galeri.innerHTML =
-
-        "<p>⏳ Memuat galeri...</p>";
-
-
+    galeri.innerHTML ="<p>⏳ Memuat galeri...</p>";
     try {
-
         // -----------------------------------------
         // REQUEST KE API LIST
         // -----------------------------------------
-
-        const response =
-            await fetch(
-                VERCEL_LIST_API
-            );
-
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "Data galeri:",
-            result
-        );
-
-
+        const response =await fetch(VERCEL_LIST_API);
+        const result =await response.json();
+        console.log("Data galeri:",result);
         // -----------------------------------------
         // CEK RESPONSE
         // -----------------------------------------
