@@ -183,36 +183,19 @@ function fileKeBase64(file) {
 
             reader.onload = function () {
 
-                const result =
-                    reader.result;
-
-
-                const base64 =
-                    result.split(",")[1];
-
-
+                const result = reader.result;
+                const base64 =result.split(",")[1];
                 resolve(base64);
-
             };
 
 
             reader.onerror =
                 function () {
-
-                    reject(
-                        new Error(
-                            "Gagal membaca file"
-                        )
-                    );
-
+                    reject(  new Error( "Gagal membaca file") );
                 };
-
-
             reader.readAsDataURL(file);
-
         }
     );
-
 }
 
 
@@ -280,41 +263,19 @@ async function uploadSemuaFile() {
     // UPLOAD FILE SATU PER SATU
     // -------------------------------------------------
 
-    for (
-        let i = 0;
-        i < input.files.length;
-        i++
-    ) {
-
-        const file =
-            input.files[i];
-
-
-        status.innerHTML =
-            "⏳ Upload file " +
-            (i + 1) +
-            " dari " +
-            input.files.length +
-            ": " +
-            file.name;
-
-
+    for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        status.innerHTML = "⏳ Upload file " + (i + 1) + " dari " + input.files.length +": " + file.name;
         try {
-
             // -----------------------------------------
             // KONVERSI BASE64
             // -----------------------------------------
-
-            const base64 =
-                await fileKeBase64(file);
-
-
+            const base64 =  await fileKeBase64(file);
             // -----------------------------------------
             // DATA KE VERCEL
             // -----------------------------------------
 
     const data = {
-
         filename: file.name,
         content: base64,
         folder: folder,
@@ -322,18 +283,13 @@ async function uploadSemuaFile() {
 
     };
 
-
             // -----------------------------------------
             // REQUEST
             // -----------------------------------------
 
-            const response =
-                await fetch(
-                    VERCEL_UPLOAD_API,
+            const response = await fetch( VERCEL_UPLOAD_API,
                     {
-
                         method: "POST",
-
                         headers: {
 
                             "Content-Type":
@@ -359,12 +315,7 @@ async function uploadSemuaFile() {
             if (!response.ok ||
                 !result.success) {
 
-                throw new Error(
-
-                    result.message ||
-                    "Upload gagal"
-
-                );
+                throw new Error(result.message || "Upload gagal");
 
             }
 
@@ -510,4 +461,203 @@ function getUploadFolder() {
     return null;
 
 }
+
+// =====================================================
+// TENTUKAN FOLDER UTAMA UNTUK DAFTAR FOLDER
+// =====================================================
+
+function getFolderUtama() {
+
+    const halaman = window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+    if (halaman === "converter.html") {
+        return "converter";
+    }
+
+    if ( halaman === "monochrome.html" || halaman === "mcu.html") {
+        return "mcu";
+    }
+
+    if (halaman === "hmi.html") {
+        return "hmi";
+    }
+    return null;
+}
+
+
+// =====================================================
+// LOAD DAFTAR SUBFOLDER
+// =====================================================
+
+async function loadDaftarFolder() {
+
+    const daftarFolder = document.getElementById( "folderList" );
+    if (!daftarFolder) {
+        return;
+    }
+    const folderUtama = getFolderUtama();
+    if (!folderUtama) {
+        daftarFolder.innerHTML = "<p>❌ Folder halaman tidak diketahui.</p>";
+        return;
+    }
+    // -------------------------------------------------
+    // STATUS
+    // -------------------------------------------------
+
+    daftarFolder.innerHTML = "<p>⏳ Memuat daftar folder...</p>";
+    try {
+        const response =
+            await fetch(
+                VERCEL_LIST_API +
+                "?folder=" +
+                encodeURIComponent(
+                    folderUtama
+                )
+            );
+
+
+        const result = await response.json();
+
+        if ( !response.ok || !result.success ) {
+            throw new Error( result.message ||  "Gagal membaca folder" );
+        }
+
+        // -------------------------------------------------
+        // TIDAK ADA FOLDER
+        // -------------------------------------------------
+        if (  !result.folders || result.folders.length === 0 ) {
+            daftarFolder.innerHTML ="<p>📁 Belum ada folder.</p>";
+            return;
+        }
+        // -------------------------------------------------
+        // JUDUL
+        // -------------------------------------------------
+
+        let html = "";
+
+        html +=
+            "<h3>📁 Daftar Folder</h3>";
+
+
+        // -------------------------------------------------
+        // TAMPILKAN FOLDER
+        // -------------------------------------------------
+
+        result.folders.forEach(
+            function(folder) {
+
+                html +=
+                    '<div class="folder-item">' +
+
+                        '<button ' +
+                        'onclick="bukaFolder(\'' +
+                        escapeHtml(
+                            folder.name
+                        ) +
+                        '\')">' +
+
+                        '📁 ' +
+                        escapeHtml(
+                            folder.name
+                        ) +
+
+                        '</button>' +
+
+                    '</div>';
+
+            }
+        );
+
+
+        daftarFolder.innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        console.error(
+            "Load folder error:",
+            error
+        );
+
+
+        daftarFolder.innerHTML =
+            "❌ Gagal memuat daftar folder.<br>" +
+            error.message;
+
+    }
+
+}
+
+
+// =====================================================
+// AMANKAN TEKS HTML
+// =====================================================
+
+function escapeHtml(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// KETIKA FOLDER DIKLIK
+// =====================================================
+
+function bukaFolder(namaFolder) {
+
+    const folderUtama =
+        getFolderUtama();
+
+
+    if (!folderUtama) {
+
+        return;
+
+    }
+
+
+    console.log(
+        "Folder dibuka:",
+        folderUtama +
+        "/" +
+        namaFolder
+    );
+
+
+    // Untuk tahap berikutnya
+    // kita akan membuat daftar file
+    // di dalam folder ini.
+
+    alert(
+        "Folder: " +
+        namaFolder
+    );
+
+}
+
+
+// =====================================================
+// LOAD FOLDER SAAT HALAMAN DIBUKA
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadDaftarFolder();
+
+    }
+);
+
+
 
