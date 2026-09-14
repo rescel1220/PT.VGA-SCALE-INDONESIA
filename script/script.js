@@ -494,102 +494,55 @@ function getFolderUtama() {
 
 async function loadDaftarFolder() {
 
-    const daftarFolder = document.getElementById( "folderList" );
-    if (!daftarFolder) {
+    const folderList = document.getElementById("folderList");
+    if (!folderList) {
         return;
     }
     const folderUtama = getFolderUtama();
     if (!folderUtama) {
-        daftarFolder.innerHTML = "<p>❌ Folder halaman tidak diketahui.</p>";
+        folderList.innerHTML =  "❌ Folder halaman tidak diketahui.";
         return;
     }
-    // -------------------------------------------------
-    // STATUS
-    // -------------------------------------------------
 
-    daftarFolder.innerHTML = "<p>⏳ Memuat daftar folder...</p>";
+    folderList.innerHTML =  "⏳ Memuat daftar folder...";
     try {
-        const response =
-            await fetch(
-                VERCEL_LIST_API +
-                "?folder=" +
-                encodeURIComponent(
-                    folderUtama
-                )
-            );
-
-
+        const url = VERCEL_LIST_API + "?folder=" + encodeURIComponent(folderUtama);
+        const response = await fetch(url);
         const result = await response.json();
-
-        if ( !response.ok || !result.success ) {
-            throw new Error( result.message ||  "Gagal membaca folder" );
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Gagal mengambil daftar folder"
+            );
         }
 
-        // -------------------------------------------------
-        // TIDAK ADA FOLDER
-        // -------------------------------------------------
-        if (  !result.folders || result.folders.length === 0 ) {
-            daftarFolder.innerHTML ="<p>📁 Belum ada folder.</p>";
+        if ( !result.folders || result.folders.length === 0) {
+            folderList.innerHTML = "<p>Belum ada folder.</p>";
             return;
         }
-        // -------------------------------------------------
-        // JUDUL
-        // -------------------------------------------------
+        folderList.innerHTML = "";
+        result.folders.forEach(folder => {
+            const item = document.createElement("div");
+            item.className = "folder-item";
+            item.innerHTML = `
+                <button type="button" onclick="bukaFolder('${escapeHtml(folder.name)}')" >
+                    📁 ${escapeHtml(folder.name)}
+                </button>`;
 
-        let html = "";
+            folderList.appendChild(item);
 
-        html +=
-            "<h3>📁 Daftar Folder</h3>";
-
-
-        // -------------------------------------------------
-        // TAMPILKAN FOLDER
-        // -------------------------------------------------
-
-        result.folders.forEach(
-            function(folder) {
-
-                html +=
-                    '<div class="folder-item">' +
-
-                        '<button ' +
-                        'onclick="bukaFolder(\'' +
-                        escapeHtml(
-                            folder.name
-                        ) +
-                        '\')">' +
-
-                        '📁 ' +
-                        escapeHtml(
-                            folder.name
-                        ) +
-
-                        '</button>' +
-
-                    '</div>';
-
-            }
-        );
-
-
-        daftarFolder.innerHTML =
-            html;
-
+        });
 
     } catch (error) {
 
         console.error(
-            "Load folder error:",
+            "Error load folder:",
             error
         );
 
-
-        daftarFolder.innerHTML =
-            "❌ Gagal memuat daftar folder.<br>" +
-            error.message;
-
+        folderList.innerHTML =
+            "❌ Gagal memuat folder.";
     }
-
 }
 
 
@@ -599,52 +552,122 @@ async function loadDaftarFolder() {
 
 function escapeHtml(text) {
 
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    const div = document.createElement("div");
+    div.textContent = text;
 
-}
+    return div.innerHTML;
+}}
 
 
 // =====================================================
 // KETIKA FOLDER DIKLIK
 // =====================================================
 
-function bukaFolder(namaFolder) {
+async function bukaFolder(namaFolder) {
 
-    const folderUtama =
-        getFolderUtama();
+    const folderUtama = getFolderUtama();
+    const fileList = document.getElementById("fileListFolder");
+    const judul = document.getElementById("judulFile");
 
-
-    if (!folderUtama) {
-
+    if (!folderUtama || !fileList) {
         return;
-
     }
 
+    if (judul) {
 
-    console.log(
-        "Folder dibuka:",
-        folderUtama +
-        "/" +
-        namaFolder
-    );
+        judul.textContent =
+            "Isi Folder: " + namaFolder;
+    }
 
+    fileList.innerHTML =
+        "⏳ Memuat file...";
 
-    // Untuk tahap berikutnya
-    // kita akan membuat daftar file
-    // di dalam folder ini.
+    try {
 
-    alert(
-        "Folder: " +
-        namaFolder
-    );
+        const url =
+            VERCEL_LIST_API +
+            "?folder=" +
+            encodeURIComponent(folderUtama) +
+            "&subfolder=" +
+            encodeURIComponent(namaFolder);
 
+        const response =
+            await fetch(url);
+
+        const result =
+            await response.json();
+
+        if (!response.ok || !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Gagal membaca isi folder"
+            );
+        }
+
+        if (
+            !result.files ||
+            result.files.length === 0
+        ) {
+
+            fileList.innerHTML =
+                "<p>Folder ini masih kosong.</p>";
+
+            return;
+        }
+
+        fileList.innerHTML = "";
+
+        result.files.forEach(file => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "file-item";
+
+            item.innerHTML = `
+
+                <div class="file-info">
+
+                    <span class="file-icon">
+                        📄
+                    </span>
+
+                    <span class="file-name">
+                        ${escapeHtml(file.name)}
+                    </span>
+
+                </div>
+
+                <div class="file-action">
+
+                    <a
+                        href="${file.download_url}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Buka / Download
+                    </a>
+
+                </div>
+            `;
+
+            fileList.appendChild(item);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error load file:",
+            error
+        );
+
+        fileList.innerHTML =
+            "❌ Gagal memuat isi folder.";
+    }
 }
-
 
 // =====================================================
 // LOAD FOLDER SAAT HALAMAN DIBUKA
