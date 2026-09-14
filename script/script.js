@@ -10,26 +10,7 @@ const VERCEL_LIST_API =VERCEL_BASE_URL + "/api/list";
 // -----------------------------------------------------
 // TENTUKAN FOLDER BERDASARKAN HALAMAN
 // -----------------------------------------------------
-function getUploadFolder() {
 
-    const halaman =window.location.pathname
-            .split("/")
-            .pop()
-            .toLowerCase();
-
-
-    if (halaman === "converter.html") {
-        return "Converter";
-
-    }
-    if (halaman === "mcu.html") {
-        return "MCU";
-    }
-    if (halaman === "hmi.html") {
-        return "Hmi";
-    }
-    return null;
-}
 // -----------------------------------------------------
 // TAMPILKAN FORM UPLOAD
 // -----------------------------------------------------
@@ -556,7 +537,7 @@ function escapeHtml(text) {
     div.textContent = text;
 
     return div.innerHTML;
-}}
+}
 
 
 // =====================================================
