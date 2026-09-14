@@ -54,14 +54,9 @@ function getUploadFolder() {
 // =====================================================
 
 function tampilkanFormUpload() {
-    const form =
-        document.getElementById(
-            "uploadForm"
-        );
+    const form = document.getElementById("uploadForm");
     if (!form) {
-        console.error(
-            "uploadForm tidak ditemukan"
-        );
+        console.error("uploadForm tidak ditemukan");
         return;
     }
     if (form.style.display === "none" || form.style.display === "") {
@@ -74,11 +69,7 @@ function tampilkanFormUpload() {
 // TAMPILKAN FILE YANG DIPILIH
 // =====================================================
 function tampilkanFileDipilih() {
-    const input =
-        document.getElementById(
-            "fileInput"
-        );
-
+    const input =document.getElementById("fileInput");
     const daftar =document.getElementById("fileList");
     if (!input || !daftar) {
         return;
@@ -95,16 +86,8 @@ function tampilkanFileDipilih() {
     // JUMLAH FILE
     // ---------------------------------------------
     const judul = document.createElement("h3");
-
-    judul.textContent = "File yang dipilih: " +
-        input.files.length;
-
-
-    daftar.appendChild(
-        judul
-    );
-
-
+    judul.textContent = "File yang dipilih: " + input.files.length;
+    daftar.appendChild(judul);
     // ---------------------------------------------
     // TAMPILKAN SATU-SATU
     // ---------------------------------------------
