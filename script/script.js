@@ -500,6 +500,7 @@ document.addEventListener(
 );
 
 
+
 function getUploadFolder() {
 
     const halaman =
@@ -508,17 +509,45 @@ function getUploadFolder() {
             .pop()
             .toLowerCase();
 
+
+    // =========================================
+    // CONVERTER
+    // =========================================
+
     if (halaman === "converter.html") {
+
         return "converter";
+
     }
 
-    if (halaman === "monochrome.html") {
+
+    // =========================================
+    // MONO CHROME / MCU
+    // =========================================
+
+    if (
+        halaman === "monochrome.html" ||
+        halaman === "mcu.html"
+    ) {
+
         return "mcu";
+
     }
+
+
+    // =========================================
+    // HMI
+    // =========================================
 
     if (halaman === "hmi.html") {
+
         return "hmi";
+
     }
 
+
     return null;
+
 }
+
+
