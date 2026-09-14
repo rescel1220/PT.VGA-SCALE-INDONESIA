@@ -6,181 +6,97 @@
 // URL API VERCEL
 // =====================================================
 
-const VERCEL_BASE_URL =
-    "https://apivga.vercel.app";
-
-
+const VERCEL_BASE_URL ="https://apivga.vercel.app";
 // API UPLOAD
-const VERCEL_UPLOAD_API =
-    VERCEL_BASE_URL + "/api/upload";
-
-
+const VERCEL_UPLOAD_API = VERCEL_BASE_URL + "/api/upload";
 // API LIST
-const VERCEL_LIST_API =
-    VERCEL_BASE_URL + "/api/list";
-
-
+const VERCEL_LIST_API = VERCEL_BASE_URL + "/api/list";
 // =====================================================
 // TENTUKAN FOLDER UTAMA BERDASARKAN HALAMAN
 // =====================================================
 
 function getFolderUtama() {
-
     const halaman =
         window.location.pathname
             .split("/")
             .pop()
             .toLowerCase();
-
-
     // ---------------------------------------------
     // CONVERTER
     // ---------------------------------------------
-
     if (halaman === "converter.html") {
-
         return "converter";
-
     }
-
-
     // ---------------------------------------------
     // MCU / MONO CHROME
     // ---------------------------------------------
-
-    if (
-        halaman === "mcu.html" ||
-        halaman === "monochrome.html"
-    ) {
-
+    if ( halaman === "mcu.html" || halaman === "monochrome.html") {
         return "mcu";
-
     }
-
-
     // ---------------------------------------------
     // HMI
     // ---------------------------------------------
-
     if (halaman === "hmi.html") {
-
         return "hmi";
-
     }
-
-
     return null;
 }
-
-
 // =====================================================
 // FUNGSI UNTUK UPLOAD
 // =====================================================
 // Menggunakan folder utama yang sama dengan daftar folder.
 // =====================================================
-
 function getUploadFolder() {
-
     return getFolderUtama();
-
 }
-
-
 // =====================================================
 // TAMPILKAN / SEMBUNYIKAN FORM UPLOAD
 // =====================================================
 
 function tampilkanFormUpload() {
-
     const form =
         document.getElementById(
             "uploadForm"
         );
-
-
     if (!form) {
-
         console.error(
             "uploadForm tidak ditemukan"
         );
-
         return;
-
     }
-
-
-    if (
-        form.style.display === "none" ||
-        form.style.display === ""
-    ) {
-
-        form.style.display =
-            "block";
-
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display ="block";
     } else {
-
-        form.style.display =
-            "none";
-
+        form.style.display = "none";
     }
-
 }
-
-
 // =====================================================
 // TAMPILKAN FILE YANG DIPILIH
 // =====================================================
-
 function tampilkanFileDipilih() {
-
     const input =
         document.getElementById(
             "fileInput"
         );
 
-
-    const daftar =
-        document.getElementById(
-            "fileList"
-        );
-
-
+    const daftar =document.getElementById("fileList");
     if (!input || !daftar) {
-
         return;
-
     }
-
-
     daftar.innerHTML = "";
-
-
     // ---------------------------------------------
     // BELUM ADA FILE
     // ---------------------------------------------
-
     if (input.files.length === 0) {
-
-        daftar.innerHTML =
-            "<p>Belum ada file dipilih.</p>";
-
+        daftar.innerHTML = "<p>Belum ada file dipilih.</p>";
         return;
-
     }
-
-
     // ---------------------------------------------
     // JUMLAH FILE
     // ---------------------------------------------
+    const judul = document.createElement("h3");
 
-    const judul =
-        document.createElement(
-            "h3"
-        );
-
-
-    judul.textContent =
-        "File yang dipilih: " +
+    judul.textContent = "File yang dipilih: " +
         input.files.length;
 
 
