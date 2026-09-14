@@ -499,3 +499,26 @@ document.addEventListener(
     }
 );
 
+
+function getUploadFolder() {
+
+    const halaman =
+        window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+    if (halaman === "converter.html") {
+        return "converter";
+    }
+
+    if (halaman === "monochrome.html") {
+        return "mcu";
+    }
+
+    if (halaman === "hmi.html") {
+        return "hmi";
+    }
+
+    return null;
+}
