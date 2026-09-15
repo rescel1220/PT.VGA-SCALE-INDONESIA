@@ -67,54 +67,11 @@
 .navbar-menu li a:hover {
     color: #1675d1;
 }
-.dropdown {
-    position: relative;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    min-width: 160px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-}
-
-.dropdown-menu li {
-    width: 100%;
-}
-
-.dropdown-menu li a {
-    display: block;
-    padding: 12px 15px;
-    color: black;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #eeeeee;
-}
-
-/* DROPDOWN AKTIF */
-.dropdown-menu.show {
-    display: block;
-}
-
-
-
 /* =====================================================
    GALERI FOTO / VIDEO
    ===================================================== */
-
 /* Area utama galeri */
-
-.galeri {
+/* .galeri {
     width: 100%;
     max-width: 1100px;
     margin: 30px auto;
@@ -122,14 +79,13 @@
     grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
     padding: 10px;
-}
-
+} */
 
 /* =====================================================
    FRAME SETIAP FOTO / VIDEO
    ===================================================== */
 
-.galeri .item {
+/* .galeri .item {
     width: 100%;
     max-width: 240px;
     margin: auto;
@@ -140,28 +96,28 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     text-align: center;
 
-}
+} */
 
 
 /* =====================================================
    FOTO
    ===================================================== */
 
-.galeri .item img {
+/* .galeri .item img {
     width: 100%;
     height: 160px;
     object-fit: cover;
     display: block;
     border-radius: 7px;
 
-}
+} */
 
 
 /* =====================================================
    VIDEO
    ===================================================== */
 
-.galeri .item video {
+/* .galeri .item video {
     width: 100%;
     height: 160px;
     object-fit: cover;
@@ -169,7 +125,7 @@
     border-radius: 7px;
     background: #000;
 
-}
+} */
 
 
 /* =====================================================
