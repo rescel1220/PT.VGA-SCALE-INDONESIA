@@ -5,19 +5,13 @@
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport"content="width=device-width, initial-scale=1.0">
-
     <title>Hmi - VGA HUB CENTER</title>
-
     <link rel="stylesheet" href="./style.css">
 
 </head>
 
-
 <body>
-
-
 <!-- =====================================================
      NAVBAR
 ===================================================== -->
@@ -26,10 +20,8 @@
 
     <!-- LOGO -->
     <div class="navbar-logo">
-
         <img src="./logo1.png" alt="RCL">
         <span>VGA HUB CENTER</span>
-
     </div>
 
 
@@ -44,37 +36,27 @@
     </ul>
 
 </nav>
-
-
-
 <!-- =====================================================
      CONTENT
 ===================================================== -->
-
 <main class="content">
-
     <h1>Hmi</h1>
-
     <p>
         Add new type/function of Hmi
     </p>
-
-
-    <!-- =================================================
-         TOMBOL TAMBAH FILE
-    ================================================== -->
-
+    <p>
+       ⚠️  pastikan file sudah di rename terlebih dahulu ⚠️ 
+    </p>
+<!-- =================================================
+     TOMBOL TAMBAH FILE
+================================================== -->
     <button
         type="button" onclick="tampilkanFormUpload()">
         + Tambah File
     </button>
-
-
-
-    <!-- =================================================
-         FORM UPLOAD
-    ================================================== -->
-
+<!-- =================================================
+     FORM UPLOAD
+================================================== -->
     <label for="folderInput">Nama Folder</label>
     <input type="text" id="folderInput" placeholder="Contoh: mesin_001">
     
@@ -88,23 +70,18 @@
 
         <input type="file" id="fileInput" multiple>
         <br><br>
-
-
-        <!-- DAFTAR FILE YANG DIPILIH -->
-
+<!-- DAFTAR FILE YANG DIPILIH -->
         <div id="fileList">
-
             <p>
                 Belum ada file dipilih.
             </p>
-
         </div>
 
 
         <br>
 
 
-        <!-- TOMBOL UPLOAD -->
+<!-- TOMBOL UPLOAD -->
 
         <button type="button" onclick="uploadSemuaFile()">
             Upload
@@ -132,13 +109,10 @@
         <div id="folderList">
             Memuat folder...
         </div>
-        
         <hr>
-        
         <h2 id="judulFile">
             Isi Folder
         </h2>
-        
         <div id="fileListFolder">
             Pilih folder terlebih dahulu.
         </div>
