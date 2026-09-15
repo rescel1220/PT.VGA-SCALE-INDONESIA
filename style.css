@@ -27,6 +27,11 @@
 }
 
 
+.navbar-logo img {
+    width: 100px;
+    height: auto;
+    display: block;
+}
 
 
 /* MENU */
