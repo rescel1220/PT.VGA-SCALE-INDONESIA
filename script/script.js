@@ -1,4 +1,4 @@
-
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 // =====================================================
 // KONFIGURASI API VERCEL
 // =====================================================
@@ -122,9 +122,7 @@ function fileKeBase64(file) {
 // =====================================================
 // UPLOAD SEMUA FILE
 // =====================================================
-
 async function uploadSemuaFile() {
-
     const input = document.getElementById("fileInput");
     const status = document.getElementById("uploadStatus");
     const folderInput = document.getElementById("folderInput");
@@ -167,11 +165,8 @@ async function uploadSemuaFile() {
     // UPLOAD SATU PER SATU
     // =================================================
     for ( let i = 0; i < input.files.length; i++) {
-
-        const file =
-            input.files[i];
-
-
+        const file =input.files[i];
+        
         status.innerHTML =
             "⏳ Upload file " +
             (i + 1) +
@@ -179,22 +174,14 @@ async function uploadSemuaFile() {
             input.files.length +
             ": " +
             file.name;
-
-
         try {
-
             // -----------------------------------------
             // BASE64
             // -----------------------------------------
-
-            const base64 =
-                await fileKeBase64(file);
-
-
+            const base64 = await fileKeBase64(file);
             // -----------------------------------------
             // DATA YANG DIKIRIM KE VERCEL
             // -----------------------------------------
-
             const data = {
                 filename: file.name,
                 content: base64,
@@ -210,7 +197,6 @@ async function uploadSemuaFile() {
                     VERCEL_UPLOAD_API,
                     {
                         method: "POST",
-
                         headers: {
                             "Content-Type": "application/json"
                         },
@@ -218,8 +204,6 @@ async function uploadSemuaFile() {
                             JSON.stringify(data)
                     }
                 );
-
-
             // -----------------------------------------
             // BACA RESPONSE
             // -----------------------------------------
@@ -230,10 +214,7 @@ async function uploadSemuaFile() {
             // -----------------------------------------
 
             if (!response.ok || !result.success) {
-                throw new Error(
-                    result.message ||
-                    "Upload gagal"
-                );
+                throw new Error(result.message || "Upload gagal" );
             }
             berhasil++;
         } catch (error) {
@@ -293,66 +274,34 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-
 // =====================================================
 // LOAD DAFTAR SUBFOLDER
 // =====================================================
-
 async function loadDaftarFolder() {
-
-    const folderList =
-        document.getElementById("folderList");
-
-
+    const folderList = document.getElementById("folderList");
     if (!folderList) {
         return;
     }
-
-
-    const folderUtama =
-        getFolderUtama();
-
-
+    const folderUtama = getFolderUtama();
     if (!folderUtama) {
-
-        folderList.innerHTML =
-            "❌ Folder halaman tidak diketahui.";
-
+        folderList.innerHTML ="❌ Folder halaman tidak diketahui.";
         return;
     }
-
-
-    folderList.innerHTML =
-        "⏳ Memuat daftar folder...";
-
-
+    folderList.innerHTML = "⏳ Memuat daftar folder...";
     try {
-
         // ---------------------------------------------
         // API
         // ---------------------------------------------
-
         const url =
             VERCEL_LIST_API +
             "?folder=" +
             encodeURIComponent(folderUtama);
-
-
-        console.log(
-            "LOAD FOLDER:",
-            url
-        );
-
-
+        console.log("LOAD FOLDER:", url);
         const response =await fetch(url);
         const result = await response.json();
         console.log("RESULT FOLDER:", result);
         if ( !response.ok || !result.success) {
-            throw new Error(
-                result.message ||
-                "Gagal mengambil daftar folder"
-            );
+            throw new Error(result.message || "Gagal mengambil daftar folder");
         }
         // ---------------------------------------------
         // TIDAK ADA FOLDER
@@ -365,74 +314,40 @@ async function loadDaftarFolder() {
         // TAMPILKAN FOLDER
         // ---------------------------------------------
         folderList.innerHTML = "";
-
         result.folders.forEach(
             function (folder) {
-
-                const item =
-                    document.createElement("div");
-
-
-                item.className =
-                    "folder-item";
-
-
-                const button =
-                    document.createElement("button");
-
-
-                button.type =
-                    "button";
-
-
-                button.textContent =
-                    "📁 " + folder.name;
-
-
+                const item = document.createElement("div");
+                item.className = "folder-item";
+                const button = document.createElement("button");
+                button.type ="button";
+                button.textContent = "📁 " + folder.name;
                 // PENTING:
                 // Jangan menggunakan onclick string.
                 // Gunakan addEventListener.
-
                 button.addEventListener(
                     "click",
                     function () {
-
                         bukaFolder(
                             folder.name
                         );
-
                     }
                 );
-
-
                 item.appendChild(button);
-
-
                 folderList.appendChild(item);
-
             }
         );
-
-
     } catch (error) {
-
         console.error(
             "Error load folder:",
             error
         );
-
-
         folderList.innerHTML =
             "❌ Gagal memuat folder.<br>" +
             "<small>" +
             escapeHtml(error.message) +
             "</small>";
-
     }
-
 }
-
-
 // =====================================================
 // BUKA FOLDER
 // =====================================================
