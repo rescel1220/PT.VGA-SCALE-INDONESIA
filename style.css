@@ -207,7 +207,7 @@
    HP / LAYAR KECIL
    ===================================================== */
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .galeri {
         grid-template-columns:repeat(2, 1fr);
         gap: 10px;
@@ -243,7 +243,7 @@
 
     }
 
-}
+} */
 
 /* =====================================================
    DAFTAR FOLDER
