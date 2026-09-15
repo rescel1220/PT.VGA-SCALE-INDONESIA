@@ -1,4 +1,4 @@
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
 // =====================================================
 // KONFIGURASI API VERCEL
 // =====================================================
@@ -176,14 +176,6 @@ async function uploadSemuaFile() {
             file.name;
         try {
 
-            // Cek ukuran file terlebih dahulu
-            if (file.size > MAX_FILE_SIZE) {
-                const ukuranMB = (file.size / (1024 * 1024)).toFixed(2);
-            
-                throw new Error(
-                    `File terlalu besar: ${ukuranMB} MB. Maksimal 10 MB.`
-                );
-            }
             // -----------------------------------------
             // BASE64
             // -----------------------------------------
