@@ -178,6 +178,14 @@ async function uploadSemuaFile() {
             // -----------------------------------------
             // BASE64
             // -----------------------------------------
+            // Cek ukuran file terlebih dahulu
+            if (file.size > MAX_FILE_SIZE) {
+                const ukuranMB = (file.size / (1024 * 1024)).toFixed(2);
+            
+                throw new Error(
+                    `File terlalu besar: ${ukuranMB} MB. Maksimal 10 MB.`
+                );
+            }
             const base64 = await fileKeBase64(file);
             // -----------------------------------------
             // DATA YANG DIKIRIM KE VERCEL
