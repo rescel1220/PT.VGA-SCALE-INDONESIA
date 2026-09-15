@@ -26,124 +26,54 @@ function getFolderUtama() {
     if (halaman === "hmi.html") {
         return "hmi";
     }
-
-
     return null;
 }
-
-
 // =====================================================
 // FOLDER UPLOAD
 // =====================================================
-
 function getUploadFolder() {
-
     return getFolderUtama();
-
 }
-
-
 // =====================================================
 // TAMPILKAN / SEMBUNYIKAN FORM UPLOAD
 // =====================================================
-
 function tampilkanFormUpload() {
-
-    const form =
-        document.getElementById("uploadForm");
-
+    const form =document.getElementById("uploadForm");
     if (!form) {
         return;
     }
-
-
     if (form.style.display === "block") {
-
         form.style.display = "none";
 
     } else {
-
         form.style.display = "block";
-
     }
 
 }
-
-
 // =====================================================
 // TAMPILKAN FILE YANG DIPILIH
 // =====================================================
-
 function tampilkanFileDipilih() {
-
-    const input =
-        document.getElementById("fileInput");
-
-    const daftar =
-        document.getElementById("fileList");
-
-
+    const input = document.getElementById("fileInput");
+    const daftar =document.getElementById("fileList");
     if (!input || !daftar) {
         return;
     }
-
-
     daftar.innerHTML = "";
-
-
     if (input.files.length === 0) {
-
-        daftar.innerHTML =
-            "<p>Belum ada file dipilih.</p>";
-
+        daftar.innerHTML ="<p>Belum ada file dipilih.</p>";
         return;
     }
-
-
-    const judul =
-        document.createElement("h3");
-
-    judul.textContent =
-        "File yang dipilih: " +
-        input.files.length;
-
-
+    const judul =document.createElement("h3");
+    judul.textContent = "File yang dipilih: " + input.files.length;
     daftar.appendChild(judul);
-
-
-    for (
-        let i = 0;
-        i < input.files.length;
-        i++
-    ) {
-
-        const file =
-            input.files[i];
-
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "upload-file-item";
-
-
-        item.textContent =
-            (i + 1) +
-            ". " +
-            file.name +
-            " (" +
-            formatUkuranFile(file.size) +
-            ")";
-
-
-        daftar.appendChild(item);
+    for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const item = document.createElement("div");
+        item.className ="upload-file-item";
+        item.textContent =(i + 1) + ". " + file.name + "(" + formatUkuranFile(file.size) + ")"; daftar.appendChild(item);
     }
-
 }
-
-
 // =====================================================
 // FORMAT UKURAN FILE
 // =====================================================
