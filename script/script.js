@@ -54,6 +54,40 @@ function tampilkanFormUpload() {
     }
 }
 // =====================================================
+// ATUR HAK AKSES UPLOAD
+// =====================================================
+function aturHakAksesUpload() {
+    const status =sessionStorage.getItem("loginStatus");
+    const uploadForm =document.getElementById("uploadForm");
+    const uploadButton =document.getElementById("uploadButton");
+    // Tidak ada status login
+    if (!status) {
+        return;
+    }
+    // =============================================
+    // PENGUNJUNG
+    // =============================================
+    if (status === "visitor") {
+        if (uploadForm) {
+            uploadForm.style.display = "none";
+        }
+        if (uploadButton) {
+            uploadButton.style.display = "none";
+        }
+        console.log("Mode Pengunjung: Upload dinonaktifkan");
+        return;
+    }
+    // =============================================
+    // USER / ADMIN
+    // =============================================
+    if (status === "user" || status === "admin" ) {
+        if (uploadButton) {
+            uploadButton.style.display = "";
+        }
+        console.log( "Mode " + status + ": Upload tersedia" );
+    }
+}
+// =====================================================
 // TAMPILKAN FILE YANG DIPILIH
 // =====================================================
 function tampilkanFileDipilih() {
@@ -998,6 +1032,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
         cekStatusLogin();
+        aturHakAksesUpload();
         // ---------------------------------------------
         // FILE INPUT
         // ---------------------------------------------
