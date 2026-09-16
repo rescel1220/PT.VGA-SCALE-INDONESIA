@@ -284,4 +284,126 @@
 .file-action a:hover {
     background: #555;
 }
+/* ///////////////////////////////////////////////////////////////////////////////////// */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+            width: 100%;
+            max-width: 600px;
+
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 130px;
+            height: 38px;
+
+            padding: 8px;
+
+            border: 1px solid #bbb;
+            border-radius: 5px;
+
+            font-size: 14px;
+        }
+
+        button {
+            height: 38px;
+            padding: 0 18px;
+
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        .login-button {
+            background: #007bff;
+            color: white;
+        }
+
+        .login-button:hover {
+            background: #0056b3;
+        }
+
+        .guest-button {
+            background: #6c757d;
+            color: white;
+        }
+
+        .guest-button:hover {
+            background: #545b62;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+
+            .login-box {
+                margin: 20px;
+                padding: 25px 15px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .input-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .input-group input {
+                width: 180px;
+            }
+
+            button {
+                width: 180px;
+            }
+        }
+
+
 
