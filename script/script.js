@@ -933,15 +933,8 @@ async function bukaFolder(
                     "noopener noreferrer";
 
 
-                link.textContent =
-                    "Buka / Download";
-
-
-                action.appendChild(
-                    link
-                );
-
-
+                link.textContent ="Buka / Download";
+                action.appendChild(link);
                 // -------------------------------------
                 // GABUNGKAN
                 // -------------------------------------
@@ -988,7 +981,14 @@ async function bukaFolder(
     }
 
 }
+// =====================================================
+// CEK STATUS LOGIN
+// =====================================================
 
+function cekStatusLogin() {
+    const status =sessionStorage.getItem("loginStatus");
+    console.log("Status login:",status);
+}
 
 // =====================================================
 // EVENT DOM READY
@@ -997,24 +997,13 @@ async function bukaFolder(
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-
+        cekStatusLogin();
         // ---------------------------------------------
         // FILE INPUT
         // ---------------------------------------------
-
-        const input =
-            document.getElementById(
-                "fileInput"
-            );
-
-
+        const input =document.getElementById("fileInput");
         if (input) {
-
-            input.addEventListener(
-                "change",
-                tampilkanFileDipilih
-            );
-
+            input.addEventListener("change",tampilkanFileDipilih);
         }
 
 
