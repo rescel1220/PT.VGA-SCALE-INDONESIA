@@ -2,39 +2,24 @@
 // =====================================================
 // KONFIGURASI API VERCEL
 // =====================================================
-
 const VERCEL_BASE_URL = "https://apivga.vercel.app";
-
-const VERCEL_UPLOAD_API =
-    VERCEL_BASE_URL + "/api/upload";
-
-const VERCEL_LIST_API =
-    VERCEL_BASE_URL + "/api/list";
-
-
+const VERCEL_UPLOAD_API = VERCEL_BASE_URL + "/api/upload";
+const VERCEL_LIST_API = VERCEL_BASE_URL + "/api/list";
 // =====================================================
 // TENTUKAN FOLDER UTAMA BERDASARKAN HALAMAN
 // =====================================================
-
 function getFolderUtama() {
-
     const halaman =
         window.location.pathname
             .split("/")
             .pop()
             .toLowerCase();
-
-
     // CONVERTER
     if (halaman === "converter.html") {
         return "converter";
     }
-
-
     // MONOCHROME / MCU
-    if (
-        halaman === "monochrome.html" ||
-        halaman === "mcu.html"
+    if ( halaman === "monochrome.html" ||halaman === "mcu.html"
     ) {
         return "mcu";
     }
