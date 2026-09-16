@@ -19,119 +19,56 @@ function getFolderUtama() {
         return "converter";
     }
     // MONOCHROME / MCU
-    if ( halaman === "monochrome.html" ||halaman === "mcu.html"
-    ) {
+    if ( halaman === "monochrome.html" ||halaman === "mcu.html") {
         return "mcu";
     }
-
-
     // HMI
     if (halaman === "hmi.html") {
         return "hmi";
     }
-
-
     return null;
 }
-
-
 // =====================================================
 // FOLDER UPLOAD
 // =====================================================
-
 function getUploadFolder() {
-
     return getFolderUtama();
-
 }
-
-
 // =====================================================
 // TAMPILKAN / SEMBUNYIKAN FORM UPLOAD
 // =====================================================
-
 function tampilkanFormUpload() {
-
-    const form =
-        document.getElementById("uploadForm");
-
-
+    const form =document.getElementById("uploadForm");
     if (!form) {
         return;
     }
-
-
     if (form.style.display === "block") {
-
         form.style.display = "none";
-
     } else {
-
         form.style.display = "block";
-
     }
-
 }
-
-
 // =====================================================
 // TAMPILKAN FILE YANG DIPILIH
 // =====================================================
-
 function tampilkanFileDipilih() {
-
-    const input =
-        document.getElementById("fileInput");
-
-    const daftar =
-        document.getElementById("fileList");
-
-
+    const input =document.getElementById("fileInput");
+    const daftar = document.getElementById("fileList");
     if (!input || !daftar) {
         return;
     }
-
-
     daftar.innerHTML = "";
-
-
     if (input.files.length === 0) {
-
-        daftar.innerHTML =
-            "<p>Belum ada file dipilih.</p>";
-
+        daftar.innerHTML = "<p>Belum ada file dipilih.</p>";
         return;
     }
-
-
-    const judul =
-        document.createElement("h3");
-
-
-    judul.textContent =
-        "File yang dipilih: " +
-        input.files.length;
-
-
+    const judul =document.createElement("h3");
+    judul.textContent ="File yang dipilih: " + input.files.length;
     daftar.appendChild(judul);
-
-
-    for (
-        let i = 0;
-        i < input.files.length;
-        i++
-    ) {
-
-        const file =
-            input.files[i];
-
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "upload-file-item";
+    for (let i = 0; i < input.files.length; i++) {
+        const file =input.files[i];
+        const item = document.createElement("div");
+        item.className = "upload-file-item";
 
 
         item.textContent =
@@ -1087,35 +1024,23 @@ document.addEventListener(
 
         function login() {
 
-            const username =
-                document.getElementById("username").value.trim();
-
-            const password =
-                document.getElementById("password").value;
-
+            const username =document.getElementById("username").value.trim();
+            const password =document.getElementById("password").value;
+            const message =document.getElementById("message");
             if (username === "" || password === "") {
-
-                document.getElementById("message").innerHTML =
-                    "Username dan password harus diisi.";
-
-                return;
-            }
+                 message.innerHTML ="Username dan password harus diisi.";
+                    return;
+                }
 
             /*
              * SISTEM LOGIN VERCEL AKAN
              * DITAMBAHKAN DI TAHAP BERIKUTNYA.
              */
-
-            document.getElementById("message").innerHTML = "Proses login akan dihubungkan ke server...";
+            message.innerHTML ="Login user/admin akan dihubungkan ke server...";
         }
 
 
         function guestLogin() {
-
-            /*
-             * Pengunjung tidak membutuhkan
-             * username dan password.
-             */
-
+            sessionStorage.setItem("loginStatus", "visitor");
             window.location.href = "home.html";
         }
