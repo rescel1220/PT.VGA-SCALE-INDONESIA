@@ -1,4 +1,9 @@
-
+function logout() {
+    // Hapus status login
+    sessionStorage.removeItem("loginStatus");
+    // Kembali ke halaman login
+    window.location.href = "index.html";
+}
 // =====================================================
 // KONFIGURASI API VERCEL
 // =====================================================
