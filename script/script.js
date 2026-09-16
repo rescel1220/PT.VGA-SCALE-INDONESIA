@@ -1051,25 +1051,160 @@ document.addEventListener(
     }
 );
 
-        function login() {
+async function login() {
 
-            const username =document.getElementById("username").value.trim();
-            const password =document.getElementById("password").value;
-            const message =document.getElementById("message");
-            if (username === "" || password === "") {
-                 message.innerHTML ="Username dan password harus diisi.";
-                    return;
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("message");
+
+    // =================================================
+    // CEK INPUT
+    // =================================================
+
+    if (
+        username === "" ||
+        password === ""
+    ) {
+
+        message.innerHTML =
+            "❌ Username dan password harus diisi.";
+
+        return;
+    }
+
+    // =================================================
+    // TAMPILKAN PROSES
+    // =================================================
+
+    message.innerHTML =
+        "⏳ Memeriksa login...";
+
+    try {
+
+        // =================================================
+        // KIRIM KE VERCEL
+        // =================================================
+
+        const response =
+            await fetch(
+                VERCEL_BASE_URL + "/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            username:
+                                username,
+
+                            password:
+                                password
+                        })
                 }
+            );
 
-            /*
-             * SISTEM LOGIN VERCEL AKAN
-             * DITAMBAHKAN DI TAHAP BERIKUTNYA.
-             */
-            message.innerHTML ="Login user/admin akan dihubungkan ke server...";
+        // =================================================
+        // BACA RESPONSE
+        // =================================================
+
+        const result =
+            await response.json();
+
+        console.log(
+            "LOGIN RESPONSE:",
+            result
+        );
+
+        // =================================================
+        // LOGIN GAGAL
+        // =================================================
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
+            message.innerHTML =
+                "❌ " +
+                (
+                    result.message ||
+                    "Login gagal."
+                );
+
+            return;
         }
 
+        // =================================================
+        // SIMPAN STATUS LOGIN
+        // =================================================
 
-        function guestLogin() {
-            sessionStorage.setItem("loginStatus", "visitor");
-            window.location.href = "home.html";
-        }
+        sessionStorage.setItem(
+            "loginStatus",
+            result.role
+        );
+
+        // =================================================
+        // SIMPAN USERNAME
+        // =================================================
+
+        sessionStorage.setItem(
+            "loginUsername",
+            username
+        );
+
+        // =================================================
+        // LOGIN BERHASIL
+        // =================================================
+
+        message.innerHTML =
+            "✅ Login berhasil sebagai " +
+            result.role +
+            "...";
+
+        // =================================================
+        // MASUK HOME
+        // =================================================
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "home.html";
+
+            },
+            500
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+        message.innerHTML =
+            "❌ Tidak dapat terhubung ke server.<br>" +
+            "<small>" +
+            escapeHtml(
+                error.message
+            ) +
+            "</small>";
+    }
+}
+
+
+    function guestLogin() {
+        sessionStorage.setItem("loginStatus", "visitor");
+        window.location.href = "home.html";
+    }
