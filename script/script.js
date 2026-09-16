@@ -1100,3 +1100,38 @@ document.addEventListener(
     }
 );
 
+        function login() {
+
+            const username =
+                document.getElementById("username").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            if (username === "" || password === "") {
+
+                document.getElementById("message").innerHTML =
+                    "Username dan password harus diisi.";
+
+                return;
+            }
+
+            /*
+             * SISTEM LOGIN VERCEL AKAN
+             * DITAMBAHKAN DI TAHAP BERIKUTNYA.
+             */
+
+            document.getElementById("message").innerHTML =
+                "Proses login akan dihubungkan ke server...";
+        }
+
+
+        function guestLogin() {
+
+            /*
+             * Pengunjung tidak membutuhkan
+             * username dan password.
+             */
+
+            window.location.href = "index.html";
+        }
