@@ -1121,8 +1121,7 @@ document.addEventListener(
              * DITAMBAHKAN DI TAHAP BERIKUTNYA.
              */
 
-            document.getElementById("message").innerHTML =
-                "Proses login akan dihubungkan ke server...";
+            document.getElementById("message").innerHTML = "Proses login akan dihubungkan ke server...";
         }
 
 
@@ -1133,5 +1132,5 @@ document.addEventListener(
              * username dan password.
              */
 
-            window.location.href = "index.html";
+            window.location.href = "home.html";
         }
