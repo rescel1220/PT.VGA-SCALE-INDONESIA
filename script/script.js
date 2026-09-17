@@ -58,9 +58,12 @@ function tampilkanFormUpload() {
 // =====================================================
 function aturHakAksesUpload() {
     const status =sessionStorage.getItem("loginStatus");
+    const uploadArea =document.getElementById("uploadArea");
     const uploadForm =document.getElementById("uploadForm");
     const uploadButton =document.getElementById("uploadButton");
-    // Tidak ada status login
+    // =============================================
+    // TIDAK ADA STATUS LOGIN
+    // =============================================
     if (!status) {
         return;
     }
@@ -68,23 +71,40 @@ function aturHakAksesUpload() {
     // PENGUNJUNG
     // =============================================
     if (status === "visitor") {
+        // Sembunyikan seluruh area upload
+        if (uploadArea) {
+            uploadArea.style.display = "none";
+        }
+        // Pengaman tambahan
         if (uploadForm) {
             uploadForm.style.display = "none";
         }
         if (uploadButton) {
             uploadButton.style.display = "none";
         }
-        console.log("Mode Pengunjung: Upload dinonaktifkan");
+        console.log("Mode Pengunjung: seluruh fungsi upload disembunyikan");
         return;
     }
+
+
     // =============================================
     // USER / ADMIN
     // =============================================
-    if (status === "user" || status === "admin" ) {
+    if (status === "user" ||status === "admin") {
+
+        if (uploadArea) {
+            uploadArea.style.display = "";
+        }
+
         if (uploadButton) {
             uploadButton.style.display = "";
         }
-        console.log( "Mode " + status + ": Upload tersedia" );
+
+        console.log(
+            "Mode " +
+            status +
+            ": Upload tersedia"
+        );
     }
 }
 // =====================================================
@@ -1056,27 +1076,15 @@ async function login() {
     const username =
         document.getElementById("username").value.trim();
 
-    const password =
-        document.getElementById("password").value;
-
-    const message =
-        document.getElementById("message");
-
+    const password =document.getElementById("password").value;
+    const message =document.getElementById("message");
     // =================================================
     // CEK INPUT
     // =================================================
-
-    if (
-        username === "" ||
-        password === ""
-    ) {
-
-        message.innerHTML =
-            "❌ Username dan password harus diisi.";
-
+    if (username === "" || password === "") {
+        message.innerHTML ="❌ Username dan password harus diisi.";
         return;
     }
-
     // =================================================
     // TAMPILKAN PROSES
     // =================================================
@@ -1095,19 +1103,13 @@ async function login() {
                 VERCEL_BASE_URL + "/api/login",
                 {
                     method: "POST",
-
                     headers: {
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type":"application/json"
                     },
-
                     body:
                         JSON.stringify({
-                            username:
-                                username,
-
-                            password:
-                                password
+                            username:username,
+                            password:password
                         })
                 }
             );
@@ -1115,84 +1117,47 @@ async function login() {
         // =================================================
         // BACA RESPONSE
         // =================================================
-
-        const result =
-            await response.json();
-
-        console.log(
-            "LOGIN RESPONSE:",
-            result
+        const result =await response.json();
+        console.log("LOGIN RESPONSE:",result
         );
-
         // =================================================
         // LOGIN GAGAL
         // =================================================
-
-        if (
-            !response.ok ||
-            !result.success
-        ) {
-
-            message.innerHTML =
-                "❌ " +
-                (
-                    result.message ||
-                    "Login gagal."
-                );
-
+        if ( !response.ok ||!result.success) {
+            message.innerHTML ="❌ " + (result.message || "Login gagal.");
             return;
         }
-
         // =================================================
         // SIMPAN STATUS LOGIN
         // =================================================
-
         sessionStorage.setItem(
             "loginStatus",
             result.role
         );
-
         // =================================================
         // SIMPAN USERNAME
         // =================================================
-
-        sessionStorage.setItem(
-            "loginUsername",
-            username
-        );
-
+        sessionStorage.setItem("loginUsername",username);
         // =================================================
         // LOGIN BERHASIL
         // =================================================
-
         message.innerHTML =
             "✅ Login berhasil sebagai " +
             result.role +
             "...";
-
-        // =================================================
+        //=================================================
         // MASUK HOME
         // =================================================
-
         setTimeout(
             function () {
-
-                window.location.href =
-                    "home.html";
-
+                window.location.href =  "home.html";
             },
             500
         );
-
     }
 
     catch (error) {
-
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
-
+        console.error("LOGIN ERROR:", error );
         message.innerHTML =
             "❌ Tidak dapat terhubung ke server.<br>" +
             "<small>" +
@@ -1204,7 +1169,8 @@ async function login() {
 }
 
 
-    function guestLogin() {
-        sessionStorage.setItem("loginStatus", "visitor");
-        window.location.href = "home.html";
-    }
+function guestLogin() {
+    sessionStorage.setItem( "loginStatus", "visitor");
+    sessionStorage.removeItem( "loginUsername" );
+    window.location.href ="home.html";
+}
