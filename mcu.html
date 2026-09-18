@@ -31,15 +31,37 @@
 
 <main class="content">
     <h1>Mono Chrome</h1>
-    
     <!-- =================================================
          FORM UPLOAD
     ================================================== -->
+<div id="uploadArea"></div>
+  <p>
+       Add new type/function of Converter
+    </p>
 
-    <div
-        id="uploadForm"
-        style="display:none; margin-top:20px;">
+    <p>
+       ⚠️ pastikan file sudah di rename terlebih dahulu & max 10mb/file ⚠️
+    </p>
 
+    <!-- =================================================
+         TOMBOL TAMBAH FILE
+    ================================================== -->
+
+    <button id="uploadButton" onclick="tampilkanFormUpload()">
+        + Tambah File
+    </button>
+    <!-- =================================================
+         NAMA FOLDER
+    ================================================== -->
+    <label for="folderInput">
+        Nama Folder
+    </label>
+
+    <input type="text" id="folderInput" placeholder="Contoh: mesin_001">
+    <!-- =================================================
+         FORM UPLOAD
+    ================================================== -->
+    <div id="uploadForm" style="display:none; margin-top:20px;">
         <label for="fileInput">
             Pilih file:
         </label>
@@ -79,16 +101,10 @@
             Pilih file:
         </label>
         <br><br>
-
-
         <input type="file" id="fileInput" multiple>
         <br><br>
-
-
         <!-- DAFTAR FILE YANG DIPILIH -->
-
         <div id="fileList">
-
             <p>
                 Belum ada file dipilih.
             </p>
@@ -113,8 +129,6 @@
     </div>
 
 </div>
-
-
     
 <!-- =================================================
      DAFTAR FILE DI GITHUB
