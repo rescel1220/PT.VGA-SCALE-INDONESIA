@@ -288,61 +288,46 @@ async function uploadSemuaFile() {
     // =================================================
 
     if (gagal === 0) {
-
         status.innerHTML =
             "✅ Semua file berhasil diupload.<br>" +
-
             "Folder utama: <b>" +
             escapeHtml(folder) +
             "</b><br>" +
-
             "Subfolder: <b>" +
             escapeHtml(subfolder) +
             "</b><br>" +
-
             "Jumlah file: <b>" +
             berhasil +
             "</b>";
-
     }
 
     else {
         status.innerHTML =
             "⚠️ Upload selesai.<br>" +
-
             "Berhasil: <b>" +
             berhasil +
             "</b><br>" +
-
             "Gagal: <b>" +
             gagal +
             "</b>";
-
-
+        
         if (daftarGagal.length > 0) {
             status.innerHTML +=
                 "<br><br>" +
                 "<b>File yang gagal:</b>";
 
-
             daftarGagal.forEach(
                 function (item) {
-
                     status.innerHTML +=
                         "<br>❌ " +
                         escapeHtml(item);
                 }
             );
-
         }
-
     }
-
-
     // =================================================
     // RESET FILE INPUT
     // =================================================
-
     input.value = "";
     const daftar = document.getElementById("fileList");
     if (daftar) {
@@ -360,60 +345,29 @@ async function uploadSemuaFile() {
 // =====================================================
 // ESCAPE HTML
 // =====================================================
-
 function escapeHtml(text) {
-
-    const div =
-        document.createElement("div");
-
-
-    div.textContent =
-        text;
-
-
+    const div = document.createElement("div");
+    div.textContent = text;
     return div.innerHTML;
-
 }
-
-
 // =====================================================
 // LOAD DAFTAR SUBFOLDER
 // =====================================================
-
 async function loadDaftarFolder() {
-
-    const folderList =
-        document.getElementById("folderList");
-
-
+    const folderList =document.getElementById("folderList");
     if (!folderList) {
         return;
     }
-
-
-    const folderUtama =
-        getFolderUtama();
-
-
+    const folderUtama = getFolderUtama();
     if (!folderUtama) {
-
-        folderList.innerHTML =
-            "❌ Folder halaman tidak diketahui.";
-
+        folderList.innerHTML =  "❌ Folder halaman tidak diketahui.";
         return;
     }
-
-
-    folderList.innerHTML =
-        "⏳ Memuat daftar folder...";
-
-
+    folderList.innerHTML = "⏳ Memuat daftar folder...";
     try {
-
         // ---------------------------------------------
         // API
         // ---------------------------------------------
-
         const url =
             VERCEL_LIST_API +
             "?folder=" +
@@ -422,122 +376,44 @@ async function loadDaftarFolder() {
             );
 
 
-        console.log(
-            "LOAD FOLDER:",
-            url
-        );
+        console.log("LOAD FOLDER:", url);
 
 
-        const response =
-            await fetch(url);
-
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "RESULT FOLDER:",
-            result
-        );
-
-
-        if (
-            !response.ok ||
-            !result.success
-        ) {
-
-            throw new Error(
-                result.message ||
-                "Gagal mengambil daftar folder"
-            );
-
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log("RESULT FOLDER:",result);
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Gagal mengambil daftar folder");
         }
-
-
         // ---------------------------------------------
         // TIDAK ADA FOLDER
         // ---------------------------------------------
-
-        if (
-            !result.folders ||
-            result.folders.length === 0
-        ) {
-
-            folderList.innerHTML =
-                "<p>Belum ada folder.</p>";
-
+        if (!result.folders || result.folders.length === 0) {
+            folderList.innerHTML = "<p>Belum ada folder.</p>";
             return;
         }
-
-
         // ---------------------------------------------
         // TAMPILKAN FOLDER
         // ---------------------------------------------
-
         folderList.innerHTML = "";
-
-
         result.folders.forEach(
             function (folder) {
-
-                const item =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                item.className =
-                    "folder-item";
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.type =
-                    "button";
-
-
-                button.textContent =
-                    "📁 " +
-                    folder.name;
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        bukaFolder(folder.name
-                        );
-
+                const item =document.createElement("div");
+                item.className = "folder-item";
+                const button = document.createElement("button");
+                button.type ="button";
+                button.textContent = "📁 " + folder.name;
+                button.addEventListener("click", function () {
+                        bukaFolder(folder.name);
                     }
                 );
-
-
-                item.appendChild(
-                    button
-                );
-
-
-                folderList.appendChild(
-                    item
-                );
-
+                item.appendChild(button);
+                folderList.appendChild(item);
             }
         );
-
     }
-
-
     catch (error) {
-
-        console.error(
-            "Error load folder:",
-            error
-        );
+        console.error("Error load folder:", error);
 
 
         folderList.innerHTML =
