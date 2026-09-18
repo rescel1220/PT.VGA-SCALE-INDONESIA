@@ -1,14 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
-
     <meta charset="UTF-8">
-    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Converter - VGA HUB CENTER</title>
     <link rel="stylesheet" href="./style.css">
-
 </head>
 
 
@@ -24,11 +21,13 @@
     </div>
     <!-- MENU -->
     <ul class="navbar-menu">
+
         <li><a href="home.html"> Home </a> </li>
         <li><a href="converter.html">Converter</a></li>
         <li><a href="mcu.html">Mono Chrome</a></li>
         <li><a href="hmi.html">Hmi</a></li>
         <button onclick="logout()">Logout</button>
+
     </ul>
 </nav>
 <!-- =====================================================
@@ -36,158 +35,140 @@
 ===================================================== -->
 <main class="content">
     <h1>Converter</h1>
-    
-<div id="uploadArea">
-
-    <p>
-       Add new type/function of Converter
-    </p>
-
-    <p>
-       ⚠️ pastikan file sudah di rename terlebih dahulu & max 10mb/file ⚠️
-    </p>
-
     <!-- =================================================
-         TOMBOL TAMBAH FILE
+         AREA UPLOAD
     ================================================== -->
+    <div id="uploadArea">
+        <p>
+            Add new type/function of Converter
+        </p>
 
-    <button
-        id="uploadButton"
-        onclick="tampilkanFormUpload()">
-        + Tambah File
-    </button>
+        <p>
+            ⚠️ Pastikan file sudah di-rename terlebih dahulu
+            & max 10 MB/file ⚠️
+        </p>
+        <!-- =================================================
+             TOMBOL TAMBAH FILE
+        ================================================== -->
+        <button
+            id="uploadButton" type="button" onclick="tampilkanFormUpload()">
+            + Tambah File
+        </button>
+        <!-- =================================================
+             NAMA FOLDER
+        ================================================== -->
 
+        <div style="margin-top:20px;">
 
-    <!-- =================================================
-         NAMA FOLDER
-    ================================================== -->
+            <label for="folderInput">
+                Nama Folder
+            </label>
 
-    <label for="folderInput">
-        Nama Folder
-    </label>
+            <br><br>
 
-    <input
-        type="text"
-        id="folderInput"
-        placeholder="Contoh: mesin_001">
+            <input
+                type="text"
+                id="folderInput"
+                placeholder="Contoh: mesin_001">
 
-
-    <!-- =================================================
-         FORM UPLOAD
-    ================================================== -->
-
-    <div
-        id="uploadForm"
-        style="display:none; margin-top:20px;">
-
-        <label for="fileInput">
-            Pilih file:
-        </label>
-
-        <br><br>
-
-        <input
-            type="file"
-            id="fileInput"
-            multiple>
-
-        <br><br>
-
-        <div id="fileList">
-            <p>
-                Belum ada file dipilih.
-            </p>
         </div>
 
-        <br>
 
-        <button
-            type="button"
-            onclick="uploadSemuaFile()">
-            Upload
-        </button>
+        <!-- =================================================
+             FORM UPLOAD
+        ================================================== -->
 
         <div
-            id="uploadStatus"
-            style="margin-top:15px;">
+            id="uploadForm"
+            style="display:none; margin-top:20px;">
+
+            <!-- PILIH FILE -->
+
+            <label for="fileInput">
+                Pilih file:
+            </label>
+
+            <br><br>
+
+            <input
+                type="file"
+                id="fileInput"
+                multiple>
+
+            <br><br>
+
+
+            <!-- DAFTAR FILE YANG DIPILIH -->
+
+            <div id="fileList">
+
+                <p>
+                    Belum ada file dipilih.
+                </p>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- TOMBOL UPLOAD -->
+
+            <button
+                type="button"
+                onclick="uploadSemuaFile()">
+
+                Upload
+
+            </button>
+
+
+            <!-- STATUS -->
+
+            <div
+                id="uploadStatus"
+                style="margin-top:15px;">
+
+            </div>
+
         </div>
 
     </div>
 
-        <!-- PILIH FILE -->
-        <label for="fileInput">
-            Pilih file:
-        </label>
-        <br><br>
-
-
-        <input type="file" id="fileInput" multiple>
-        <br><br>
-
-
-        <!-- DAFTAR FILE YANG DIPILIH -->
-
-        <div id="fileList">
-
-            <p>
-                Belum ada file dipilih.
-            </p>
-
-        </div>
-
-
-        <br>
-
-
-        <!-- TOMBOL UPLOAD -->
-
-        <button type="button" onclick="uploadSemuaFile()">
-            Upload
-        </button>
-
-
-        <!-- STATUS -->
-
-        <div id="uploadStatus" style=" margin-top:15px; "> </div>
-
-    </div>
-
-</div>
-
-
-
-
-
-
-        
 
     <!-- =================================================
          DAFTAR FILE DI GITHUB
-         AKAN KITA AKTIFKAN PADA TAHAP BERIKUTNYA
     ================================================== -->
 
-    <section style="  margin-top:40px; ">        
-       <h2>Daftar Folder</h2>
+    <section style="margin-top:40px;">
+
+        <h2>Daftar Folder</h2>
 
         <div id="folderList">
+
             Memuat folder...
+
         </div>
-        
+
+
         <hr>
-        
+
+
         <h2 id="judulFile">
             Isi Folder
         </h2>
-        
+
+
         <div id="fileListFolder">
+
             Pilih folder terlebih dahulu.
+
         </div>
-        
+
     </section>
 
 
 </main>
-
 
 
 <!-- =====================================================
@@ -200,3 +181,4 @@
 </body>
 
 </html>
+```
