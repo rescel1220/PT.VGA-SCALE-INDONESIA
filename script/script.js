@@ -24,7 +24,7 @@ function getFolderUtama() {
         return "converter";
     }
     // MONOCHROME / MCU
-    if ( halaman === "monochrome.html" || halaman === "mcu.html") {
+    if (halaman === "mcu.html") {
         return "mcu";
     }
     // HMI
