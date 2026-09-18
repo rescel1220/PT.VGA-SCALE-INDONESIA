@@ -363,7 +363,7 @@ async function uploadSemuaFile() {
     // =================================================
     // KOSONGKAN NAMA FOLDER
     // =================================================
-    folderInput.value = "";
+    folderInput.value = folderAktif || "";
     // =================================================
     // REFRESH DAFTAR FOLDER
     // =================================================
