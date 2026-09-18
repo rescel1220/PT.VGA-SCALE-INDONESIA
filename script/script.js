@@ -147,25 +147,12 @@ function formatUkuranFile(bytes) {
     ];
 
     const index = Math.floor(Math.log(bytes) / Math.log(1024));
-
-
     const indexAman = Math.min(index, ukuran.length - 1 );
-
-
-    return (
-        bytes /
-        Math.pow(1024, indexAman)
-    ).toFixed(2) +
-    " " +
-    ukuran[indexAman];
-
+    return (bytes / Math.pow(1024, indexAman)).toFixed(2) + " " + ukuran[indexAman];
 }
-
-
 // =====================================================
 // UPLOAD SEMUA FILE
 // =====================================================
-
 async function uploadSemuaFile() {
     const input =document.getElementById("fileInput");
     const status =document.getElementById("uploadStatus");
@@ -214,12 +201,7 @@ async function uploadSemuaFile() {
     // ===============================================
     // UPLOAD SATU PER SATU
     // =================================================
-    for (
-        let i = 0;
-        i < input.files.length;
-        i++
-    ) {
-
+    for (let i = 0; i < input.files.length; i++ ) {
         const file =input.files[i];
 
         status.innerHTML =
@@ -262,89 +244,45 @@ async function uploadSemuaFile() {
                     url,
                     {
                         method: "POST",
-
                         headers: {
                             "Content-Type":
                                 file.type || "application/octet-stream"
                         },
-
                         body: file
                     }
                 );
-
-
             // -----------------------------------------
             // BACA RESPONSE
             // -----------------------------------------
             let result;
             try {
-
                 result = await response.json();
             } catch (jsonError) {
                 throw new Error(
                     "Server tidak mengirim response JSON. HTTP " +
                     response.status
                 );
-
             }
-
-
             console.log( "Response upload:", result );
             // -----------------------------------------
             // CEK RESPONSE
             // -----------------------------------------
-            if (
-                !response.ok ||
-                !result.success
-            ) {
-
-                throw new Error(
-                    result.message ||
-                    "Upload gagal. HTTP " +
-                    response.status
-                );
-
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "Upload gagal. HTTP " + response.status);
             }
-
-
             // -----------------------------------------
             // BERHASIL
             // -----------------------------------------
-
             berhasil++;
-
-
-            console.log(
-                "✅ Upload berhasil:",
-                file.name
-            );
-
+            console.log("✅ Upload berhasil:", file.name);
         }
-
 
         catch (error) {
-
-            console.error(
-                "❌ Upload error:",
-                file.name,
-                error
-            );
-
-
+            console.error("❌ Upload error:", file.name, error);
             gagal++;
-
-
-            daftarGagal.push(
-                file.name +
-                " — " +
-                error.message
-            );
-
+            daftarGagal.push(file.name +" — " + error.message);
         }
-
     }
-
-
     // =================================================
     // HASIL AKHIR
     // =================================================
@@ -369,7 +307,6 @@ async function uploadSemuaFile() {
     }
 
     else {
-
         status.innerHTML =
             "⚠️ Upload selesai.<br>" +
 
@@ -383,7 +320,6 @@ async function uploadSemuaFile() {
 
 
         if (daftarGagal.length > 0) {
-
             status.innerHTML +=
                 "<br><br>" +
                 "<b>File yang gagal:</b>";
@@ -395,7 +331,6 @@ async function uploadSemuaFile() {
                     status.innerHTML +=
                         "<br>❌ " +
                         escapeHtml(item);
-
                 }
             );
 
@@ -409,35 +344,19 @@ async function uploadSemuaFile() {
     // =================================================
 
     input.value = "";
-
-
-    const daftar =
-        document.getElementById("fileList");
-
-
+    const daftar = document.getElementById("fileList");
     if (daftar) {
-
         daftar.innerHTML = "";
-
     }
-
-
     // =================================================
     // KOSONGKAN NAMA FOLDER
     // =================================================
-
     folderInput.value = "";
-
-
     // =================================================
     // REFRESH DAFTAR FOLDER
     // =================================================
-
     await loadDaftarFolder();
-
 }
-
-
 // =====================================================
 // ESCAPE HTML
 // =====================================================
