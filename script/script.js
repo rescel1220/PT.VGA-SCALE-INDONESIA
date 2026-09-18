@@ -44,14 +44,41 @@ function getUploadFolder() {
 // TAMPILKAN / SEMBUNYIKAN FORM UPLOAD
 // =====================================================
 function tampilkanFormUpload() {
-    const form =document.getElementById("uploadForm");
+    const form = document.getElementById("uploadForm");
+    const folderInput = document.getElementById("folderInput");
+    const status = document.getElementById("uploadStatus");
     if (!form) {
         return;
     }
+    // -------------------------------------------------
+    // CEK FOLDER SUDAH DIPILIH
+    // -------------------------------------------------
+    if (!folderAktif) {
+        if (status) {
+            status.innerHTML ="❌ Silakan pilih folder terlebih dahulu.";
+        }
+        return;
+    }
+    // -------------------------------------------------
+    // ISI NAMA FOLDER OTOMATIS
+    // -------------------------------------------------
+    if (folderInput) {
+        folderInput.value = folderAktif;
+        folderInput.readOnly = true;
+    }
+    // -------------------------------------------------
+    // TAMPILKAN FORM
+    // -------------------------------------------------
     if (form.style.display === "block") {
         form.style.display = "none";
     } else {
         form.style.display = "block";
+        if (status) {
+            status.innerHTML =
+                "📁 Folder tujuan: <b>" +
+                escapeHtml(folderAktif) +
+                "</b>";
+        }
     }
 }
 // =====================================================
@@ -438,6 +465,11 @@ async function loadDaftarFolder() {
 
 async function bukaFolder(namaFolder) {
     folderAktif = namaFolder;
+    const folderInput = document.getElementById("folderInput");
+    if (folderInput) {
+        folderInput.value = namaFolder;
+        folderInput.readOnly = true;
+    }
     console.log("Folder aktif:", folderAktif);
     const folderUtama =getFolderUtama();
     const fileList = document.getElementById("fileListFolder");
@@ -474,60 +506,23 @@ async function bukaFolder(namaFolder) {
         // FOLDER KOSONG
         // ---------------------------------------------
 
-        if (
-            !result.files ||
-            result.files.length === 0
-        ) {
-
-            fileList.innerHTML =
-                "<p>Folder ini masih kosong.</p>";
-
+        if (!result.files || result.files.length === 0) {
+            fileList.innerHTML ="<p>Folder ini masih kosong.</p>";
             return;
         }
-
-
         // ---------------------------------------------
         // TAMPILKAN FILE
         // ---------------------------------------------
-
         fileList.innerHTML = "";
-
-
         result.files.forEach(
             function (file) {
-
-                const item =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                item.className =
-                    "file-item";
-
-
-                const info =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                info.className =
-                    "file-info";
-
-
-                const icon =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                icon.className =
-                    "file-icon";
-
-
-                icon.textContent =
-                    "📄";
+                const item = document.createElement("div");
+                item.className ="file-item";
+                const info =document.createElement("div");
+                info.className = "file-info";
+                const icon = document.createElement("span");
+                icon.className ="file-icon";
+                icon.textContent ="📄";
 
 
                 const name =
