@@ -298,21 +298,32 @@ async function loadDaftarFolder() {// LOAD DAFTAR SUBFOLDER
         }
         // TAMPILKAN FOLDER
         folderList.innerHTML = "";
-        result.folders.forEach(
-            function (folder) {
-                const item =document.createElement("div");
-                item.className = "folder-item";
-                const button = document.createElement("button");
-                button.type ="button";
-                button.textContent = "📁 " + folder.name;
-                button.addEventListener("click", function () {
-                        bukaFolder(folder.name);
-                    }
-                );
-                item.appendChild(button);
-                folderList.appendChild(item);
-            }
-        );
+result.folders.forEach(
+    function (folder) {
+        const item = document.createElement("div");
+        item.className = "folder-item";
+        const button = document.createElement("button");        // TOMBOL BUKA FOLDER
+        button.type = "button";
+        button.textContent = "📁 " + folder.name;
+        button.addEventListener("click", function () {
+            bukaFolder(folder.name);
+        });
+        item.appendChild(button);
+        const statusLogin = sessionStorage.getItem("loginStatus");        // TOMBOL +
+        if (statusLogin === "user" || statusLogin === "admin") {
+            const tambahButton = document.createElement("button");
+            tambahButton.type = "button";
+            tambahButton.textContent = "+";
+            tambahButton.title = "Tambah file ke folder " + folder.name;
+            tambahButton.className = "tambah-file-folder";
+            tambahButton.addEventListener("click", function () {
+            tambahFileKeFolder(folder.name);
+            });
+            item.appendChild(tambahButton);
+        }
+        folderList.appendChild(item);        // MASUKKAN KE DAFTAR FOLDER
+    }
+);
     }
     catch (error) {
         console.error("Error load folder:", error);
@@ -323,6 +334,69 @@ async function loadDaftarFolder() {// LOAD DAFTAR SUBFOLDER
             "</small>";
     }
 }
+
+// =====================================================
+// TAMBAH FILE KE FOLDER YANG SUDAH ADA
+// =====================================================
+function tambahFileKeFolder(namaFolder) {
+
+    const statusLogin = sessionStorage.getItem("loginStatus");
+
+    // Hanya USER / ADMIN
+    if (statusLogin !== "user" && statusLogin !== "admin") {
+        alert("Anda tidak memiliki izin untuk menambahkan file.");
+        return;
+    }
+
+    console.log("Tambah file ke folder:", namaFolder);
+
+    // Simpan folder yang dipilih
+    folderAktif = namaFolder;
+
+    // Ambil file input utama
+    const input = document.getElementById("fileInput");
+
+    if (!input) {
+        alert("File input tidak ditemukan.");
+        return;
+    }
+
+    // Simpan folder ke input folder
+    const folderInput = document.getElementById("folderInput");
+
+    if (folderInput) {
+        folderInput.value = namaFolder;
+        folderInput.readOnly = true;
+    }
+
+    // Buka file picker
+    input.value = "";
+
+    input.onchange = async function () {
+
+        // Tidak memilih file
+        if (input.files.length === 0) {
+            return;
+        }
+
+        console.log(
+            "File dipilih:",
+            input.files.length,
+            "untuk folder:",
+            namaFolder
+        );
+
+        // Tampilkan file yang dipilih
+        tampilkanFileDipilih();
+
+        // Upload langsung
+        await uploadSemuaFile();
+
+    };
+
+    input.click();
+}
+
 async function bukaFolder(namaFolder) {// BUKA FOLDER
     folderAktif = namaFolder;
     const folderInput = document.getElementById("folderInput");
