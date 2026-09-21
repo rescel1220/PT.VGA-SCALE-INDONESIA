@@ -118,10 +118,10 @@ function aturHakAksesUpload() {
     // =============================================
     if (status === "user" ||status === "admin") {
         if (uploadArea) {
-            uploadArea.style.display = "";
+            uploadArea.style.display = "block";
         }
         if (uploadButton) {
-            uploadButton.style.display = "";
+            uploadButton.style.display = "inline-block";
         }
         console.log("Mode " + status + ": Upload tersedia");
     }
