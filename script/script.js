@@ -354,98 +354,90 @@ async function loadDaftarFolder() {
         }
 
 
-        // =============================================
-        // KOSONGKAN DAFTAR
-        // =============================================
-        folderList.innerHTML = "";
+
+// =====================================================
+// TAMPILKAN FOLDER
+// =====================================================
+folderList.innerHTML = "";
+
+result.folders.forEach(function (folder) {
+
+    // =================================================
+    // BARIS FOLDER
+    // =================================================
+    const item = document.createElement("div");
+    item.className = "folder-item";
+
+
+    // =================================================
+    // TOMBOL BUKA FOLDER
+    // =================================================
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.textContent = "📁 " + folder.name;
+
+    button.addEventListener("click", function () {
+        bukaFolder(folder.name);
+    });
+
+    item.appendChild(button);
+
+
+    // =================================================
+    // TOMBOL +
+    // HANYA USER / ADMIN
+    // =================================================
+    const statusLogin =
+        sessionStorage.getItem("loginStatus");
+
+    if (
+        statusLogin === "user" ||
+        statusLogin === "admin"
+    ) {
+
+        const tambahButton =
+            document.createElement("button");
+
+        tambahButton.type = "button";
+        tambahButton.textContent = "+";
+        tambahButton.title =
+            "Tambah file ke folder " +
+            folder.name;
+
+        tambahButton.className =
+            "tambah-file-folder";
 
 
         // =============================================
-        // TAMPILKAN FOLDER
+        // KLIK TOMBOL +
         // =============================================
-        result.folders.forEach(function (folder) {
+        tambahButton.addEventListener(
+            "click",
+            function () {
 
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "folder-item";
-
-
-            // =========================================
-            // TOMBOL FOLDER
-            // =========================================
-            const button =
-                document.createElement("button");
-
-            button.type = "button";
-
-            button.textContent =
-                "📁 " + folder.name;
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    bukaFolder(folder.name);
-
-                }
-            );
-
-            item.appendChild(button);
-
-
-            // =========================================
-            // TOMBOL +
-            // =========================================
-            const statusLogin =
-                sessionStorage.getItem("loginStatus");
-
-            if (
-                statusLogin === "user" ||
-                statusLogin === "admin"
-            ) {
-
-                const tambahButton =
-                    document.createElement("button");
-
-                tambahButton.type = "button";
-
-                tambahButton.textContent = "+";
-
-                tambahButton.className =
-                    "tambah-file-folder";
-
-                tambahButton.title =
-                    "Tambah file ke " +
-                    folder.name;
-
-
-                tambahButton.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.stopPropagation();
-
-                        tambahFileKeFolder(
-                            folder.name
-                        );
-
-                    }
+                tambahFileKeFolder(
+                    folder.name
                 );
 
-                item.appendChild(
-                    tambahButton
-                );
             }
+        );
 
 
-            // =========================================
-            // MASUKKAN KE LIST
-            // =========================================
-            folderList.appendChild(item);
+        item.appendChild(
+            tambahButton
+        );
+    }
 
-        });
+
+    // =================================================
+    // MASUKKAN BARIS FOLDER
+    // =================================================
+    folderList.appendChild(item);
+
+});
+
+
 
     }
     catch (error) {
