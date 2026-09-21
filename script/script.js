@@ -49,7 +49,6 @@ function tampilkanFormUpload() {
             "📁 <b>Buat folder baru</b><br>" +
             "Masukkan nama folder kemudian pilih file.";
     }
-
     console.log("MODE UPLOAD = BUAT FOLDER BARU");
 }
 function aturHakAksesUpload() {
@@ -231,14 +230,12 @@ else {
             berhasil++;
             console.log("✅ Upload berhasil:", file.name);          // BERHASIL
         }
-
         catch (error) {
             console.error("❌ Upload error:", file.name, error);
             gagal++;
             daftarGagal.push(file.name +" — " + error.message);
         }
     }
-
     if (gagal === 0) {    // HASIL AKHIR
         status.innerHTML =
             "✅ Semua file berhasil diupload.<br>" +
@@ -252,7 +249,6 @@ else {
             berhasil +
             "</b>";
     }
-
     else {
         status.innerHTML =
             "⚠️ Upload selesai.<br>" +
@@ -262,7 +258,6 @@ else {
             "Gagal: <b>" +
             gagal +
             "</b>";
-        
         if (daftarGagal.length > 0) {
             status.innerHTML +=
                 "<br><br>" +
@@ -277,16 +272,12 @@ else {
             );
         }
     }
-    // =================================================
-    // RESET FILE INPUT
-    // =================================================
-    input.value = "";
+    input.value = ""; // RESET FILE INPUT
     const daftar = document.getElementById("fileList");
     if (daftar) {
         daftar.innerHTML = "";
     }
     folderInput.value = folderAktif || "";    // KOSONGKAN NAMA FOLDER
-
     await loadDaftarFolder();    // REFRESH DAFTAR FOLDER
 }
 
@@ -296,137 +287,58 @@ function escapeHtml(text) {// ESCAPE HTML
     return div.innerHTML;
 }
 
-
 async function loadDaftarFolder() {
 
-    const folderList =
-        document.getElementById("folderList");
-
+    const folderList =document.getElementById("folderList");
     if (!folderList) {
         console.log("folderList tidak ditemukan.");
         return;
     }
-
-    const folderUtama =
-        getFolderUtama();
-
+    const folderUtama =getFolderUtama();
     if (!folderUtama) {
-        folderList.innerHTML =
-            "❌ Folder halaman tidak diketahui.";
+        folderList.innerHTML ="❌ Folder halaman tidak diketahui.";
         return;
     }
-
-    folderList.innerHTML =
-        "⏳ Memuat daftar folder...";
-
+    folderList.innerHTML ="⏳ Memuat daftar folder...";
     try {
-
         const url =
             VERCEL_LIST_API +
             "?folder=" +
             encodeURIComponent(folderUtama);
 
-        console.log(
-            "LOAD FOLDER:",
-            url
-        );
-
-        const response =
-            await fetch(url);
-
+        console.log("LOAD FOLDER:", url);
+        const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(
-                "HTTP Error " +
-                response.status
-            );
+            throw new Error("HTTP Error " + response.status);
         }
-
-        const result =
-            await response.json();
-
-        console.log(
-            "RESULT FOLDER:",
-            result
-        );
-
+        const result =await response.json();
+        console.log("RESULT FOLDER:", result);
         if (!result.success) {
-            throw new Error(
-                result.message ||
-                "Gagal mengambil daftar folder"
-            );
+            throw new Error(result.message || "Gagal mengambil daftar folder");
         }
-
-        if (
-            !result.folders ||
-            !Array.isArray(result.folders) ||
-            result.folders.length === 0
-        ) {
-
-            folderList.innerHTML =
-                "<p>Belum ada folder.</p>";
-
+        if (!result.folders || !Array.isArray(result.folders) || result.folders.length === 0) {
+            folderList.innerHTML = "<p>Belum ada folder.</p>";
             return;
         }
-
         folderList.innerHTML = "";
-
         result.folders.forEach(
             function (folder) {
-
-                // =================================
-                // BARIS FOLDER
-                // =================================
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "folder-item";
-
-
-                // =================================
-                // TOMBOL BUKA FOLDER
-                // =================================
-
-                const button =
-                    document.createElement("button");
-
-                button.type =
-                    "button";
-
-                button.textContent =
-                    "📁 " + folder.name;
-
-                button.addEventListener(
-                    "click",
+                const item =document.createElement("div");// BARIS FOLDER
+                item.className ="folder-item";
+                const button =document.createElement("button");                // TOMBOL BUKA FOLDER
+                button.type ="button";
+                button.textContent ="📁 " + folder.name;
+                button.addEventListener("click",
                     function () {
-
-                        bukaFolder(
-                            folder.name
-                        );
-
+                        bukaFolder(folder.name);
                     }
                 );
-
-
-                item.appendChild(
-                    button
-                );
-
-
-                // =================================
-                // CEK LOGIN
-                // =================================
-
-                const statusLogin =
-                    sessionStorage.getItem(
-                        "loginStatus"
-                    );
-
+                item.appendChild(button);
+                const statusLogin =sessionStorage.getItem("loginStatus");       // CEK LOGIN
                 if (statusLogin === "user" || statusLogin === "admin") {                // TOMBOL "+"
                     const tambahButton =document.createElement("button");
                     tambahButton.type ="button";
-                    tambahButton.textContent =" +";
+                    tambahButton.textContent ="+";
                     tambahButton.title ="Tambah file ke folder " + folder.name;
                     tambahButton.className ="tambah-file-folder";
                     tambahButton.addEventListener("click", function (event) {
