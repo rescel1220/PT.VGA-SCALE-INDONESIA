@@ -316,6 +316,11 @@ async function loadDaftarFolder() {// LOAD DAFTAR SUBFOLDER
 // =====================================================
 folderList.innerHTML = "";
 
+// =====================================================
+// TAMPILKAN FOLDER
+// =====================================================
+folderList.innerHTML = "";
+
 result.folders.forEach(function (folder) {
 
     // =================================================
@@ -365,9 +370,9 @@ result.folders.forEach(function (folder) {
             "tambah-file-folder";
 
 
-        // =============================================
+        // =================================================
         // KLIK TOMBOL +
-        // =============================================
+        // =================================================
         tambahButton.addEventListener(
             "click",
             function () {
@@ -378,7 +383,6 @@ result.folders.forEach(function (folder) {
 
             }
         );
-
 
         item.appendChild(
             tambahButton
@@ -393,26 +397,6 @@ result.folders.forEach(function (folder) {
 
 });
 
-
-
-
-        item.appendChild(button);
-        const statusLogin = sessionStorage.getItem("loginStatus");        // TOMBOL +
-        if (statusLogin === "user" || statusLogin === "admin") {
-            const tambahButton = document.createElement("button");
-            tambahButton.type = "button";
-            tambahButton.textContent = "+";
-            tambahButton.title = "Tambah file ke folder " + folder.name;
-            tambahButton.className = "tambah-file-folder";
-            tambahButton.addEventListener("click", function () {
-            tambahFileKeFolder(folder.name);
-            }
-        );
-            item.appendChild(tambahButton);
-        }
-        folderList.appendChild(item);        // MASUKKAN KE DAFTAR FOLDER
-    }
-);
     }
     catch (error) {
         console.error("Error load folder:", error);
