@@ -50,40 +50,36 @@ function tampilkanFormUpload() {
     if (!form) {
         return;
     }
-    // -------------------------------------------------
-    // CEK FOLDER SUDAH DIPILIH
-    // -------------------------------------------------
+     // MODE 1 : BUAT FOLDER BARU
     if (!folderAktif) {
+        // Folder belum dipilih// User harus mengisi nama folder sendiri
+        if (folderInput) {
+            folderInput.value = "";
+            folderInput.readOnly = false;
+            folderInput.placeholder = "Contoh: mesin_001";
+        }
+        // Tampilkan form
+        form.style.display = "block";
         if (status) {
-            status.innerHTML ="❌ Silakan pilih folder terlebih dahulu.";
+            status.innerHTML ="📁 <b>Buat folder baru</b><br>" + "Masukkan nama folder kemudian pilih file.";
         }
         return;
     }
-    // -------------------------------------------------
-    // ISI NAMA FOLDER OTOMATIS
-    // -------------------------------------------------
+    // MODE 2 : TAMBAH FILE KE FOLDER YANG SUDAH ADA
     if (folderInput) {
-        folderInput.value = folderAktif;
-        folderInput.readOnly = true;
+        folderInput.value = folderAktif;        // Gunakan folder yang sedang dipilih
+        folderInput.readOnly = true;        // Tidak boleh diganti
     }
-    // -------------------------------------------------
-    // TAMPILKAN FORM
-    // -------------------------------------------------
-    if (form.style.display === "block") {
-        form.style.display = "none";
-    } else {
-        form.style.display = "block";
-        if (status) {
-            status.innerHTML =
-                "📁 Folder tujuan: <b>" +
-                escapeHtml(folderAktif) +
-                "</b>";
-        }
+    form.style.display = "block";    // Tampilkan form
+    if (status) {
+        status.innerHTML =
+            "📁 Folder tujuan: <b>" +
+            escapeHtml(folderAktif) +
+            "</b><br>" +
+            "Pilih file yang ingin ditambahkan.";
     }
 }
-// =====================================================
 // ATUR HAK AKSES UPLOAD
-// =====================================================
 function aturHakAksesUpload() {
     const status =sessionStorage.getItem("loginStatus");
     const uploadArea =document.getElementById("uploadArea");
@@ -126,9 +122,7 @@ function aturHakAksesUpload() {
         console.log("Mode " + status + ": Upload tersedia");
     }
 }
-// =====================================================
 // TAMPILKAN FILE YANG DIPILIH
-// =====================================================
 function tampilkanFileDipilih() {
     const input =document.getElementById("fileInput");
     const daftar = document.getElementById("fileList");
@@ -147,14 +141,7 @@ function tampilkanFileDipilih() {
         const file =input.files[i];
         const item = document.createElement("div");
         item.className = "upload-file-item";
-        item.textContent =
-            (i + 1) +
-            ". " +
-            file.name +
-            " (" +
-            formatUkuranFile(file.size) +
-            ")";
-        daftar.appendChild(item);
+        item.textContent =(i + 1) + ". " + file.name + " (" + formatUkuranFile(file.size) + ")"; daftar.appendChild(item);
     }
 }
 // =====================================================
@@ -189,16 +176,12 @@ async function uploadSemuaFile() {
         console.error("Element upload tidak lengkap.");
         return;
     }
-    // -------------------------------------------------
     // CEK FILE
-    // -------------------------------------------------
     if (input.files.length === 0) {
         status.innerHTML ="❌ Silakan pilih file terlebih dahulu.";
         return;
     }
-    // -------------------------------------------------
     // AMBIL NAMA SUBFOLDER
-    // -------------------------------------------------
     let subfolder = folderInput.value.trim();
     if (folderAktif) {
         subfolder = folderAktif;
@@ -208,9 +191,7 @@ async function uploadSemuaFile() {
     status.innerHTML = "❌ Silakan pilih folder atau masukkan nama folder.";
     return;
     }
-    // -------------------------------------------------
     // AMBIL FOLDER UTAMA
-    // -------------------------------------------------
     const folder = getUploadFolder();
     if (!folder) {
         status.innerHTML = "❌ Folder utama tidak diketahui.";
@@ -218,16 +199,12 @@ async function uploadSemuaFile() {
     }
     console.log("Folder utama:", folder);
     console.log("Subfolder:", subfolder);
-    // -------------------------------------------------
     // STATUS
-    // -------------------------------------------------
     status.innerHTML = "⏳ Menyiapkan upload...";
     let berhasil = 0;
     let gagal = 0;
     let daftarGagal = [];
-    // ===============================================
     // UPLOAD SATU PER SATU
-    // =================================================
     for (let i = 0; i < input.files.length; i++ ) {
         const file =input.files[i];
 
