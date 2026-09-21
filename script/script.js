@@ -2,16 +2,12 @@ function logout() {
     sessionStorage.removeItem("loginStatus");    // Hapus status login
     window.location.href = "index.html";    // Kembali ke halaman login
 }
-// =====================================================
 // KONFIGURASI API VERCEL
-// =====================================================
 const VERCEL_BASE_URL = "https://apivga.vercel.app";
 const VERCEL_UPLOAD_API = VERCEL_BASE_URL + "/api/upload";
 const VERCEL_LIST_API = VERCEL_BASE_URL + "/api/list";
 let folderAktif = null;
-
 // TENTUKAN FOLDER UTAMA BERDASARKAN HALAMAN
-
 function getFolderUtama() {
     const halaman =
         window.location.pathname
@@ -33,48 +29,28 @@ function getUploadFolder() {
     return getFolderUtama();
 }
 function tampilkanFormUpload() {
-
-    // =========================================
     // MODE BUAT FOLDER BARU
-    // =========================================
     folderAktif = null;
     modeUpload = "baru";
-
-    const form =
-        document.getElementById("uploadForm");
-
-    const folderInput =
-        document.getElementById("folderInput");
-
-    const status =
-        document.getElementById("uploadStatus");
-
+    const form =document.getElementById("uploadForm");
+    const folderInput =document.getElementById("folderInput");
+    const status =document.getElementById("uploadStatus");
     if (!form) {
         return;
     }
-
     if (folderInput) {
-
         folderInput.value = "";
-
         folderInput.readOnly = false;
-
-        folderInput.placeholder =
-            "Contoh: mesin_001";
+        folderInput.placeholder ="Contoh: mesin_001";
     }
-
     form.style.display = "block";
-
     if (status) {
-
         status.innerHTML =
             "📁 <b>Buat folder baru</b><br>" +
             "Masukkan nama folder kemudian pilih file.";
     }
 
-    console.log(
-        "MODE UPLOAD = BUAT FOLDER BARU"
-    );
+    console.log("MODE UPLOAD = BUAT FOLDER BARU");
 }
 function aturHakAksesUpload() {
     const status =sessionStorage.getItem("loginStatus");
@@ -169,36 +145,15 @@ async function uploadSemuaFile() {
         return;
     }
 let subfolder = "";
-
 if (modeUpload === "tambah") {
-
-    // Mode tambah file ke folder lama
-    subfolder = folderAktif;
-
-    console.log(
-        "Mode TAMBAH FILE"
-    );
-
-    console.log(
-        "Folder aktif:",
-        folderAktif
-    );
-
+    subfolder = folderAktif;    // Mode tambah file ke folder lama
+    console.log("Mode TAMBAH FILE");
+    console.log("Folder aktif:", folderAktif);
 }
 else {
-
-    // Mode membuat folder baru
-    subfolder =
-        folderInput.value.trim();
-
-    console.log(
-        "Mode BUAT FOLDER BARU"
-    );
-
-    console.log(
-        "Nama folder baru:",
-        subfolder
-    );
+    subfolder =folderInput.value.trim();    // Mode membuat folder baru
+    console.log("Mode BUAT FOLDER BARU");
+    console.log("Nama folder baru:", subfolder);
 }
     if (subfolder === "") {
     status.innerHTML = "❌ Silakan pilih folder atau masukkan nama folder.";
@@ -468,75 +423,25 @@ async function loadDaftarFolder() {
                         "loginStatus"
                     );
 
-
-                // =================================
-                // TOMBOL "+"
-                // HANYA USER / ADMIN
-                // =================================
-
-                if (
-                    statusLogin === "user" ||
-                    statusLogin === "admin"
-                ) {
-
-                    const tambahButton =
-                        document.createElement(
-                            "button"
-                        );
-
-                    tambahButton.type =
-                        "button";
-
-                    tambahButton.textContent =
-                        "+";
-
-                    tambahButton.title =
-                        "Tambah file ke folder " +
-                        folder.name;
-
-                    tambahButton.className =
-                        "tambah-file-folder";
-
-
-                    tambahButton.addEventListener(
-                        "click",
-                        function (event) {
-
-                            // Jangan membuka folder
-                            event.stopPropagation();
-
-                            tambahFileKeFolder(
-                                folder.name
-                            );
-
+                if (statusLogin === "user" || statusLogin === "admin") {                // TOMBOL "+"
+                    const tambahButton =document.createElement("button");
+                    tambahButton.type ="button";
+                    tambahButton.textContent =" +";
+                    tambahButton.title ="Tambah file ke folder " + folder.name;
+                    tambahButton.className ="tambah-file-folder";
+                    tambahButton.addEventListener("click", function (event) {
+                            event.stopPropagation();// Jangan membuka folder
+                            tambahFileKeFolder(folder.name);
                         }
                     );
-
-
-                    item.appendChild(
-                        tambahButton
-                    );
+                    item.appendChild(tambahButton);
                 }
-
-
-                // =================================
-                // TAMPILKAN BARIS
-                // =================================
-
-                folderList.appendChild(
-                    item
-                );
-
+                folderList.appendChild(item);// TAMPILKAN BARIS
             }
         );
-
     }
     catch (error) {
-
-        console.error(
-            "Error load folder:",
-            error
-        );
+        console.error("Error load folder:", error);
 
         folderList.innerHTML =
             "❌ Gagal memuat folder.<br>" +
@@ -548,16 +453,8 @@ async function loadDaftarFolder() {
     }
 }
 
-// =====================================================
-// TAMBAH FILE KE FOLDER YANG SUDAH ADA
-// =====================================================
-function tambahFileKeFolder(namaFolder) {
-
-    const statusLogin =
-        sessionStorage.getItem(
-            "loginStatus"
-        );
-
+function tambahFileKeFolder(namaFolder) {// TAMBAH FILE KE FOLDER YANG SUDAH ADA
+    const statusLogin =sessionStorage.getItem("loginStatus");
     if (
         statusLogin !== "user" &&
         statusLogin !== "admin"
