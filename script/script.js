@@ -305,6 +305,7 @@ async function loadDaftarFolder() {
     const folderList = document.getElementById("folderList");
 
     if (!folderList) {
+        console.log("folderList tidak ditemukan.");
         return;
     }
 
@@ -330,12 +331,20 @@ async function loadDaftarFolder() {
 
         const response = await fetch(url);
 
+        if (!response.ok) {
+            throw new Error(
+                "HTTP Error " + response.status
+            );
+        }
+
         const result = await response.json();
 
-        console.log("RESULT FOLDER:", result);
+        console.log(
+            "RESULT FOLDER:",
+            result
+        );
 
-        if (!response.ok || !result.success) {
-
+        if (!result.success) {
             throw new Error(
                 result.message ||
                 "Gagal mengambil daftar folder"
@@ -344,6 +353,7 @@ async function loadDaftarFolder() {
 
         if (
             !result.folders ||
+            !Array.isArray(result.folders) ||
             result.folders.length === 0
         ) {
 
@@ -353,91 +363,42 @@ async function loadDaftarFolder() {
             return;
         }
 
+        // Kosongkan daftar sebelum menampilkan
+        folderList.innerHTML = "";
 
+        result.folders.forEach(
+            function (folder) {
 
-// =====================================================
-// TAMPILKAN FOLDER
-// =====================================================
-folderList.innerHTML = "";
-
-result.folders.forEach(function (folder) {
-
-    // =================================================
-    // BARIS FOLDER
-    // =================================================
-    const item = document.createElement("div");
-    item.className = "folder-item";
-
-
-    // =================================================
-    // TOMBOL BUKA FOLDER
-    // =================================================
-    const button = document.createElement("button");
-
-    button.type = "button";
-    button.textContent = "📁 " + folder.name;
-
-    button.addEventListener("click", function () {
-        bukaFolder(folder.name);
-    });
-
-    item.appendChild(button);
-
-
-    // =================================================
-    // TOMBOL +
-    // HANYA USER / ADMIN
-    // =================================================
-    const statusLogin =
-        sessionStorage.getItem("loginStatus");
-
-    if (
-        statusLogin === "user" ||
-        statusLogin === "admin"
-    ) {
-
-        const tambahButton =
-            document.createElement("button");
-
-        tambahButton.type = "button";
-        tambahButton.textContent = "+";
-        tambahButton.title =
-            "Tambah file ke folder " +
-            folder.name;
-
-        tambahButton.className =
-            "tambah-file-folder";
-
-
-        // =============================================
-        // KLIK TOMBOL +
-        // =============================================
-        tambahButton.addEventListener(
-            "click",
-            function () {
-
-                tambahFileKeFolder(
+                console.log(
+                    "Folder ditemukan:",
                     folder.name
+                );
+
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.textContent =
+                    "📁 " + folder.name;
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        bukaFolder(
+                            folder.name
+                        );
+
+                    }
+                );
+
+                folderList.appendChild(
+                    button
                 );
 
             }
         );
-
-
-        item.appendChild(
-            tambahButton
-        );
-    }
-
-
-    // =================================================
-    // MASUKKAN BARIS FOLDER
-    // =================================================
-    folderList.appendChild(item);
-
-});
-
-
 
     }
     catch (error) {
@@ -450,7 +411,9 @@ result.folders.forEach(function (folder) {
         folderList.innerHTML =
             "❌ Gagal memuat folder.<br>" +
             "<small>" +
-            escapeHtml(error.message) +
+            escapeHtml(
+                error.message
+            ) +
             "</small>";
     }
 }
