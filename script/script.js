@@ -634,51 +634,8 @@ function tambahFileKeFolder(namaFolder) {
     inputTambah.click();
 }
 
-function buatFolderBaru() {
 
-    // Hapus folder aktif
-    folderAktif = null;
 
-    const folderInput =
-        document.getElementById("folderInput");
-
-    const fileInput =
-        document.getElementById("fileInput");
-
-    const fileList =
-        document.getElementById("fileList");
-
-    const uploadStatus =
-        document.getElementById("uploadStatus");
-
-    // Aktifkan kembali input nama folder
-    if (folderInput) {
-        folderInput.value = "";
-        folderInput.readOnly = false;
-        folderInput.placeholder =
-            "Contoh: mesin_001";
-    }
-
-    // Kosongkan file yang sebelumnya dipilih
-    if (fileInput) {
-        fileInput.value = "";
-    }
-
-    if (fileList) {
-        fileList.innerHTML =
-            "<p>Belum ada file dipilih.</p>";
-    }
-
-    if (uploadStatus) {
-        uploadStatus.innerHTML =
-            "📁 <b>Buat folder baru</b><br>" +
-            "Masukkan nama folder kemudian pilih file.";
-    }
-
-    console.log(
-        "Mode upload: BUAT FOLDER BARU"
-    );
-}
 // =====================================================
 // UPLOAD FILE KE FOLDER YANG SUDAH ADA
 // =====================================================
