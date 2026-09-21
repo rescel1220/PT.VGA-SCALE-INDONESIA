@@ -1,48 +1,35 @@
 function logout() {
-    // Hapus status login
-    sessionStorage.removeItem("loginStatus");
-    // Kembali ke halaman login
-    window.location.href = "index.html";
+    sessionStorage.removeItem("loginStatus");    // Hapus status login
+    window.location.href = "index.html";    // Kembali ke halaman login
 }
-// =====================================================
 // KONFIGURASI API VERCEL
-// =====================================================
 const VERCEL_BASE_URL = "https://apivga.vercel.app";
 const VERCEL_UPLOAD_API = VERCEL_BASE_URL + "/api/upload";
 const VERCEL_LIST_API = VERCEL_BASE_URL + "/api/list";
 let folderAktif = null;
-// =====================================================
 // TENTUKAN FOLDER UTAMA BERDASARKAN HALAMAN
-// =====================================================
 function getFolderUtama() {
     const halaman =
         window.location.pathname
             .split("/")
             .pop()
             .toLowerCase();
-    // CONVERTER
-    if (halaman === "converter.html") {
+    if (halaman === "converter.html") {    // CONVERTER
         return "converter";
     }
-    // MONOCHROME / MCU
-    if (halaman === "mcu.html") {
+    if (halaman === "mcu.html") {    // MONOCHROME / MCU
         return "mcu";
     }
-    // HMI
-    if (halaman === "hmi.html") {
+    if (halaman === "hmi.html") {    // HMI
         return "hmi";
     }
     return null;
 }
-// =====================================================
 // FOLDER UPLOAD
-// =====================================================
 function getUploadFolder() {
     return getFolderUtama();
 }
-// =====================================================
 // TAMPILKAN / SEMBUNYIKAN FORM UPLOAD
-// =====================================================
 function tampilkanFormUpload() {
     const form = document.getElementById("uploadForm");
     const folderInput = document.getElementById("folderInput");
@@ -50,23 +37,19 @@ function tampilkanFormUpload() {
     if (!form) {
         return;
     }
-     // MODE 1 : BUAT FOLDER BARU
-    if (!folderAktif) {
-        // Folder belum dipilih// User harus mengisi nama folder sendiri
-        if (folderInput) {
+    if (!folderAktif) {     // MODE 1 : BUAT FOLDER BARU
+        if (folderInput) {        // Folder belum dipilih// User harus mengisi nama folder sendiri
             folderInput.value = "";
             folderInput.readOnly = false;
             folderInput.placeholder = "Contoh: mesin_001";
         }
-        // Tampilkan form
-        form.style.display = "block";
+        form.style.display = "block";        // Tampilkan form
         if (status) {
             status.innerHTML ="📁 <b>Buat folder baru</b><br>" + "Masukkan nama folder kemudian pilih file.";
         }
         return;
     }
-    // MODE 2 : TAMBAH FILE KE FOLDER YANG SUDAH ADA
-    if (folderInput) {
+    if (folderInput) {    // MODE 2 : TAMBAH FILE KE FOLDER YANG SUDAH ADA
         folderInput.value = folderAktif;        // Gunakan folder yang sedang dipilih
         folderInput.readOnly = true;        // Tidak boleh diganti
     }
@@ -85,22 +68,17 @@ function aturHakAksesUpload() {
     const uploadArea =document.getElementById("uploadArea");
     const uploadForm =document.getElementById("uploadForm");
     const uploadButton =document.getElementById("uploadButton");
-    // =============================================
     // TIDAK ADA STATUS LOGIN
-    // =============================================
     if (!status) {
         return;
     }
-    // =============================================
-    // PENGUNJUNG
-    // =============================================
+    // PENGUNJUNg
     if (status === "visitor") {
         // Sembunyikan seluruh area upload
         if (uploadArea) {
             uploadArea.style.display = "none";
         }
-        // Pengaman tambahan
-        if (uploadForm) {
+        if (uploadForm) {        // Pengaman tambahan
             uploadForm.style.display = "none";
         }
         if (uploadButton) {
@@ -109,9 +87,7 @@ function aturHakAksesUpload() {
         console.log("Mode Pengunjung: seluruh fungsi upload disembunyikan");
         return;
     }
-    // ============================================
     // USER / ADMIN
-    // =============================================
     if (status === "user" ||status === "admin") {
         if (uploadArea) {
             uploadArea.style.display = "block";
@@ -122,8 +98,7 @@ function aturHakAksesUpload() {
         console.log("Mode " + status + ": Upload tersedia");
     }
 }
-// TAMPILKAN FILE YANG DIPILIH
-function tampilkanFileDipilih() {
+function tampilkanFileDipilih() {// TAMPILKAN FILE YANG DIPILIH
     const input =document.getElementById("fileInput");
     const daftar = document.getElementById("fileList");
     if (!input || !daftar) {
