@@ -1,22 +1,24 @@
 .folder-item {
     display: flex;
     align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
     gap: 5px;
 }
 
-.folder-item > button:first-child {
+.folder-item .folder-button {
     flex: 1;
+    text-align: left;
 }
 
-.tambah-file-folder {
+.folder-item .tambah-file-folder {
     width: 30px;
     height: 30px;
     min-width: 30px;
     padding: 0;
-
+    margin: 0;
     font-size: 20px;
-    line-height: 1;
-
+    line-height: 28px;
     cursor: pointer;
 }
 /* =========================
