@@ -402,10 +402,7 @@ async function loadDaftarFolder() {
                 folderUtama
             );
 
-
         console.log("LOAD FOLDER:", url);
-
-
         const response = await fetch(url);
         const result = await response.json();
         console.log("RESULT FOLDER:",result);
@@ -441,17 +438,10 @@ async function loadDaftarFolder() {
     }
     catch (error) {
         console.error("Error load folder:", error);
-
-
         folderList.innerHTML =
             "❌ Gagal memuat folder.<br>" +
-
             "<small>" +
-
-            escapeHtml(
-                error.message
-            ) +
-
+            escapeHtml(error.message) +
             "</small>";
 
     }
@@ -544,154 +534,81 @@ async function bukaFolder(namaFolder) {
                 );
 
 
-                info.appendChild(
-                    name
-                );
+                info.appendChild(name);
 
 
                 // -------------------------------------
                 // ACTION
                 // -------------------------------------
-
-                const action =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                action.className =
-                    "file-action";
-
-
-                const link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    file.download_url;
-
-
-                link.target =
-                    "_blank";
-
-
-                link.rel =
-                    "noopener noreferrer";
-
-
+                const action =document.createElement("div");
+                action.className ="file-action";
+                const link = document.createElement("a" );
+                link.href =file.download_url;
+                link.target ="_blank";
+                link.rel ="noopener noreferrer";
                 link.textContent ="Buka / Download";
                 action.appendChild(link);
                 // -------------------------------------
                 // GABUNGKAN
                 // -------------------------------------
 
-                item.appendChild(
-                    info
-                );
-
-
-                item.appendChild(
-                    action
-                );
-
-
-                fileList.appendChild(
-                    item
-                );
+                item.appendChild(info);
+                item.appendChild(action);
+                fileList.appendChild(item);
 
             }
         );
 
     }
 
-
     catch (error) {
-
-        console.error(
-            "Error load file:",
-            error
-        );
-
+        console.error( "Error load file:", error);
 
         fileList.innerHTML =
             "❌ Gagal memuat isi folder.<br>" +
-
             "<small>" +
-
             escapeHtml(
                 error.message
             ) +
-
             "</small>";
-
     }
-
 }
-// =====================================================
 // CEK STATUS LOGIN
-// =====================================================
 
 function cekStatusLogin() {
     const status =sessionStorage.getItem("loginStatus");
     console.log("Status login:",status);
 }
-
-// =====================================================
 // EVENT DOM READY
-// =====================================================
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
         cekStatusLogin();
         aturHakAksesUpload();
-        // ---------------------------------------------
         // FILE INPUT
-        // ---------------------------------------------
         const input =document.getElementById("fileInput");
         if (input) {
             input.addEventListener("change",tampilkanFileDipilih);
         }
-
-
-        // ---------------------------------------------
         // LOAD FOLDER
-        // ---------------------------------------------
-
         loadDaftarFolder();
 
     }
 );
 
 async function login() {
-
-    const username =
-        document.getElementById("username").value.trim();
-
+    const username = document.getElementById("username").value.trim();
     const password =document.getElementById("password").value;
     const message =document.getElementById("message");
-    // =================================================
     // CEK INPUT
-    // =================================================
     if (username === "" || password === "") {
         message.innerHTML ="❌ Username dan password harus diisi.";
         return;
     }
-    // =================================================
     // TAMPILKAN PROSES
-    // =================================================
-
-    message.innerHTML =
-        "⏳ Memeriksa login...";
-
+    message.innerHTML =  "⏳ Memeriksa login...";
     try {
-
-        // =================================================
         // KIRIM KE VERCEL
-        // =================================================
-
         const response =
             await fetch(
                 VERCEL_BASE_URL + "/api/login",
@@ -708,40 +625,22 @@ async function login() {
                 }
             );
 
-        // =================================================
         // BACA RESPONSE
-        // =================================================
         const result =await response.json();
         console.log("LOGIN RESPONSE:",result
         );
-        // =================================================
         // LOGIN GAGAL
-        // =================================================
         if ( !response.ok ||!result.success) {
             message.innerHTML ="❌ " + (result.message || "Login gagal.");
             return;
         }
-        // =================================================
         // SIMPAN STATUS LOGIN
-        // =================================================
-        sessionStorage.setItem(
-            "loginStatus",
-            result.role
-        );
-        // =================================================
+        sessionStorage.setItem("loginStatus", result.role);
         // SIMPAN USERNAME
-        // =================================================
         sessionStorage.setItem("loginUsername",username);
-        // =================================================
         // LOGIN BERHASIL
-        // =================================================
-        message.innerHTML =
-            "✅ Login berhasil sebagai " +
-            result.role +
-            "...";
-        //=================================================
+        message.innerHTML = "✅ Login berhasil sebagai " + result.role + "...";
         // MASUK HOME
-        // =================================================
         setTimeout(
             function () {
                 window.location.href =  "home.html";
