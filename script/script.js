@@ -33,33 +33,48 @@ function getUploadFolder() {
     return getFolderUtama();
 }
 function tampilkanFormUpload() {
-    const form = document.getElementById("uploadForm");
-    const folderInput = document.getElementById("folderInput");
-    const status = document.getElementById("uploadStatus");
+
+    // =========================================
+    // MODE BUAT FOLDER BARU
+    // =========================================
+    folderAktif = null;
+    modeUpload = "baru";
+
+    const form =
+        document.getElementById("uploadForm");
+
+    const folderInput =
+        document.getElementById("folderInput");
+
+    const status =
+        document.getElementById("uploadStatus");
+
     if (!form) {
         return;
     }
-    if (!folderAktif) {    // CEK FOLDER SUDAH DIPILIH
-        if (status) {
-            status.innerHTML ="❌ Silakan pilih folder terlebih dahulu.";
-        }
-        return;
+
+    if (folderInput) {
+
+        folderInput.value = "";
+
+        folderInput.readOnly = false;
+
+        folderInput.placeholder =
+            "Contoh: mesin_001";
     }
-    if (folderInput) {    // ISI NAMA FOLDER OTOMATIS
-        folderInput.value = folderAktif;
-        folderInput.readOnly = true;
+
+    form.style.display = "block";
+
+    if (status) {
+
+        status.innerHTML =
+            "📁 <b>Buat folder baru</b><br>" +
+            "Masukkan nama folder kemudian pilih file.";
     }
-    if (form.style.display === "block") {    // TAMPILKAN FORM
-        form.style.display = "none";
-    } else {
-        form.style.display = "block";
-        if (status) {
-            status.innerHTML =
-                "📁 Folder tujuan: <b>" +
-                escapeHtml(folderAktif) +
-                "</b>";
-        }
-    }
+
+    console.log(
+        "MODE UPLOAD = BUAT FOLDER BARU"
+    );
 }
 function aturHakAksesUpload() {
     const status =sessionStorage.getItem("loginStatus");
@@ -153,11 +168,38 @@ async function uploadSemuaFile() {
         status.innerHTML ="❌ Silakan pilih file terlebih dahulu.";
         return;
     }
-    let subfolder = folderInput.value.trim();
-    if (folderAktif) {
-        subfolder = folderAktif;
-        console.log("Menggunakan folder aktif:", folderAktif);
-    }
+let subfolder = "";
+
+if (modeUpload === "tambah") {
+
+    // Mode tambah file ke folder lama
+    subfolder = folderAktif;
+
+    console.log(
+        "Mode TAMBAH FILE"
+    );
+
+    console.log(
+        "Folder aktif:",
+        folderAktif
+    );
+
+}
+else {
+
+    // Mode membuat folder baru
+    subfolder =
+        folderInput.value.trim();
+
+    console.log(
+        "Mode BUAT FOLDER BARU"
+    );
+
+    console.log(
+        "Nama folder baru:",
+        subfolder
+    );
+}
     if (subfolder === "") {
     status.innerHTML = "❌ Silakan pilih folder atau masukkan nama folder.";
     return;
@@ -423,61 +465,69 @@ async function loadDaftarFolder() {
 // =====================================================
 function tambahFileKeFolder(namaFolder) {
 
-    const statusLogin = sessionStorage.getItem("loginStatus");
+    const statusLogin =
+        sessionStorage.getItem("loginStatus");
 
-    // Hanya USER / ADMIN
-    if (statusLogin !== "user" && statusLogin !== "admin") {
-        alert("Anda tidak memiliki izin untuk menambahkan file.");
-        return;
-    }
+    if (
+        statusLogin !== "user" &&
+        statusLogin !== "admin"
+    ) {
 
-    console.log("Tambah file ke folder:", namaFolder);
-
-    // Simpan folder yang dipilih
-    folderAktif = namaFolder;
-
-    // Ambil file input utama
-    const input = document.getElementById("fileInput");
-
-    if (!input) {
-        alert("File input tidak ditemukan.");
-        return;
-    }
-
-    // Simpan folder ke input folder
-    const folderInput = document.getElementById("folderInput");
-
-    if (folderInput) {
-        folderInput.value = namaFolder;
-        folderInput.readOnly = true;
-    }
-
-    // Buka file picker
-    input.value = "";
-
-    input.onchange = async function () {
-
-        // Tidak memilih file
-        if (input.files.length === 0) {
-            return;
-        }
-
-        console.log(
-            "File dipilih:",
-            input.files.length,
-            "untuk folder:",
-            namaFolder
+        alert(
+            "Anda tidak memiliki izin untuk menambahkan file."
         );
 
-        // Tampilkan file yang dipilih
-        tampilkanFileDipilih();
+        return;
+    }
 
-        // Upload langsung
-        await uploadSemuaFile();
+    // =========================================
+    // MODE TAMBAH FILE KE FOLDER LAMA
+    // =========================================
 
-    };
+    folderAktif = namaFolder;
+    modeUpload = "tambah";
 
-    input.click();
+    console.log(
+        "MODE UPLOAD = TAMBAH FILE"
+    );
+
+    console.log(
+        "Folder tujuan:",
+        namaFolder
+    );
+
+    const inputTambah =
+        document.createElement("input");
+
+    inputTambah.type = "file";
+    inputTambah.multiple = true;
+    inputTambah.style.display = "none";
+
+    inputTambah.addEventListener(
+        "change",
+        async function () {
+
+            if (
+                !inputTambah.files ||
+                inputTambah.files.length === 0
+            ) {
+                return;
+            }
+
+            await uploadFileKeFolder(
+                inputTambah.files,
+                namaFolder
+            );
+
+            inputTambah.remove();
+        }
+    );
+
+    document.body.appendChild(
+        inputTambah
+    );
+
+    inputTambah.click();
 }
 
 function buatFolderBaru() {
