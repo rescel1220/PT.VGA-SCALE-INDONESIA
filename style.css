@@ -1,4 +1,24 @@
+.folder-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
+.folder-item > button:first-child {
+    flex: 1;
+}
+
+.tambah-file-folder {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    padding: 0;
+
+    font-size: 20px;
+    line-height: 1;
+
+    cursor: pointer;
+}
 /* =========================
    NAVBAR
    ========================= */
