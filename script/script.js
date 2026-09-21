@@ -344,14 +344,16 @@ function escapeHtml(text) {// ESCAPE HTML
 
 async function loadDaftarFolder() {
 
-    const folderList = document.getElementById("folderList");
+    const folderList =
+        document.getElementById("folderList");
 
     if (!folderList) {
         console.log("folderList tidak ditemukan.");
         return;
     }
 
-    const folderUtama = getFolderUtama();
+    const folderUtama =
+        getFolderUtama();
 
     if (!folderUtama) {
         folderList.innerHTML =
@@ -369,17 +371,23 @@ async function loadDaftarFolder() {
             "?folder=" +
             encodeURIComponent(folderUtama);
 
-        console.log("LOAD FOLDER:", url);
+        console.log(
+            "LOAD FOLDER:",
+            url
+        );
 
-        const response = await fetch(url);
+        const response =
+            await fetch(url);
 
         if (!response.ok) {
             throw new Error(
-                "HTTP Error " + response.status
+                "HTTP Error " +
+                response.status
             );
         }
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         console.log(
             "RESULT FOLDER:",
@@ -405,21 +413,31 @@ async function loadDaftarFolder() {
             return;
         }
 
-        // Kosongkan daftar sebelum menampilkan
         folderList.innerHTML = "";
 
         result.folders.forEach(
             function (folder) {
 
-                console.log(
-                    "Folder ditemukan:",
-                    folder.name
-                );
+                // =================================
+                // BARIS FOLDER
+                // =================================
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "folder-item";
+
+
+                // =================================
+                // TOMBOL BUKA FOLDER
+                // =================================
 
                 const button =
                     document.createElement("button");
 
-                button.type = "button";
+                button.type =
+                    "button";
 
                 button.textContent =
                     "📁 " + folder.name;
@@ -435,8 +453,78 @@ async function loadDaftarFolder() {
                     }
                 );
 
-                folderList.appendChild(
+
+                item.appendChild(
                     button
+                );
+
+
+                // =================================
+                // CEK LOGIN
+                // =================================
+
+                const statusLogin =
+                    sessionStorage.getItem(
+                        "loginStatus"
+                    );
+
+
+                // =================================
+                // TOMBOL "+"
+                // HANYA USER / ADMIN
+                // =================================
+
+                if (
+                    statusLogin === "user" ||
+                    statusLogin === "admin"
+                ) {
+
+                    const tambahButton =
+                        document.createElement(
+                            "button"
+                        );
+
+                    tambahButton.type =
+                        "button";
+
+                    tambahButton.textContent =
+                        "+";
+
+                    tambahButton.title =
+                        "Tambah file ke folder " +
+                        folder.name;
+
+                    tambahButton.className =
+                        "tambah-file-folder";
+
+
+                    tambahButton.addEventListener(
+                        "click",
+                        function (event) {
+
+                            // Jangan membuka folder
+                            event.stopPropagation();
+
+                            tambahFileKeFolder(
+                                folder.name
+                            );
+
+                        }
+                    );
+
+
+                    item.appendChild(
+                        tambahButton
+                    );
+                }
+
+
+                // =================================
+                // TAMPILKAN BARIS
+                // =================================
+
+                folderList.appendChild(
+                    item
                 );
 
             }
@@ -466,7 +554,9 @@ async function loadDaftarFolder() {
 function tambahFileKeFolder(namaFolder) {
 
     const statusLogin =
-        sessionStorage.getItem("loginStatus");
+        sessionStorage.getItem(
+            "loginStatus"
+        );
 
     if (
         statusLogin !== "user" &&
@@ -480,28 +570,25 @@ function tambahFileKeFolder(namaFolder) {
         return;
     }
 
-    // =========================================
-    // MODE TAMBAH FILE KE FOLDER LAMA
-    // =========================================
-
-    folderAktif = namaFolder;
-    modeUpload = "tambah";
-
     console.log(
-        "MODE UPLOAD = TAMBAH FILE"
-    );
-
-    console.log(
-        "Folder tujuan:",
+        "Tambah file ke folder:",
         namaFolder
     );
 
+
+    // Buat input file khusus tombol "+"
     const inputTambah =
         document.createElement("input");
 
-    inputTambah.type = "file";
-    inputTambah.multiple = true;
-    inputTambah.style.display = "none";
+    inputTambah.type =
+        "file";
+
+    inputTambah.multiple =
+        true;
+
+    inputTambah.style.display =
+        "none";
+
 
     inputTambah.addEventListener(
         "change",
@@ -511,17 +598,34 @@ function tambahFileKeFolder(namaFolder) {
                 !inputTambah.files ||
                 inputTambah.files.length === 0
             ) {
+
+                inputTambah.remove();
+
                 return;
             }
+
+            console.log(
+                "Folder tujuan:",
+                namaFolder
+            );
+
+            console.log(
+                "Jumlah file:",
+                inputTambah.files.length
+            );
+
 
             await uploadFileKeFolder(
                 inputTambah.files,
                 namaFolder
             );
 
+
             inputTambah.remove();
+
         }
     );
+
 
     document.body.appendChild(
         inputTambah
@@ -578,9 +682,15 @@ function buatFolderBaru() {
 // =====================================================
 // UPLOAD FILE KE FOLDER YANG SUDAH ADA
 // =====================================================
-async function uploadFileKeFolder(files, subfolder) {
 
-    const folder = getUploadFolder();
+
+async function uploadFileKeFolder(
+    files,
+    subfolder
+) {
+
+    const folder =
+        getUploadFolder();
 
     if (!folder) {
 
@@ -591,38 +701,10 @@ async function uploadFileKeFolder(files, subfolder) {
         return;
     }
 
-
-    console.log(
-        "===================================="
-    );
-
-    console.log(
-        "UPLOAD DARI TOMBOL +"
-    );
-
-    console.log(
-        "Folder utama:",
-        folder
-    );
-
-    console.log(
-        "Subfolder:",
-        subfolder
-    );
-
-    console.log(
-        "Jumlah file:",
-        files.length
-    );
-
-
-    // =================================================
-    // STATUS UPLOAD
-    // =================================================
-    const status = document.getElementById(
-        "uploadStatus"
-    );
-
+    const status =
+        document.getElementById(
+            "uploadStatus"
+        );
 
     if (status) {
 
@@ -639,16 +721,14 @@ async function uploadFileKeFolder(files, subfolder) {
     const daftarGagal = [];
 
 
-    // =================================================
-    // UPLOAD SATU PER SATU
-    // =================================================
     for (
         let i = 0;
         i < files.length;
         i++
     ) {
 
-        const file = files[i];
+        const file =
+            files[i];
 
 
         if (status) {
@@ -671,28 +751,22 @@ async function uploadFileKeFolder(files, subfolder) {
 
         try {
 
-            // =============================================
-            // URL UPLOAD
-            // =============================================
             const url =
                 VERCEL_UPLOAD_API +
                 "?filename=" +
-                encodeURIComponent(file.name) +
+                encodeURIComponent(
+                    file.name
+                ) +
                 "&folder=" +
-                encodeURIComponent(folder) +
+                encodeURIComponent(
+                    folder
+                ) +
                 "&subfolder=" +
-                encodeURIComponent(subfolder);
+                encodeURIComponent(
+                    subfolder
+                );
 
 
-            console.log(
-                "UPLOAD URL:",
-                url
-            );
-
-
-            // =============================================
-            // KIRIM FILE
-            // =============================================
             const response =
                 await fetch(
                     url,
@@ -710,9 +784,6 @@ async function uploadFileKeFolder(files, subfolder) {
                 );
 
 
-            // =============================================
-            // BACA RESPONSE
-            // =============================================
             let result;
 
             try {
@@ -721,7 +792,7 @@ async function uploadFileKeFolder(files, subfolder) {
                     await response.json();
 
             }
-            catch (jsonError) {
+            catch (error) {
 
                 throw new Error(
                     "Server tidak mengirim response JSON. HTTP " +
@@ -730,15 +801,6 @@ async function uploadFileKeFolder(files, subfolder) {
             }
 
 
-            console.log(
-                "Response upload:",
-                result
-            );
-
-
-            // =============================================
-            // CEK HASIL
-            // =============================================
             if (
                 !response.ok ||
                 !result.success
@@ -779,9 +841,10 @@ async function uploadFileKeFolder(files, subfolder) {
     }
 
 
-    // =================================================
-    // HASIL AKHIR
-    // =================================================
+    // =========================================
+    // HASIL UPLOAD
+    // =========================================
+
     if (status) {
 
         if (gagal === 0) {
@@ -811,45 +874,34 @@ async function uploadFileKeFolder(files, subfolder) {
                 "</b>";
 
 
-            if (
-                daftarGagal.length > 0
-            ) {
+            daftarGagal.forEach(
+                function (item) {
 
-                status.innerHTML +=
-                    "<br><br>" +
-                    "<b>File yang gagal:</b>";
+                    status.innerHTML +=
+                        "<br>❌ " +
+                        escapeHtml(item);
 
-
-                daftarGagal.forEach(
-                    function (item) {
-
-                        status.innerHTML +=
-                            "<br>❌ " +
-                            escapeHtml(item);
-                    }
-                );
-            }
+                }
+            );
         }
     }
 
 
-    // =================================================
-    // REFRESH DAFTAR FOLDER
-    // =================================================
+    // Refresh daftar folder
     await loadDaftarFolder();
 
 
-    // =================================================
-    // JIKA FOLDER SEDANG DIBUKA,
-    // REFRESH ISI FOLDER JUGA
-    // =================================================
-    if (folderAktif === subfolder) {
+    // Kalau folder yang sedang dibuka
+    // adalah folder tujuan, refresh isinya
+    if (
+        folderAktif === subfolder
+    ) {
 
-        await bukaFolder(subfolder);
+        await bukaFolder(
+            subfolder
+        );
     }
 }
-
-
 
 // =====================================================
 // BUKA FOLDER
