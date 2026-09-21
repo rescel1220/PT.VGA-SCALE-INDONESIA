@@ -177,8 +177,7 @@ async function uploadSemuaFile() {
             "Ukuran: " +
             formatUkuranFile(file.size);
 
-        try {
-            // FILE LANGSUNG DIKIRIM            // TIDAK ADA BASE64
+        try {            // FILE LANGSUNG DIKIRIM            // TIDAK ADA BASE64
             const url =
                 VERCEL_UPLOAD_API +
                 "?filename=" +
@@ -191,12 +190,8 @@ async function uploadSemuaFile() {
             console.log("UPLOAD URL:", url );
             console.log("FILE:", file.name);
             console.log("SIZE:", formatUkuranFile(file.size));
-            // -----------------------------------------
-            // REQUEST
-            // -----------------------------------------
-            const response =
-                await fetch(
-                    url,
+            const response =            // REQUEST
+                await fetch(url,
                     {
                         method: "POST",
                         headers: {
@@ -328,11 +323,7 @@ async function loadDaftarFolder() {// LOAD DAFTAR SUBFOLDER
             "</small>";
     }
 }
-// =====================================================
-// BUKA FOLDER
-// =====================================================
-
-async function bukaFolder(namaFolder) {
+async function bukaFolder(namaFolder) {// BUKA FOLDER
     folderAktif = namaFolder;
     const folderInput = document.getElementById("folderInput");
     if (folderInput) {
@@ -346,42 +337,28 @@ async function bukaFolder(namaFolder) {
     if (!folderUtama || !fileList) {
         return;
     }
-    // -------------------------------------------------
-    // JUDUL
-    // -------------------------------------------------
-    if (judul) {
+    if (judul) {    // JUDUL
         judul.textContent ="Isi Folder: " + namaFolder;
     }
     fileList.innerHTML = "⏳ Memuat file...";
     try {
-        // ---------------------------------------------
         // URL LIST FILE
-        // ---------------------------------------------
         const url = VERCEL_LIST_API + "?folder=" + encodeURIComponent(folderUtama) + "&subfolder=" + encodeURIComponent(namaFolder);
         console.log("LOAD FILE:", url);
-        // ---------------------------------------------
         // REQUEST
-        // ---------------------------------------------
         const response = await fetch(url);
         const result = await response.json();
         console.log("RESULT FILE:", result);
-        // ---------------------------------------------
         // CEK RESPONSE
-        // ---------------------------------------------
         if (!response.ok || !result.success) {
             throw new Error(result.message || "Gagal membaca isi folder");
         }
-        // ---------------------------------------------
         // FOLDER KOSONG
-        // ---------------------------------------------
-
         if (!result.files || result.files.length === 0) {
             fileList.innerHTML ="<p>Folder ini masih kosong.</p>";
             return;
         }
-        // ---------------------------------------------
         // TAMPILKAN FILE
-        // ---------------------------------------------
         fileList.innerHTML = "";
         result.files.forEach(
             function (file) {
@@ -393,32 +370,12 @@ async function bukaFolder(namaFolder) {
                 icon.className ="file-icon";
                 icon.textContent ="📄";
 
-
-                const name =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                name.className =
-                    "file-name";
-
-
-                name.textContent =
-                    file.name;
-
-
-                info.appendChild(
-                    icon
-                );
-
-
+                const name =document.createElement("span");
+                name.className ="file-name";
+                name.textContent =file.name;
+                info.appendChild(icon);
                 info.appendChild(name);
-
-
-                // -------------------------------------
                 // ACTION
-                // -------------------------------------
                 const action =document.createElement("div");
                 action.className ="file-action";
                 const link = document.createElement("a" );
@@ -427,10 +384,7 @@ async function bukaFolder(namaFolder) {
                 link.rel ="noopener noreferrer";
                 link.textContent ="Buka / Download";
                 action.appendChild(link);
-                // -------------------------------------
                 // GABUNGKAN
-                // -------------------------------------
-
                 item.appendChild(info);
                 item.appendChild(action);
                 fileList.appendChild(item);
@@ -439,10 +393,8 @@ async function bukaFolder(namaFolder) {
         );
 
     }
-
     catch (error) {
         console.error( "Error load file:", error);
-
         fileList.innerHTML =
             "❌ Gagal memuat isi folder.<br>" +
             "<small>" +
@@ -452,9 +404,7 @@ async function bukaFolder(namaFolder) {
             "</small>";
     }
 }
-// CEK STATUS LOGIN
-
-function cekStatusLogin() {
+function cekStatusLogin() {// CEK STATUS LOGIN
     const status =sessionStorage.getItem("loginStatus");
     console.log("Status login:",status);
 }
@@ -464,14 +414,11 @@ document.addEventListener(
     function () {
         cekStatusLogin();
         aturHakAksesUpload();
-        // FILE INPUT
-        const input =document.getElementById("fileInput");
+        const input =document.getElementById("fileInput");        // FILE INPUT
         if (input) {
             input.addEventListener("change",tampilkanFileDipilih);
         }
-        // LOAD FOLDER
-        loadDaftarFolder();
-
+        loadDaftarFolder();        // LOAD FOLDER
     }
 );
 
@@ -479,13 +426,11 @@ async function login() {
     const username = document.getElementById("username").value.trim();
     const password =document.getElementById("password").value;
     const message =document.getElementById("message");
-    // CEK INPUT
-    if (username === "" || password === "") {
+    if (username === "" || password === "") {    // CEK INPUT
         message.innerHTML ="❌ Username dan password harus diisi.";
         return;
     }
-    // TAMPILKAN PROSES
-    message.innerHTML =  "⏳ Memeriksa login...";
+    message.innerHTML =  "⏳ Memeriksa login...";    // TAMPILKAN PROSES
     try {
         // KIRIM KE VERCEL
         const response =
@@ -503,22 +448,16 @@ async function login() {
                         })
                 }
             );
-
-        // BACA RESPONSE
-        const result =await response.json();
+        const result =await response.json();        // BACA RESPONSE
         console.log("LOGIN RESPONSE:",result
         );
-        // LOGIN GAGAL
-        if ( !response.ok ||!result.success) {
+        if ( !response.ok ||!result.success) {        // LOGIN GAGAL
             message.innerHTML ="❌ " + (result.message || "Login gagal.");
             return;
         }
-        // SIMPAN STATUS LOGIN
-        sessionStorage.setItem("loginStatus", result.role);
-        // SIMPAN USERNAME
-        sessionStorage.setItem("loginUsername",username);
-        // LOGIN BERHASIL
-        message.innerHTML = "✅ Login berhasil sebagai " + result.role + "...";
+        sessionStorage.setItem("loginStatus", result.role);        // SIMPAN STATUS LOGIN
+        sessionStorage.setItem("loginUsername",username);        // SIMPAN USERNAME
+        message.innerHTML = "✅ Login berhasil sebagai " + result.role + "...";        // LOGIN BERHASIL
         // MASUK HOME
         setTimeout(
             function () {
