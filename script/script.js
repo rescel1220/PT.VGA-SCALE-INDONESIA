@@ -603,6 +603,9 @@ async function bukaFolder(namaFolder) {// BUKA FOLDER
 function cekStatusLogin() {// CEK STATUS LOGIN
     const status =sessionStorage.getItem("loginStatus");
     console.log("Status login:",status);
+        if (!status) {
+        window.location.href = "index.html";
+    }
 }
 // =====================================================
 // EVENT DOM READY
@@ -681,6 +684,12 @@ async function login() {
     }
 }
 
+// function cekLogin() {
+//     const status = sessionStorage.getItem("loginStatus");
+//     if (!status) {
+//         window.location.href = "index.html";
+//     }
+// }
 
 function guestLogin() {
     sessionStorage.setItem( "loginStatus", "visitor");
