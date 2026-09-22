@@ -601,10 +601,13 @@ async function bukaFolder(namaFolder) {// BUKA FOLDER
 
 }
 function cekStatusLogin() {// CEK STATUS LOGIN
+    const halaman = window.location.pathname;
     const status =sessionStorage.getItem("loginStatus");
-    console.log("Status login:",status);
+    if (halaman.includes("home.html") || halaman.includes("converter.html") || halaman.includes("mcu.html") || halaman.includes("hmi.html")) {
+        console.log("Status login:",status);
         if (!status) {
-        window.location.href = "index.html";
+            window.location.href = "index.html";
+        }
     }
 }
 // =====================================================
