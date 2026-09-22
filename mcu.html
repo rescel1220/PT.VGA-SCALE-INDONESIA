@@ -7,16 +7,14 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
+<!----------------------------------------NAVBAR---------------------------------------->
 <nav class="navbar">
-    <!-- LOGO -->
+<!----------------------------------------LOGO---------------------------------------->
     <div class="navbar-logo">
         <img src="./logo1.png" alt="RCL">
         <span>VGA HUB CENTER</span>
     </div>
-<!--==================================== MENU ====================================-->
+<!----------------------------------------MENU---------------------------------------->
     <ul class="navbar-menu">
         <li><a href="home.html"> Home </a> </li>
         <li><a href="converter.html">Converter</a></li>
@@ -25,14 +23,10 @@
          <button onclick="logout()">Logout</button>
     </ul>
 </nav>
-<!-- =====================================================
-     CONTENT
-===================================================== -->
+<----------------------------------------CONTENT---------------------------------------->
 <main class="content">
     <h1>Monochrome</h1>
-    <!-- =================================================
-         AREA UPLOAD
-    ================================================== -->
+<!----------------------------------------AREA UPLOAD---------------------------------------->
     <div id="uploadArea">
         <p>
             Add new type/function of MCU
@@ -42,15 +36,11 @@
             ⚠️ Pastikan file sudah di-rename terlebih dahulu
             & max 10 MB/file ⚠️
         </p>
-        <!-- =================================================
-             TOMBOL TAMBAH FILE
-        ================================================== -->
+<!----------------------------------------TOMBOL TAMBAH FILE---------------------------------------->
         <button id="uploadButton" type="button" onclick="tampilkanFormUpload()">
             + Tambah File
         </button>
-        <!-- =================================================
-             NAMA FOLDER
-        ================================================== -->
+<!----------------------------------------NAMA FOLDER---------------------------------------->
         <div style="margin-top:20px;">
             <label for="folderInput">
                 Nama Folder
@@ -60,11 +50,8 @@
 
             <input type="text" id="folderInput" placeholder="Contoh: mesin_001">
         </div>
-        <!-- =================================================
-             FORM UPLOAD
-        ================================================== -->
+<!----------------------------------------FORM UPLOAD---------------------------------------->
         <div id="uploadForm" style="display:none; margin-top:20px;">
-            <!-- PILIH FILE -->
             <label for="fileInput">
                 Pilih file:
             </label>
@@ -74,62 +61,43 @@
             <input type="file" id="fileInput" multiple>
 
             <br><br>
-            <!-- DAFTAR FILE YANG DIPILIH -->
+<!----------------------------------------DAFTAR FILE YANG DIPILIH---------------------------------------->
             <div id="fileList">
-
                 <p>
                     Belum ada file dipilih.
                 </p>
-
             </div>
 
-
             <br>
-            <!-- TOMBOL UPLOAD -->
+<!----------------------------------------TOMBOL UPLOAD---------------------------------------->
             <button type="button" onclick="uploadSemuaFile()">
                 Upload
             </button>
-            <!-- STATUS -->
+<!----------------------------------------STATUS---------------------------------------->
             <div id="uploadStatus" style="margin-top:15px;">
             </div>
         </div>
     </div>
-
-
-    <!-- =================================================
-         DAFTAR FILE DI GITHUB
-    ================================================== -->
-
+<!----------------------------------------DAFTAR FILE DI GITHUB---------------------------------------->
     <section style="margin-top:40px;">
-
         <h2>Daftar Folder</h2>
 
         <div id="folderList">
             Memuat folder...
         </div>
 
-
         <hr>
-
-
+        
         <h2 id="judulFile">
             Isi Folder
         </h2>
 
-
         <div id="fileListFolder">
-
             Pilih folder terlebih dahulu.
-
         </div>
-
     </section>
-
-
 </main>
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
+<!----------------------------------------JAVASCRIPT---------------------------------------->
 <script src="./script/script.js"></script>
 </body>
 </html>
