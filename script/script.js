@@ -82,7 +82,6 @@ function aturHakAksesUpload() {
         console.log("Mode " + status + ": Upload tersedia");
     }
 }
-
 function tampilkanFileDipilih() {
     const input =document.getElementById("fileInput");
     const daftar = document.getElementById("fileList");
@@ -111,7 +110,6 @@ function tampilkanFileDipilih() {
         daftar.appendChild(item);
     }
 }
-
 function formatUkuranFile(bytes) {// FORMAT UKURAN FILE
     if (bytes === 0) {
         return "0 Byte";
@@ -183,7 +181,6 @@ else {
             formatUkuranFile(file.size);
 
         try {
-
             const url =
                 VERCEL_UPLOAD_API +
                 "?filename=" +
@@ -192,7 +189,6 @@ else {
                 encodeURIComponent(folder) +
                 "&subfolder=" +
                 encodeURIComponent(subfolder);
-
 
             console.log("UPLOAD URL:", url );
             console.log("FILE:", file.name);
@@ -259,7 +255,6 @@ else {
             status.innerHTML +=
                 "<br><br>" +
                 "<b>File yang gagal:</b>";
-
             daftarGagal.forEach(
                 function (item) {
                     status.innerHTML +=
@@ -376,7 +371,6 @@ function tambahFileKeFolder(namaFolder) {// TAMBAH FILE KE FOLDER YANG SUDAH ADA
     inputTambah.addEventListener(
         "change",
         async function () {
-
             if (!inputTambah.files || inputTambah.files.length === 0) {
                 inputTambah.remove();
                 return;
@@ -411,7 +405,7 @@ async function uploadFileKeFolder(files, subfolder) {// UPLOAD FILE KE FOLDER YA
     for (let i = 0; i < files.length; i++) {
         const file =files[i];
         if (status) {
-
+            
             status.innerHTML =
                 "⏳ Upload file " +
                 (i + 1) +
@@ -426,8 +420,6 @@ async function uploadFileKeFolder(files, subfolder) {// UPLOAD FILE KE FOLDER YA
                 "Ukuran: " +
                 formatUkuranFile(file.size);
         }
-
-
         try {
             const url =
                 VERCEL_UPLOAD_API +
@@ -444,7 +436,6 @@ async function uploadFileKeFolder(files, subfolder) {// UPLOAD FILE KE FOLDER YA
                     subfolder
                 );
 
-
             const response =
                 await fetch(
                     url,
@@ -456,14 +447,10 @@ async function uploadFileKeFolder(files, subfolder) {// UPLOAD FILE KE FOLDER YA
                                 file.type ||
                                 "application/octet-stream"
                         },
-
                         body: file
                     }
                 );
-
-
             let result;
-
             try {
                 result =await response.json();
             }
@@ -596,7 +583,6 @@ async function bukaFolder(namaFolder) {// BUKA FOLDER
                 error.message
             ) +
             "</small>";
-
     }
 
 }
@@ -686,13 +672,6 @@ async function login() {
             "</small>";
     }
 }
-
-// function cekLogin() {
-//     const status = sessionStorage.getItem("loginStatus");
-//     if (!status) {
-//         window.location.href = "index.html";
-//     }
-// }
 
 function guestLogin() {
     sessionStorage.setItem( "loginStatus", "visitor");
