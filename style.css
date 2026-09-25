@@ -1,35 +1,117 @@
-.folder-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 8px;
-    gap: 5px;
-}
+/* ---------------------halaman login------------------------ */
+        * {
+            box-sizing: border-box;
+        }
 
-.folder-item .folder-button {
-    flex: 1;
-    text-align: left;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-.folder-item .tambah-file-folder {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    padding: 0;
-    margin: 0;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
 
-    text-align: center;
-    line-height: 1;
-    cursor: pointer;
-}
-/* =========================
-   NAVBAR
-   ========================= */
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
 
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 130px;
+            height: 38px;
+            padding: 8px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            height: 38px;
+            padding: 0 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .login-button {
+            background: #007bff;
+            color: white;
+        }
+
+        .login-button:hover {
+            background: #0056b3;
+        }
+
+        .guest-button {
+            background: #6c757d;
+            color: white;
+        }
+
+        .guest-button:hover {
+            background: #545b62;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+
+            .login-box {
+                margin: 20px;
+                padding: 25px 15px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .input-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .input-group input {
+                width: 180px;
+            }
+
+            button {
+                width: 180px;
+            }
+        }
+/* ----------------------------NAVBAR --------------------------------*/
 .navbar {
     width: 100%;
     height: 70px;
@@ -44,25 +126,18 @@
     top: 0;
     z-index: 1000;
 }
-
-
-/* LOGO NAVBAR */
-
+/* -----------------------------LOGO NAVBAR--------------------- */
 .navbar-logo {
     display: flex;
     align-items: center;
 }
-
 
 .navbar-logo img {
     width: 100px;
     height: auto;
     display: block;
 }
-
-
-/* MENU */
-
+/* ---------------------------MENU ---------------------------*/
 .navbar-menu {
     display: flex;
     align-items: center;
@@ -76,9 +151,7 @@
     font-size: 35px;
     font-weight: bold;
 }
-
-/* LINK */
-
+/*------------------------------ LINK------------------------ */
 .navbar-menu li a {
     text-decoration: none;
     color: #333;
@@ -87,18 +160,51 @@
     font-weight: bold;
     padding: 25px 0;
 }
-
-
-/* SAAT MOUSE DIARAHKAN */
-
+/* -----------------------SAAT MOUSE DIARAHKAN--------------------- */
 .navbar-menu li a:hover {
     color: #1675d1;
 }
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 160px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    width: 100%;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 15px;
+    color: black;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #eeeeee;
+}
+
 /* =====================================================
    GALERI FOTO / VIDEO
    ===================================================== */
+
 /* Area utama galeri */
-/* .galeri {
+
+.galeri {
     width: 100%;
     max-width: 1100px;
     margin: 30px auto;
@@ -106,13 +212,14 @@
     grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
     padding: 10px;
-} */
+}
+
 
 /* =====================================================
    FRAME SETIAP FOTO / VIDEO
    ===================================================== */
 
-/* .galeri .item {
+.galeri .item {
     width: 100%;
     max-width: 240px;
     margin: auto;
@@ -123,28 +230,28 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     text-align: center;
 
-} */
+}
 
 
 /* =====================================================
    FOTO
    ===================================================== */
 
-/* .galeri .item img {
+.galeri .item img {
     width: 100%;
     height: 160px;
     object-fit: cover;
     display: block;
     border-radius: 7px;
 
-} */
+}
 
 
 /* =====================================================
    VIDEO
    ===================================================== */
 
-/* .galeri .item video {
+.galeri .item video {
     width: 100%;
     height: 160px;
     object-fit: cover;
@@ -152,7 +259,7 @@
     border-radius: 7px;
     background: #000;
 
-} */
+}
 
 
 /* =====================================================
@@ -195,43 +302,33 @@
    HP / LAYAR KECIL
    ===================================================== */
 
-/* @media (max-width: 600px) {
+@media (max-width: 600px) {
     .galeri {
         grid-template-columns:repeat(2, 1fr);
         gap: 10px;
         padding: 5px;
     }
 
-
     .galeri .item {
         max-width: 180px;
         padding: 8px;
     }
 
-
     .galeri .item img,
     .galeri .item video {
-
         height: 120px;
-
     }
 
 
     .galeri .item h3 {
-
         font-size: 13px;
-
     }
-
 
     .galeri .item p,
     .galeri .item a {
-
         font-size: 11px;
-
     }
-
-} */
+}
 
 /* =====================================================
    DAFTAR FOLDER
@@ -311,4 +408,3 @@
 .file-action a:hover {
     background: #555;
 }
-
