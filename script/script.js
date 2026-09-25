@@ -324,7 +324,7 @@ async function loadDaftarFolder() {
                         bukaFolder(folder.name);
                     }
                 );
-                item.appendChild(button);
+                item.appendChild(add-button);
                 const statusLogin =sessionStorage.getItem("loginStatus");       // CEK LOGIN
                 if (statusLogin === "user" || statusLogin === "admin") {                // TOMBOL "+"
                     const tambahButton =document.createElement("button");
