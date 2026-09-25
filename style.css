@@ -76,9 +76,19 @@ body {
    ===================================================== */
 
 button {
-    height: 18px;
+    height: 28px;
     padding: 18px;
     border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-button {
+    height: 28px;
+    padding: 18px;
+    border: none;
+    width: 28px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
