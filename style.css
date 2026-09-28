@@ -87,7 +87,7 @@ button {
     font-size: 14px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 .add-button {
     height: 36px;
