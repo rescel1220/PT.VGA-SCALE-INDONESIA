@@ -10,6 +10,21 @@ const VERCEL_UPLOAD_API = VERCEL_BASE_URL + "/api/upload";
 const VERCEL_LIST_API = VERCEL_BASE_URL + "/api/list";
 let folderAktif = null;
 
+(function wajibLogin() {
+    const halaman = window.location.pathname
+        .split("/")
+        .pop()
+        .toLowerCase();
+
+    const halamanLogin = "index.html";
+    if (halaman === halamanLogin || halaman === "") {
+        return;
+    }
+    const status = sessionStorage.getItem("loginStatus");
+    if (status !== "user" && status !== "admin") {
+        window.location.replace("index.html");
+    }
+})();
 // TENTUKAN FOLDER UTAMA BERDASARKAN HALAMAN
 
 function getFolderUtama() {
