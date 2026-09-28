@@ -6,9 +6,9 @@
     font-size: 16px;
     line-height: 1;
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 /* =====================================================
    GLOBAL
