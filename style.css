@@ -1,14 +1,19 @@
 .tambah-file-folder {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin-left: 5px;
-    font-size: 16px;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 0 !important;
+    margin-left: 6px;
+    font-size: 18px;
     line-height: 1;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f5f5f5;
 }
 /* =====================================================
    GLOBAL
@@ -82,7 +87,7 @@ button {
     font-size: 14px;
     display: inline-flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
 }
 .add-button {
     height: 36px;
@@ -194,21 +199,31 @@ button {
 
 .folder-item {
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
-.folder-item > button {
+.folder-item > button:first-child {
     width: 100%;
     max-width: 500px;
-    padding: 12px 16px;
+    height: 36px;
+
+    padding: 0 16px;
+
     border: 1px solid #ccc;
     border-radius: 8px;
+
     background: #f5f5f5;
     cursor: pointer;
+
     text-align: left;
     font-size: 16px;
+
+    display: flex;
+    align-items: center;
 }
 
-.folder-item button:hover {
+.folder-item > button:first-child:hover {
     background: #e8e8e8;
 }
 
