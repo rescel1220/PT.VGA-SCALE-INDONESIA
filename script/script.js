@@ -19,7 +19,7 @@ let folderAktif = null;
         return;
     }
     const status = sessionStorage.getItem("loginStatus");
-    if (status !== "user" && status !== "admin") {
+    if (status !== "user" && status !== "admin" && status !== "visitor") {
         window.location.replace("index.html");
     }
 })();
