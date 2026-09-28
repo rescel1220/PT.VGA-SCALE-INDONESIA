@@ -1,3 +1,13 @@
+.tambah-file-folder {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-left: 5px;
+
+    font-size: 16px;
+    line-height: 18px;
+    cursor: pointer;
+}
 /* =====================================================
    GLOBAL
    ===================================================== */
