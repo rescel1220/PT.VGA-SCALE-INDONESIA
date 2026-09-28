@@ -19,6 +19,7 @@ let folderAktif = null;
         return;
     }
     const status = sessionStorage.getItem("loginStatus");
+    console.log("Status login == " + status);
     if (status !== "user" && status !== "admin" && status !== "visitor") {
         window.location.replace("index.html");
     }
