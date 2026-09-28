@@ -455,39 +455,19 @@ async function uploadFileKeFolder(files, subfolder) {
         alert("❌ Folder utama tidak diketahui.");
         return;
     }
-
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
-
+    const status =document.getElementById("uploadStatus");
     if (status) {
-
         status.innerHTML =
             "⏳ Menambahkan file ke folder <b>" +
             escapeHtml(subfolder) +
             "</b>...";
     }
-
-
     let berhasil = 0;
     let gagal = 0;
-
     const daftarGagal = [];
-
-
-    for (
-        let i = 0;
-        i < files.length;
-        i++
-    ) {
-
-        const file =
-            files[i];
-
-
+    for (let i = 0; i < files.length; i++) {
+        const file =files[i];
         if (status) {
-
             status.innerHTML =
                 "⏳ Upload file " +
                 (i + 1) +
@@ -503,107 +483,49 @@ async function uploadFileKeFolder(files, subfolder) {
                 formatUkuranFile(file.size);
         }
 
-
         try {
-
             const url =
                 VERCEL_UPLOAD_API +
                 "?filename=" +
-                encodeURIComponent(
-                    file.name
-                ) +
+                encodeURIComponent(file.name) +
                 "&folder=" +
-                encodeURIComponent(
-                    folder
-                ) +
+                encodeURIComponent(folder) +
                 "&subfolder=" +
-                encodeURIComponent(
-                    subfolder
-                );
-
-
+                encodeURIComponent(subfolder);
             const response =
                 await fetch(
                     url,
                     {
                         method: "POST",
-
                         headers: {
                             "Content-Type":
-                                file.type ||
-                                "application/octet-stream"
+                                file.type || "application/octet-stream"
                         },
-
                         body: file
                     }
                 );
-
-
             let result;
-
             try {
-
-                result =
-                    await response.json();
-
+                result =await response.json();
             }
             catch (error) {
-
-                throw new Error(
-                    "Server tidak mengirim response JSON. HTTP " +
-                    response.status
-                );
+                throw new Error("Server tidak mengirim response JSON. HTTP " + response.status);
             }
-
-
-            if (
-                !response.ok ||
-                !result.success
-            ) {
-
-                throw new Error(
-                    result.message ||
-                    "Upload gagal. HTTP " +
-                    response.status
-                );
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "Upload gagal. HTTP " + response.status);
             }
-
-
             berhasil++;
-
-            console.log(
-                "✅ Upload berhasil:",
-                file.name
-            );
-
+            console.log("✅ Upload berhasil:",file.name);
         }
         catch (error) {
-
-            console.error(
-                "❌ Upload error:",
-                file.name,
-                error
-            );
-
+            console.error("❌ Upload error:", file.name, error);
             gagal++;
-
-            daftarGagal.push(
-                file.name +
-                " — " +
-                error.message
-            );
+            daftarGagal.push(file.name + " — " + error.message);
         }
     }
-
-
-    // =========================================
-    // HASIL UPLOAD
-    // =========================================
-
+// =========================================// HASIL UPLOAD// =========================================
     if (status) {
-
         if (gagal === 0) {
-
             status.innerHTML =
                 "✅ Semua file berhasil ditambahkan.<br>" +
                 "Folder utama: <b>" +
@@ -615,10 +537,8 @@ async function uploadFileKeFolder(files, subfolder) {
                 "Jumlah file: <b>" +
                 berhasil +
                 "</b>";
-
         }
         else {
-
             status.innerHTML =
                 "⚠️ Upload selesai.<br>" +
                 "Berhasil: <b>" +
@@ -628,40 +548,23 @@ async function uploadFileKeFolder(files, subfolder) {
                 gagal +
                 "</b>";
 
-
             daftarGagal.forEach(
                 function (item) {
-
                     status.innerHTML +=
                         "<br>❌ " +
                         escapeHtml(item);
-
                 }
             );
         }
     }
-
-
-    // Refresh daftar folder
+// Refresh daftar folder
     await loadDaftarFolder();
-
-
-    // Kalau folder yang sedang dibuka
-    // adalah folder tujuan, refresh isinya
-    if (
-        folderAktif === subfolder
-    ) {
-
-        await bukaFolder(
-            subfolder
-        );
+// Kalau folder yang sedang dibuka// adalah folder tujuan, refresh isinya
+    if (folderAktif === subfolder) {
+        await bukaFolder(subfolder);
     }
 }
-
-// =====================================================
-// BUKA FOLDER
-// =====================================================
-
+// =====================================================// BUKA FOLDER// =====================================================
 async function bukaFolder(namaFolder) {
     folderAktif = namaFolder;
     const folderInput = document.getElementById("folderInput");
@@ -676,17 +579,13 @@ async function bukaFolder(namaFolder) {
     if (!folderUtama || !fileList) {
         return;
     }
-    // -------------------------------------------------
-    // JUDUL
-    // -------------------------------------------------
+// -------------------------------------------------// JUDUL// -------------------------------------------------
     if (judul) {
         judul.textContent ="Isi Folder: " + namaFolder;
     }
     fileList.innerHTML = "⏳ Memuat file...";
     try {
-        // ---------------------------------------------
-        // URL LIST FILE
-        // ---------------------------------------------
+// ---------------------------------------------// URL LIST FILE// ---------------------------------------------
         const url = VERCEL_LIST_API + "?folder=" + encodeURIComponent(folderUtama) + "&subfolder=" + encodeURIComponent(namaFolder);
         console.log("LOAD FILE:", url);
         // ---------------------------------------------
@@ -701,17 +600,12 @@ async function bukaFolder(namaFolder) {
         if (!response.ok || !result.success) {
             throw new Error(result.message || "Gagal membaca isi folder");
         }
-        // ---------------------------------------------
-        // FOLDER KOSONG
-        // ---------------------------------------------
-
+// ---------------------------------------------// FOLDER KOSONG// ---------------------------------------------
         if (!result.files || result.files.length === 0) {
             fileList.innerHTML ="<p>Folder ini masih kosong.</p>";
             return;
         }
-        // ---------------------------------------------
-        // TAMPILKAN FILE
-        // ---------------------------------------------
+// ---------------------------------------------// TAMPILKAN FILE// ---------------------------------------------
         fileList.innerHTML = "";
         result.files.forEach(
             function (file) {
@@ -722,214 +616,99 @@ async function bukaFolder(namaFolder) {
                 const icon = document.createElement("span");
                 icon.className ="file-icon";
                 icon.textContent ="📄";
-
-
-                const name =
-                    document.createElement(
-                        "span"
-                    );
-
+                const name =document.createElement("span");
                 name.className ="file-name";
                 name.textContent = file.name;
-                info.appendChild(
-                    icon
-                );
+                info.appendChild(icon);
                 info.appendChild( name );
-
-
-                // -------------------------------------
-                // ACTION
-                // -------------------------------------
-
-                const action =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                action.className =
-                    "file-action";
-
-
-                const link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    file.download_url;
-
-
-                link.target =
-                    "_blank";
-
-
-                link.rel =
-                    "noopener noreferrer";
-
-
+// -------------------------------------// ACTION// -------------------------------------
+                const action =document.createElement("div");
+                action.className ="file-action";
+                const link =document.createElement("a");
+                link.href =file.download_url;
+                link.target ="_blank";
+                link.rel ="noopener noreferrer";
                 link.textContent ="Buka / Download";
                 action.appendChild(link);
-                // -------------------------------------
-                // GABUNGKAN
-                // -------------------------------------
-
-                item.appendChild(
-                    info
-                );
-
-
-                item.appendChild(
-                    action
-                );
-
-
-                fileList.appendChild(
-                    item
-                );
-
+// -------------------------------------// GABUNGKAN// -------------------------------------
+                item.appendChild(info);
+                item.appendChild(action);
+                fileList.appendChild(item);
             }
         );
-
     }
-
-
     catch (error) {
-
-        console.error(
-            "Error load file:",
-            error
-        );
-
-
+        console.error("Error load file:", error);
         fileList.innerHTML =
             "❌ Gagal memuat isi folder.<br>" +
-
             "<small>" +
-
-            escapeHtml(
-                error.message
-            ) +
-
+            escapeHtml(error.message) +
             "</small>";
-
     }
-
 }
-// =====================================================
-// CEK STATUS LOGIN
-// =====================================================
-
+// =====================================================// CEK STATUS LOGIN// =====================================================
 function cekStatusLogin() {
     const status =sessionStorage.getItem("loginStatus");
     console.log("Status login:",status);
 }
-
-// =====================================================
-// EVENT DOM READY
-// =====================================================
-
+// =====================================================// EVENT DOM READY// =====================================================
 document.addEventListener(
     "DOMContentLoaded",
     function () {
         cekStatusLogin();
         aturHakAksesUpload();
-        // ---------------------------------------------
-        // FILE INPUT
-        // ---------------------------------------------
+// ---------------------------------------------// FILE INPUT // ---------------------------------------------
         const input =document.getElementById("fileInput");
         if (input) {
             input.addEventListener("change",tampilkanFileDipilih);
         }
-
-
-        // ---------------------------------------------
-        // LOAD FOLDER
-        // ---------------------------------------------
-
+ // ---------------------------------------------// LOAD FOLDER // ---------------------------------------------
         loadDaftarFolder();
-
     }
 );
 
 async function login() {
-
-    const username =
-        document.getElementById("username").value.trim();
-
+    const username = document.getElementById("username").value.trim();
     const password =document.getElementById("password").value;
     const message =document.getElementById("message");
-    // =================================================
-    // CEK INPUT
-    // =================================================
+// =================================================// CEK INPUT// =================================================
     if (username === "" || password === "") {
         message.innerHTML ="❌ Username dan password harus diisi.";
         return;
     }
-    // =================================================
-    // TAMPILKAN PROSES
-    // =================================================
-
-    message.innerHTML =
-        "⏳ Memeriksa login...";
-
+// =================================================// TAMPILKAN PROSES // =================================================
+    message.innerHTML = "⏳ Memeriksa login...";
     try {
-
-        // =================================================
-        // KIRIM KE VERCEL
-        // =================================================
-
+ // ================================================= // KIRIM KE VERCEL// =================================================
         const response =
             await fetch(
                 VERCEL_BASE_URL + "/api/login",
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type":"application/json"
+                    headers: { "Content-Type":"application/json"
                     },
-                    body:
-                        JSON.stringify({
+                    body:JSON.stringify({
                             username:username,
                             password:password
                         })
                 }
             );
-
-        // =================================================
-        // BACA RESPONSE
-        // =================================================
+ // =================================================// BACA RESPONSE// =================================================
         const result =await response.json();
         console.log("LOGIN RESPONSE:",result
         );
-        // =================================================
-        // LOGIN GAGAL
-        // =================================================
+// ================================================= // LOGIN GAGAL // =================================================
         if ( !response.ok ||!result.success) {
             message.innerHTML ="❌ " + (result.message || "Login gagal.");
             return;
         }
-        // =================================================
-        // SIMPAN STATUS LOGIN
-        // =================================================
-        sessionStorage.setItem(
-            "loginStatus",
-            result.role
-        );
-        // =================================================
-        // SIMPAN USERNAME
-        // =================================================
+// =================================================// SIMPAN STATUS LOGIN// =================================================
+        sessionStorage.setItem("loginStatus", result.role);
+// =================================================// SIMPAN USERNAME// =================================================
         sessionStorage.setItem("loginUsername",username);
-        // =================================================
-        // LOGIN BERHASIL
-        // =================================================
-        message.innerHTML =
-            "✅ Login berhasil sebagai " +
-            result.role +
-            "...";
-        //=================================================
-        // MASUK HOME
-        // =================================================
+// =================================================// LOGIN BERHASIL// =================================================
+        message.innerHTML ="✅ Login berhasil sebagai " + result.role + "...";
+//=================================================// MASUK HOME// =================================================
         setTimeout(
             function () {
                 window.location.href =  "home.html";
