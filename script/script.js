@@ -19,7 +19,6 @@ let folderAktif = null;
         return;
     }
     const status = sessionStorage.getItem("loginStatus");
-    console.log("Status login == " + status);
     if (status !== "user" && status !== "admin" && status !== "visitor") {
         window.location.replace("index.html");
     }
@@ -307,9 +306,7 @@ function escapeHtml(text) {// ESCAPE HTML
     return div.innerHTML;
 }
 
-
 async function loadDaftarFolder() {
-
     const folderList =document.getElementById("folderList");
     if (!folderList) {
         console.log("folderList tidak ditemukan.");
@@ -379,11 +376,8 @@ async function loadDaftarFolder() {
                     tambahButton.textContent = "+";
                     tambahButton.title = "Tambah file ke folder " + folder.name;
                     tambahButton.className ="tambah-file-folder";
-                    tambahButton.addEventListener(
-                        "click",
-                        function (event) {
-                            // Jangan membuka folder
-                            event.stopPropagation();
+                    tambahButton.addEventListener("click", function (event) {
+                            event.stopPropagation();                            // Jangan membuka folder
                             tambahFileKeFolder(folder.name);
                         }
                     );
@@ -396,12 +390,7 @@ async function loadDaftarFolder() {
 
     }
     catch (error) {
-
-        console.error(
-            "Error load folder:",
-            error
-        );
-
+        console.error("Error load folder:", error);
         folderList.innerHTML =
             "❌ Gagal memuat folder.<br>" +
             "<small>" +
@@ -411,26 +400,11 @@ async function loadDaftarFolder() {
             "</small>";
     }
 }
-
-// =====================================================
-// TAMBAH FILE KE FOLDER YANG SUDAH ADA
-// =====================================================
+// =====================================================// TAMBAH FILE KE FOLDER YANG SUDAH ADA// =====================================================
 function tambahFileKeFolder(namaFolder) {
-
-    const statusLogin =
-        sessionStorage.getItem(
-            "loginStatus"
-        );
-
-    if (
-        statusLogin !== "user" &&
-        statusLogin !== "admin"
-    ) {
-
-        alert(
-            "Anda tidak memiliki izin untuk menambahkan file."
-        );
-
+    const statusLogin =sessionStorage.getItem("loginStatus");
+    if (statusLogin !== "user" && statusLogin !== "admin") {
+        alert("Anda tidak memiliki izin untuk menambahkan file.");
         return;
     }
 
@@ -1061,7 +1035,7 @@ async function login() {
 
 
 function guestLogin() {
-    sessionStorage.setItem( "loginStatus", "visitor");
+    sessionStorage.setItem("loginStatus", "visitor");
     sessionStorage.removeItem( "loginUsername" );
     window.location.href ="home.html";
 }
